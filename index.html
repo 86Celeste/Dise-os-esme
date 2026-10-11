@@ -1305,7 +1305,7 @@
       onAuthStateChanged(auth, (user) => {
         if (user) {
           currentUserId = user.uid;
-          currentUserEmail = user.email || null;
+          currentUserEmail = user.email || currentUserEmail || null;
           window.cloudUserId = currentUserId;
           window.cloudUserEmail = currentUserEmail;
 
@@ -1321,6 +1321,375 @@
             unsubscribePatternsSnapshot();
             unsubscribePatternsSnapshot = null;
           }
+          updateAuthUI(null);
+        }
+      });
+    }
+
+    async function initCloudAuth() {
+      if (!auth) {
+        updateAuthUI(null);
+        return;
+      }
+
+      if (auth.currentUser) return;
+
+      try {
+        if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+          await signInWithCustomToken(auth, __initial_auth_token);
+        } else {
+          // Fall back to anonymous session until user logs in with email/password
+          await signInAnonymously(auth);
+        }
+      } catch (err) {
+        console.warn("Cloud auth notice (working in resilient fallback):", err);
+      }
+    }
+
+    function updateAuthUI(user) {
+      const statusIcon = document.getElementById('cloudStatusIcon');
+      const statusText = document.getElementById('cloudStatusText');
+      const userDisplay = document.getElementById('cloudUserIdDisplay');
+      const emailBadge = document.getElementById('userEmailBadge');
+      const authLoggedInView = document.getElementById('authLoggedInView');
+      const authFormView = document.getElementById('authFormView');
+      const mobileMenuAuthText = document.getElementById('mobileMenuAuthText');
+
+      const activeEmail = (user && user.email) || currentUserEmail;
+
+      if (activeEmail) {
+        // Logged in with email & password
+        const displayUsername = activeEmail.split('@')[0];
+        if (statusText) statusText.textContent = displayUsername;
+        if (statusIcon) {
+          statusIcon.className = 'fa-solid fa-circle-user text-esme-greenDark text-sm';
+        }
+        if (userDisplay) userDisplay.value = (user && user.uid) || currentUserId || ('user_' + activeEmail.replace(/[^a-zA-Z0-9]/g, '_'));
+        if (emailBadge) emailBadge.textContent = activeEmail;
+        if (authLoggedInView) authLoggedInView.classList.remove('hidden');
+        if (authFormView) authFormView.classList.add('hidden');
+        if (mobileMenuAuthText) mobileMenuAuthText.textContent = `Cuenta: ${activeEmail}`;
+      } else if (user) {
+        // Anonymous session
+        if (statusText) statusText.textContent = 'Iniciar Sesión';
+        if (statusIcon) {
+          statusIcon.className = 'fa-solid fa-user text-esme-rose text-sm';
+        }
+        if (userDisplay) userDisplay.value = user.uid;
+        if (authLoggedInView) authLoggedInView.classList.add('hidden');
+        if (authFormView) authFormView.classList.remove('hidden');
+        if (mobileMenuAuthText) mobileMenuAuthText.textContent = 'Mi Cuenta (Iniciar Sesión)';
+      } else {
+        // Disconnected / offline
+        if (statusText) statusText.textContent = 'Modo Local';
+        if (statusIcon) {
+          statusIcon.className = 'fa-solid fa-cloud text-gray-400 text-sm';
+        }
+        if (authLoggedInView) authLoggedInView.classList.add('hidden');
+        if (authFormView) authFormView.classList.remove('hidden');
+        if (mobileMenuAuthText) mobileMenuAuthText.textContent = 'Iniciar Sesión';
+      }
+    }
+
+    // Strict Rule 1 Path: /artifacts/{appId}/users/{userId}/patterns
+    function listenToCloudPatterns() {
+      if (!db || !currentUserId) return;
+
+      if (unsubscribePatternsSnapshot) {
+        unsubscribePatternsSnapshot();
+        unsubscribePatternsSnapshot = null;
+      }
+
+      try {
+        const userPatternsCol = collection(db, 'artifacts', appId, 'users', currentUserId, 'patterns');
+        unsubscribePatternsSnapshot = onSnapshot(userPatternsCol, (snapshot) => {
+          const cloudPatterns = [];
+          snapshot.forEach((docSnap) => {
+            cloudPatterns.push({ id: docSnap.id, ...docSnap.data() });
+          });
+
+          if (cloudPatterns.length > 0) {
+            window.allPatterns = cloudPatterns;
+            window.renderSavedPatternsList();
+            window.updateSavedCountBadge();
+          }
+        }, (err) => {
+          console.warn("Firestore snapshot listener notice:", err);
+        });
+      } catch (e) {
+        console.warn("Error setting up Firestore listener:", e);
+      }
+    }
+
+    // Email & Password Methods
+    window.loginWithEmail = async function(email, password) {
+      if (!auth) throw new Error("Firebase Auth no disponible");
+      return await signInWithEmailAndPassword(auth, email, password);
+    };
+
+    window.registerWithEmail = async function(email, password) {
+      if (!auth) throw new Error("Firebase Auth no disponible");
+      return await createUserWithEmailAndPassword(auth, email, password);
+    };
+
+    window.logoutFromApp = async function() {
+      if (auth && auth.currentUser) {
+        try {
+          await signOut(auth);
+        } catch (e) {
+          console.warn("Sign out notice:", e);
+        }
+      }
+      currentUserEmail = null;
+      window.cloudUserEmail = null;
+      localStorage.removeItem('esme_logged_email');
+      try {
+        if (auth) await signInAnonymously(auth);
+      } catch (e) {
+        console.warn("Anonymous re-auth notice:", e);
+      }
+      updateAuthUI(auth ? auth.currentUser : null);
+    };
+
+    // Save a pattern to Firestore
+    window.savePatternToCloud = async function(pattern) {
+      if (!db || !currentUserId) return false;
+      try {
+        const patternDocRef = doc(db, 'artifacts', appId, 'users', currentUserId, 'patterns', pattern.id);
+        await setDoc(patternDocRef, pattern);
+        return true;
+      } catch (err) {
+        console.warn("Cloud save notice:", err);
+        return false;
+      }
+    };
+
+    // Delete a pattern from Firestore
+    window.deletePatternFromCloud = async function(patternId) {
+      if (!db || !currentUserId) return false;
+      try {
+        const patternDocRef = doc(db, 'artifacts', appId, 'users', currentUserId, 'patterns', patternId);
+        await deleteDoc(patternDocRef);
+        return true;
+      } catch (err) {
+        console.warn("Cloud delete notice:", err);
+        return false;
+      }
+    };
+
+    // Local authentication fallback for instances with unconfigured or restricted API keys
+    window.fallbackRegisterOrLogin = async function(email, password, mode) {
+      let storedUsers = {};
+      try {
+        storedUsers = JSON.parse(localStorage.getItem('esme_accounts') || '{}');
+      } catch (e) {
+        storedUsers = {};
+      }
+
+      if (mode === 'register') {
+        if (storedUsers[email]) {
+          throw new Error('Ya existe una cuenta con este correo. Inicia sesión.');
+        }
+        storedUsers[email] = {
+          password: password,
+          createdAt: new Date().toISOString()
+        };
+        localStorage.setItem('esme_accounts', JSON.stringify(storedUsers));
+      } else {
+        if (!storedUsers[email] || storedUsers[email].password !== password) {
+          throw new Error('Correo o contraseña incorrectos.');
+        }
+      }
+
+      currentUserEmail = email;
+      window.cloudUserEmail = email;
+      localStorage.setItem('esme_logged_email', email);
+
+      const resolvedUid = currentUserId || ('user_' + email.replace(/[^a-zA-Z0-9]/g, '_'));
+      updateAuthUI({ uid: resolvedUid, email: email });
+    };
+
+    // Auto-restore stored email session if exists
+    try {
+      const savedLocalEmail = localStorage.getItem('esme_logged_email');
+      if (savedLocalEmail) {
+        currentUserEmail = savedLocalEmail;
+        window.cloudUserEmail = savedLocalEmail;
+        setTimeout(() => {
+          updateAuthUI({ uid: currentUserId || ('user_' + savedLocalEmail.replace(/[^a-zA-Z0-9]/g, '_')), email: savedLocalEmail });
+        }, 100);
+      }
+    } catch (e) {
+      console.warn("Local storage check notice:", e);
+    }
+
+    initCloudAuth();
+  </script>
+
+  <script>
+    let activeKnitPartIndex = 0;
+    let lastActiveInputRef = null;
+    let translationDirection = 'es-en';
+    let deferredPwaInstallPrompt = null;
+    let currentAuthMode = 'login'; // 'login' or 'register'
+
+    // Helper to detect if a Firebase error is due to an invalid/unconfigured API key or missing provider
+    function isFirebaseProviderUnavailable(err) {
+      if (!err) return false;
+      const code = String(err.code || '').toLowerCase();
+      const msg = String(err.message || '').toLowerCase();
+      return (
+        code.includes('api-key') ||
+        code.includes('invalid-api-key') ||
+        code.includes('api-key-not-valid') ||
+        code.includes('operation-not-allowed') ||
+        code.includes('configuration-not-found') ||
+        code.includes('project-not-found') ||
+        code.includes('unauthorized-domain') ||
+        code.includes('network-request-failed') ||
+        msg.includes('api-key') ||
+        msg.includes('api key') ||
+        msg.includes('operation-not-allowed') ||
+        msg.includes('configuration')
+      );
+    }
+
+    // Switch between Login and Register tabs in Auth Modal
+    function switchAuthMode(mode) {
+      currentAuthMode = mode;
+      const tabLogin = document.getElementById('tabAuthLogin');
+      const tabRegister = document.getElementById('tabAuthRegister');
+      const confirmContainer = document.getElementById('authConfirmPasswordContainer');
+      const confirmInput = document.getElementById('authConfirmPasswordInput');
+      const btnText = document.getElementById('btnAuthSubmitText');
+      const errorMsg = document.getElementById('authErrorMessage');
+
+      if (errorMsg) errorMsg.classList.add('hidden');
+
+      if (mode === 'login') {
+        if (tabLogin) tabLogin.className = 'flex-1 py-1.5 text-xs font-bold rounded-xl bg-white text-esme-roseDark shadow-sm transition';
+        if (tabRegister) tabRegister.className = 'flex-1 py-1.5 text-xs font-bold rounded-xl text-gray-500 hover:text-esme-dark transition';
+        if (confirmContainer) confirmContainer.classList.add('hidden');
+        if (confirmInput) {
+          confirmInput.removeAttribute('required');
+          confirmInput.value = '';
+        }
+        if (btnText) btnText.textContent = 'Iniciar Sesión';
+      } else {
+        if (tabRegister) tabRegister.className = 'flex-1 py-1.5 text-xs font-bold rounded-xl bg-white text-esme-roseDark shadow-sm transition';
+        if (tabLogin) tabLogin.className = 'flex-1 py-1.5 text-xs font-bold rounded-xl text-gray-500 hover:text-esme-dark transition';
+        if (confirmContainer) confirmContainer.classList.remove('hidden');
+        if (confirmInput) confirmInput.setAttribute('required', 'true');
+        if (btnText) btnText.textContent = 'Crear Cuenta y Entrar';
+      }
+    }
+
+    function togglePasswordVisibility(inputId) {
+      const input = document.getElementById(inputId);
+      if (!input) return;
+      input.type = input.type === 'password' ? 'text' : 'password';
+    }
+
+    async function handleAuthSubmit(e) {
+      e.preventDefault();
+      const email = document.getElementById('authEmailInput').value.trim();
+      const password = document.getElementById('authPasswordInput').value;
+      const confirmPass = document.getElementById('authConfirmPasswordInput')?.value;
+      const errorMsg = document.getElementById('authErrorMessage');
+      const btnSubmit = document.getElementById('btnAuthSubmit');
+
+      if (errorMsg) errorMsg.classList.add('hidden');
+
+      if (currentAuthMode === 'register' && password !== confirmPass) {
+        if (errorMsg) {
+          errorMsg.textContent = 'Las contraseñas no coinciden. Por favor verifícalas.';
+          errorMsg.classList.remove('hidden');
+        }
+        return;
+      }
+
+      if (btnSubmit) {
+        btnSubmit.disabled = true;
+        btnSubmit.classList.add('opacity-70');
+      }
+
+      try {
+        if (currentAuthMode === 'login') {
+          let signedIn = false;
+          if (window.loginWithEmail) {
+            try {
+              await window.loginWithEmail(email, password);
+              signedIn = true;
+            } catch (authErr) {
+              if (isFirebaseProviderUnavailable(authErr)) {
+                await window.fallbackRegisterOrLogin(email, password, 'login');
+                signedIn = true;
+              } else {
+                throw authErr;
+              }
+            }
+          }
+          if (!signedIn) {
+            await window.fallbackRegisterOrLogin(email, password, 'login');
+          }
+          showToast(`¡Bienvenida de nuevo, ${email.split('@')[0]}!`, 'success');
+        } else {
+          let registered = false;
+          if (window.registerWithEmail) {
+            try {
+              await window.registerWithEmail(email, password);
+              registered = true;
+            } catch (regErr) {
+              if (isFirebaseProviderUnavailable(regErr)) {
+                await window.fallbackRegisterOrLogin(email, password, 'register');
+                registered = true;
+              } else {
+                throw regErr;
+              }
+            }
+          }
+          if (!registered) {
+            await window.fallbackRegisterOrLogin(email, password, 'register');
+          }
+          showToast(`¡Cuenta creada con éxito! Bienvenida, ${email.split('@')[0]}`, 'success');
+        }
+        closeCloudAccountModal();
+      } catch (err) {
+        console.error("Auth error:", err);
+        let message = 'Error al procesar la cuenta. Por favor verifica tus datos.';
+        if (err.code === 'auth/invalid-email') message = 'El formato de correo no es válido.';
+        else if (err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') message = 'Correo o contraseña incorrectos.';
+        else if (err.code === 'auth/email-already-in-use') message = 'Ya existe una cuenta con este correo. Inicia sesión.';
+        else if (err.code === 'auth/weak-password') message = 'La contraseña debe tener al menos 6 caracteres.';
+        else if (err.message) message = err.message;
+
+        if (errorMsg) {
+          errorMsg.textContent = message;
+          errorMsg.classList.remove('hidden');
+        }
+      } finally {
+        if (btnSubmit) {
+          btnSubmit.disabled = false;
+          btnSubmit.classList.remove('opacity-70');
+        }
+      }
+    }
+
+    async function handleUserSignOut() {
+      openCustomModal('¿Cerrar sesión?', 'Tus patrones permanecerán guardados en tu cuenta.', 'Cerrar Sesión', 'fa-right-from-bracket').then(async (yes) => {
+        if (!yes) return;
+        if (window.logoutFromApp) {
+          await window.logoutFromApp();
+        }
+        showToast('Sesión cerrada correctamente');
+        closeCloudAccountModal();
+      });
+    }
+
+    function continueAsGuest() {
+      closeCloudAccountModal();
+      showToast('Continuando en modo invitado.', 'info');
+    }
           updateAuthUI(null);
         }
       });
