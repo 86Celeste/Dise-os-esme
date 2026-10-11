@@ -1,0 +1,3066 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diseños Esme - Estudio de Amigurumis</title>
+  
+  <!-- Google Fonts: Comfortaa, Quicksand and Caveat -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Comfortaa:wght@400;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Mobile & PWA Configuration -->
+  <meta name="theme-color" content="#D28B9D">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Diseños Esme">
+  <link id="pwaManifestLink" rel="manifest">
+  <link id="appleTouchIconLink" rel="apple-touch-icon">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            esme: {
+              cream: '#FCF9F5',
+              sand: '#F6EFE9',
+              roseLight: '#F3D7DC',
+              rose: '#D28B9D',
+              roseDark: '#A85E71',
+              greenLight: '#D5E3D8',
+              green: '#8EA993',
+              greenDark: '#5E7963',
+              brown: '#755446',
+              yarnBlue: '#A9C7C7',
+              dark: '#4A3B36',
+            }
+          },
+          fontFamily: {
+            sans: ['Quicksand', 'sans-serif'],
+            heading: ['Comfortaa', 'cursive'],
+            hand: ['Caveat', 'cursive'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #F6EFE9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #D28B9D;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #A85E71;
+    }
+
+    /* Print styles */
+    @media print {
+      body * {
+        visibility: hidden !important;
+      }
+      #printArea, #printArea * {
+        visibility: visible !important;
+      }
+      #printArea {
+        position: absolute !important;
+        left: 0 !important;
+        top: 0 !important;
+        width: 100% !important;
+        background: white !important;
+        color: #000 !important;
+      }
+      .no-print {
+        display: none !important;
+      }
+    }
+
+    .knit-bg {
+      background-color: #FCF9F5;
+      background-image: radial-gradient(#d28b9d22 1.2px, transparent 1.2px), radial-gradient(#8ea99322 1.2px, #FCF9F5 1.2px);
+      background-size: 28px 28px;
+      background-position: 0 0, 14px 14px;
+    }
+
+    @keyframes gentlePulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.04); }
+    }
+    .heart-beat {
+      animation: gentlePulse 2.8s infinite ease-in-out;
+    }
+  </style>
+</head>
+<body class="knit-bg text-esme-dark font-sans antialiased min-h-screen flex flex-col selection:bg-esme-roseLight selection:text-esme-dark">
+
+  <!-- Top Header / Navigation -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-esme-roseLight shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 md:h-20 flex items-center justify-between">
+      
+      <!-- Brand Logo & Title -->
+      <div class="flex items-center space-x-2.5 sm:space-x-3 cursor-pointer group" onclick="switchTab('home')">
+        <div class="relative w-10 h-10 sm:w-12 sm:h-12 rounded-full overflow-hidden border-2 border-esme-rose shadow-sm flex items-center justify-center bg-esme-sand group-hover:scale-105 transition-transform duration-200">
+          <svg viewBox="0 0 100 100" class="w-8 h-8 sm:w-10 sm:h-10">
+            <circle cx="50" cy="50" r="44" fill="#FCF9F5" stroke="#D28B9D" stroke-width="2" stroke-dasharray="3,2"/>
+            <circle cx="34" cy="30" r="10" fill="#C49A82" />
+            <circle cx="34" cy="30" r="6" fill="#F3D7DC" />
+            <circle cx="66" cy="30" r="10" fill="#C49A82" />
+            <circle cx="66" cy="30" r="6" fill="#F3D7DC" />
+            <circle cx="50" cy="46" r="23" fill="#C49A82" />
+            <ellipse cx="50" cy="51" rx="11" ry="8" fill="#FFF5EA" />
+            <ellipse cx="50" cy="47" rx="3.5" ry="2.5" fill="#4A3B36" />
+            <path d="M 50 49.5 L 50 54 M 47 53 Q 50 56 53 53" stroke="#4A3B36" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+            <circle cx="42" cy="42" r="2" fill="#4A3B36" />
+            <circle cx="58" cy="42" r="2" fill="#4A3B36" />
+            <ellipse cx="38" cy="47" rx="2.5" ry="1.5" fill="#F3A4B5" opacity="0.6"/>
+            <ellipse cx="62" cy="47" rx="2.5" ry="1.5" fill="#F3A4B5" opacity="0.6"/>
+            <circle cx="33" cy="72" r="9" fill="#A9C7C7"/>
+            <circle cx="67" cy="72" r="10" fill="#D28B9D"/>
+            <line x1="28" y1="84" x2="44" y2="60" stroke="#755446" stroke-width="2" stroke-linecap="round"/>
+            <line x1="72" y1="84" x2="56" y2="60" stroke="#755446" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div>
+          <span class="text-[10px] sm:text-xs uppercase tracking-widest text-esme-rose font-semibold block leading-none">amigurumi studio</span>
+          <h1 class="text-xl sm:text-2xl font-hand text-esme-roseDark font-bold leading-tight">diseños Esme</h1>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs (Desktop) -->
+  <nav class="hidden lg:flex items-center space-x-1.5">
+    <button id="nav-home" onclick="switchTab('home')" class="nav-btn px-3.5 py-1.5 rounded-full font-semibold text-xs sm:text-sm transition-all duration-200 flex items-center space-x-1.5 bg-esme-rose text-white shadow-sm">
+      <i class="fa-solid fa-house"></i>
+      <span>Inicio</span>
+    </button>
+        <button id="nav-designer" onclick="switchTab('designer')" class="nav-btn px-3.5 py-1.5 rounded-full font-semibold text-xs sm:text-sm transition-all duration-200 flex items-center space-x-1.5 text-esme-dark hover:bg-esme-roseLight/50">
+          <i class="fa-solid fa-wand-magic-sparkles text-esme-rose"></i>
+          <span>Diseñar Patrón</span>
+        </button>
+        <button id="nav-knitmode" onclick="openKnitMode()" class="nav-btn px-3.5 py-1.5 rounded-full font-semibold text-xs sm:text-sm transition-all duration-200 flex items-center space-x-1.5 text-esme-dark hover:bg-esme-greenLight/60">
+          <i class="fa-solid fa-circle-check text-esme-greenDark"></i>
+          <span>Modo Tejer</span>
+        </button>
+        <button id="nav-translator" onclick="switchTab('translator')" class="nav-btn px-3.5 py-1.5 rounded-full font-semibold text-xs sm:text-sm transition-all duration-200 flex items-center space-x-1.5 text-esme-dark hover:bg-esme-roseLight/50">
+          <i class="fa-solid fa-language text-esme-greenDark"></i>
+          <span>Traductor</span>
+        </button>
+        <button id="nav-pricing" onclick="switchTab('pricing')" class="nav-btn px-3.5 py-1.5 rounded-full font-semibold text-xs sm:text-sm transition-all duration-200 flex items-center space-x-1.5 text-esme-dark hover:bg-amber-100">
+          <i class="fa-solid fa-calculator text-amber-600"></i>
+          <span>Calculadora Precios</span>
+        </button>
+        <button id="nav-library" onclick="switchTab('library')" class="nav-btn px-3.5 py-1.5 rounded-full font-semibold text-xs sm:text-sm transition-all duration-200 flex items-center space-x-1.5 text-esme-dark hover:bg-esme-roseLight/50">
+          <i class="fa-solid fa-folder-heart text-esme-roseDark"></i>
+          <span>Mis Diseños</span>
+          <span id="savedCountBadge" class="ml-1 bg-esme-roseLight text-esme-roseDark text-xs px-2 py-0.5 rounded-full font-bold">0</span>
+        </button>
+      </nav>
+
+      <!-- User Cloud Status & Actions -->
+      <div class="flex items-center space-x-2">
+        <!-- Install as Native App Button -->
+        <button onclick="triggerAppInstallModal()" id="btnInstallAppMain" class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white shadow-sm transition text-xs font-bold heart-beat" title="Descargar e instalar como App">
+          <i class="fa-solid fa-download"></i>
+          <span class="hidden sm:inline">Instalar App</span>
+        </button>
+
+        <!-- User Account & Auth Button -->
+        <button onclick="openCloudAccountModal()" id="cloudStatusBtn" class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-esme-sand hover:bg-esme-roseLight/70 border border-esme-roseLight transition text-xs font-semibold text-esme-dark" title="Cuenta de usuario y base de datos">
+          <i id="cloudStatusIcon" class="fa-solid fa-user text-esme-rose"></i>
+          <span id="cloudStatusText" class="hidden sm:inline max-w-[120px] truncate">Iniciar Sesión</span>
+        </button>
+
+        <button onclick="createNewPatternPrompt()" class="hidden md:inline-flex items-center space-x-1.5 bg-gradient-to-r from-esme-rose to-esme-roseDark text-white px-3.5 py-1.5 rounded-full font-semibold text-xs shadow hover:brightness-105 transition-all">
+          <i class="fa-solid fa-plus"></i>
+          <span>Nuevo</span>
+        </button>
+
+        <!-- Mobile hamburger menu button -->
+        <button onclick="toggleMobileMenu()" class="lg:hidden p-2 rounded-xl text-esme-dark hover:bg-esme-roseLight/40 focus:outline-none">
+          <i class="fa-solid fa-bars text-xl"></i>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Mobile Drawer Navigation -->
+    <div id="mobileMenu" class="hidden lg:hidden border-t border-esme-sand bg-white/95 px-4 pt-3 pb-5 space-y-1.5 shadow-md">
+      <!-- Direct install button in mobile menu -->
+      <button onclick="triggerAppInstallModal(); toggleMobileMenu();" class="w-full text-left px-3.5 py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center space-x-3 bg-gradient-to-r from-emerald-500 to-teal-600 text-white shadow-sm">
+        <i class="fa-solid fa-mobile-screen-button w-5 text-sm"></i>
+        <span>Descargar / Instalar en tu Celular</span>
+      </button>
+
+      <button onclick="switchTab('home'); toggleMobileMenu();" class="w-full text-left px-3.5 py-2 rounded-xl font-semibold text-xs sm:text-sm flex items-center space-x-3 text-esme-dark hover:bg-esme-sand">
+        <i class="fa-solid fa-house text-esme-rose w-5"></i>
+        <span>Inicio</span>
+      </button>
+      <button onclick="switchTab('designer'); toggleMobileMenu();" class="w-full text-left px-3.5 py-2 rounded-xl font-semibold text-xs sm:text-sm flex items-center space-x-3 text-esme-dark hover:bg-esme-sand">
+        <i class="fa-solid fa-wand-magic-sparkles text-esme-rose w-5"></i>
+        <span>Diseñar Patrón</span>
+      </button>
+      <button onclick="openKnitMode(); toggleMobileMenu();" class="w-full text-left px-3.5 py-2 rounded-xl font-semibold text-xs sm:text-sm flex items-center space-x-3 text-esme-dark hover:bg-esme-greenLight">
+        <i class="fa-solid fa-circle-check text-esme-greenDark w-5"></i>
+        <span>Modo Tejer (Contador Interactivo)</span>
+      </button>
+      <button onclick="switchTab('translator'); toggleMobileMenu();" class="w-full text-left px-3.5 py-2 rounded-xl font-semibold text-xs sm:text-sm flex items-center space-x-3 text-esme-dark hover:bg-esme-sand">
+        <i class="fa-solid fa-language text-esme-greenDark w-5"></i>
+        <span>Traductor de Patrones</span>
+      </button>
+      <button onclick="switchTab('pricing'); toggleMobileMenu();" class="w-full text-left px-3.5 py-2 rounded-xl font-semibold text-xs sm:text-sm flex items-center space-x-3 text-esme-dark hover:bg-amber-50">
+        <i class="fa-solid fa-calculator text-amber-600 w-5"></i>
+        <span>Calculadora de Precios y Costos</span>
+      </button>
+      <button onclick="switchTab('library'); toggleMobileMenu();" class="w-full text-left px-3.5 py-2 rounded-xl font-semibold text-xs sm:text-sm flex items-center space-x-3 text-esme-dark hover:bg-esme-sand">
+        <i class="fa-solid fa-folder-open text-esme-roseDark w-5"></i>
+        <span>Mis Diseños Guardados</span>
+      </button>
+      <button onclick="openCloudAccountModal(); toggleMobileMenu();" class="w-full text-left px-3.5 py-2 rounded-xl font-semibold text-xs sm:text-sm flex items-center space-x-3 bg-esme-cream text-esme-roseDark border border-esme-roseLight">
+        <i class="fa-solid fa-user-gear text-esme-rose w-5"></i>
+        <span id="mobileMenuAuthText">Mi Cuenta (Email / Contraseña)</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Notification Toast Container -->
+  <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col space-y-2 pointer-events-none"></div>
+
+  <!-- Modal: Download & Install Application -->
+  <div id="installAppModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-7 shadow-2xl border border-esme-roseLight relative max-h-[92vh] overflow-y-auto">
+      <button onclick="closeAppInstallModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-esme-sand/80 text-gray-500 hover:bg-esme-roseLight flex items-center justify-center text-sm transition">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <!-- App Header Preview -->
+      <div class="text-center mb-5">
+        <div class="relative w-20 h-20 mx-auto rounded-3xl bg-gradient-to-tr from-esme-rose via-esme-sand to-esme-green p-1 shadow-md mb-2">
+          <div class="w-full h-full bg-esme-cream rounded-2xl flex items-center justify-center overflow-hidden">
+            <svg viewBox="0 0 100 100" class="w-14 h-14">
+              <circle cx="50" cy="50" r="44" fill="#FCF9F5" stroke="#D28B9D" stroke-width="2" stroke-dasharray="3,2"/>
+              <circle cx="34" cy="30" r="10" fill="#C49A82" />
+              <circle cx="34" cy="30" r="6" fill="#F3D7DC" />
+              <circle cx="66" cy="30" r="10" fill="#C49A82" />
+              <circle cx="66" cy="30" r="6" fill="#F3D7DC" />
+              <circle cx="50" cy="46" r="23" fill="#C49A82" />
+              <ellipse cx="50" cy="51" rx="11" ry="8" fill="#FFF5EA" />
+              <ellipse cx="50" cy="47" rx="3.5" ry="2.5" fill="#4A3B36" />
+              <path d="M 50 49.5 L 50 54 M 47 53 Q 50 56 53 53" stroke="#4A3B36" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+              <circle cx="42" cy="42" r="2" fill="#4A3B36" />
+              <circle cx="58" cy="42" r="2" fill="#4A3B36" />
+              <circle cx="33" cy="72" r="9" fill="#A9C7C7"/>
+              <circle cx="67" cy="72" r="10" fill="#D28B9D"/>
+            </svg>
+          </div>
+        </div>
+        <h3 class="text-xl font-heading font-bold text-esme-dark">Instalar Diseños Esme</h3>
+        <p class="text-xs text-gray-500 mt-0.5">
+          Tu estudio de amigurumis como una aplicación nativa en tu celular o PC (sin extensiones de navegador).
+        </p>
+      </div>
+
+      <!-- Native Install Trigger Button (If supported by Chrome / Edge / Android) -->
+      <div id="pwaPromptSection" class="mb-4">
+        <button id="btnPwaPrompt" onclick="executeNativeInstall()" class="w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold text-sm shadow-lg transition flex items-center justify-center gap-2">
+          <i class="fa-solid fa-circle-down text-lg"></i>
+          <span id="btnPwaPromptText">Instalar Aplicación en Este Dispositivo</span>
+        </button>
+        <p class="text-[11px] text-gray-500 text-center mt-1.5">
+          Se creará un acceso directo con su propio icono en tu pantalla de inicio o cajón de aplicaciones.
+        </p>
+      </div>
+
+      <!-- Why not an extension? Info badge -->
+      <div class="bg-amber-50/70 border border-amber-200/80 rounded-2xl p-3.5 mb-4 text-xs text-amber-900 flex items-start gap-2.5">
+        <i class="fa-solid fa-shield-heart text-amber-600 text-base mt-0.5"></i>
+        <div>
+          <p class="font-bold">App independiente (PWA)</p>
+          <p class="text-[11px] text-amber-800 leading-relaxed mt-0.5">
+            No requiere la Chrome Web Store ni extensiones. Se ejecuta en su propia ventana limpia a pantalla completa, con base de datos en la nube y funcionamiento sin conexión.
+          </p>
+        </div>
+      </div>
+
+      <!-- Device Specific Tabs -->
+      <div class="space-y-3">
+        <div class="bg-esme-sand/40 border border-esme-roseLight rounded-2xl p-3.5">
+          <div class="flex items-center gap-2 text-esme-roseDark font-bold text-xs mb-1.5">
+            <i class="fa-brands fa-android text-sm"></i>
+            <span>En Android (Chrome / Samsung Internet):</span>
+          </div>
+          <ol class="text-[11px] text-gray-600 list-decimal list-inside space-y-1">
+            <li>Toca los <strong>tres puntos (⋮)</strong> arriba a la derecha del navegador.</li>
+            <li>Selecciona <strong>"Instalar aplicación"</strong> o <strong>"Agregar a la pantalla principal"</strong>.</li>
+            <li>Confirma con <strong>"Instalar"</strong> y listo, ya la tienes como app.</li>
+          </ol>
+        </div>
+
+        <div class="bg-esme-sand/40 border border-esme-roseLight rounded-2xl p-3.5">
+          <div class="flex items-center gap-2 text-esme-roseDark font-bold text-xs mb-1.5">
+            <i class="fa-brands fa-apple text-sm"></i>
+            <span>En iPhone / iPad (Safari):</span>
+          </div>
+          <ol class="text-[11px] text-gray-600 list-decimal list-inside space-y-1">
+            <li>Toca el botón <strong>Compartir</strong> <i class="fa-solid fa-arrow-up-from-bracket text-blue-500 mx-0.5"></i> en la barra inferior.</li>
+            <li>Desliza hacia abajo y presiona <strong>"Agregar al inicio"</strong> <i class="fa-regular fa-square-plus text-gray-700 mx-0.5"></i>.</li>
+            <li>Toca <strong>"Agregar"</strong> arriba a la derecha.</li>
+          </ol>
+        </div>
+
+        <div class="bg-esme-sand/40 border border-esme-roseLight rounded-2xl p-3.5">
+          <div class="flex items-center gap-2 text-esme-roseDark font-bold text-xs mb-1.5">
+            <i class="fa-solid fa-desktop text-sm"></i>
+            <span>En Computadora (Chrome / Edge / Windows / Mac):</span>
+          </div>
+          <p class="text-[11px] text-gray-600 leading-relaxed">
+            Busca el icono de computadora con flecha <i class="fa-solid fa-circle-down text-emerald-600 mx-0.5"></i> en la <strong>barra de direcciones</strong> del navegador (a la derecha de la URL) y haz clic en <strong>"Instalar Diseños Esme"</strong>.
+          </p>
+        </div>
+      </div>
+
+      <!-- Action buttons -->
+      <div class="mt-5 flex items-center justify-end">
+        <button onclick="closeAppInstallModal()" class="px-5 py-2 rounded-2xl bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold transition">
+          Entendido
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Confirmation / Alert Modal -->
+  <div id="customModal" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-esme-roseLight transform transition-all text-center">
+      <div id="modalIcon" class="w-14 h-14 mx-auto rounded-full bg-esme-roseLight text-esme-roseDark flex items-center justify-center text-2xl mb-4">
+        <i class="fa-solid fa-circle-question"></i>
+      </div>
+      <h3 id="modalTitle" class="text-xl font-heading font-bold text-esme-dark mb-2">Confirmación</h3>
+      <p id="modalMessage" class="text-gray-600 text-sm mb-6 leading-relaxed">¿Estás segura de realizar esta acción?</p>
+      <div class="flex justify-center space-x-3">
+        <button id="modalBtnCancel" onclick="closeCustomModal(false)" class="px-5 py-2.5 rounded-full border border-gray-300 text-gray-700 font-semibold text-sm hover:bg-gray-100 transition">Cancelar</button>
+        <button id="modalBtnConfirm" onclick="closeCustomModal(true)" class="px-6 py-2.5 rounded-full bg-esme-rose hover:bg-esme-roseDark text-white font-semibold text-sm shadow transition">Aceptar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cloud Database & User Auth Modal (Email & Password) -->
+  <div id="cloudModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-esme-roseLight text-center relative max-h-[92vh] overflow-y-auto">
+      <button onclick="closeCloudAccountModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-esme-sand/80 text-gray-500 hover:bg-esme-roseLight flex items-center justify-center text-sm transition">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <!-- VIEW A: USER LOGGED IN -->
+      <div id="authLoggedInView" class="hidden text-left space-y-4">
+        <div class="text-center">
+          <div class="w-16 h-16 mx-auto mb-2 rounded-full bg-gradient-to-tr from-esme-rose to-esme-greenLight flex items-center justify-center text-2xl text-white shadow-md">
+            <i class="fa-solid fa-circle-user"></i>
+          </div>
+          <h3 class="text-xl font-heading font-bold text-esme-dark">Mi Cuenta de Tejedor(a)</h3>
+          <p id="userEmailBadge" class="text-xs font-semibold text-esme-roseDark mt-0.5">usuario@ejemplo.com</p>
+        </div>
+
+        <div class="bg-esme-cream p-4 rounded-2xl border border-esme-roseLight space-y-3">
+          <div>
+            <label class="text-[11px] font-bold text-esme-roseDark uppercase tracking-wider block">ID de Usuario en la Nube:</label>
+            <div class="flex items-center gap-2 mt-1">
+              <input type="text" id="cloudUserIdDisplay" readonly class="w-full bg-white px-3 py-2 rounded-xl border border-gray-200 text-xs font-mono text-gray-700 select-all outline-none">
+              <button onclick="copyUserIdToClipboard()" class="px-3 py-2 rounded-xl bg-esme-rose text-white hover:bg-esme-roseDark text-xs font-bold transition flex items-center gap-1 flex-shrink-0">
+                <i class="fa-solid fa-copy"></i>
+                <span>Copiar</span>
+              </button>
+            </div>
+            <p class="text-[10px] text-gray-500 mt-1">
+              Tus patrones se sincronizan automáticamente con este ID de cuenta en la base de datos Firestore.
+            </p>
+          </div>
+
+          <div class="pt-2 border-t border-esme-sand flex items-center justify-between text-xs">
+            <span class="text-gray-600 font-medium">Estado de la cuenta:</span>
+            <span id="cloudStatusDetails" class="font-bold text-esme-greenDark flex items-center gap-1">
+              <i class="fa-solid fa-circle-check text-esme-green"></i> Conectado y seguro
+            </span>
+          </div>
+        </div>
+
+        <div class="space-y-2 pt-1">
+          <button onclick="syncAllLocalToCloud()" class="w-full py-2.5 px-4 rounded-2xl bg-esme-rose hover:bg-esme-roseDark text-white text-xs font-bold shadow transition flex items-center justify-center gap-2">
+            <i class="fa-solid fa-cloud-arrow-up"></i>
+            <span>Sincronizar mis patrones ahora</span>
+          </button>
+          <button onclick="handleUserSignOut()" class="w-full py-2.5 px-4 rounded-2xl border border-red-200 text-red-600 hover:bg-red-50 text-xs font-bold transition flex items-center justify-center gap-2">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>Cerrar Sesión</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- VIEW B: AUTHENTICATION FORM (LOGIN / REGISTER) -->
+      <div id="authFormView" class="text-left space-y-4">
+        <div class="text-center">
+          <div class="w-16 h-16 mx-auto mb-2 rounded-full bg-esme-sand border border-esme-roseLight flex items-center justify-center text-2xl text-esme-roseDark shadow-sm">
+            <i class="fa-solid fa-lock"></i>
+          </div>
+          <h3 class="text-xl font-heading font-bold text-esme-dark">Acceso a Diseños Esme</h3>
+          <p class="text-xs text-gray-500 mt-0.5">
+            Ingresa con tu correo y contraseña para guardar tus patrones en la nube.
+          </p>
+        </div>
+
+        <!-- Tab selector: Iniciar Sesión / Registrarse -->
+        <div class="flex bg-esme-sand/70 p-1 rounded-2xl border border-esme-roseLight/60">
+          <button type="button" id="tabAuthLogin" onclick="switchAuthMode('login')" class="flex-1 py-1.5 text-xs font-bold rounded-xl bg-white text-esme-roseDark shadow-sm transition">
+            Iniciar Sesión
+          </button>
+          <button type="button" id="tabAuthRegister" onclick="switchAuthMode('register')" class="flex-1 py-1.5 text-xs font-bold rounded-xl text-gray-500 hover:text-esme-dark transition">
+            Registrarme
+          </button>
+        </div>
+
+        <!-- Auth Form -->
+        <form onsubmit="handleAuthSubmit(event)" class="space-y-3 pt-1">
+          <div>
+            <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1">Correo Electrónico:</label>
+            <div class="relative">
+              <i class="fa-solid fa-envelope absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+              <input type="email" id="authEmailInput" required placeholder="tu-correo@ejemplo.com" class="w-full pl-9 pr-3 py-2.5 rounded-xl border border-gray-200 focus:border-esme-rose focus:ring-2 focus:ring-esme-roseLight/50 outline-none text-xs font-medium">
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1">Contraseña:</label>
+            <div class="relative">
+              <i class="fa-solid fa-key absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+              <input type="password" id="authPasswordInput" required minlength="6" placeholder="Mínimo 6 caracteres" class="w-full pl-9 pr-10 py-2.5 rounded-xl border border-gray-200 focus:border-esme-rose focus:ring-2 focus:ring-esme-roseLight/50 outline-none text-xs font-medium">
+              <button type="button" onclick="togglePasswordVisibility('authPasswordInput')" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 text-xs">
+                <i class="fa-solid fa-eye"></i>
+              </button>
+            </div>
+          </div>
+
+          <div id="authConfirmPasswordContainer" class="hidden">
+            <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1">Confirmar Contraseña:</label>
+            <div class="relative">
+              <i class="fa-solid fa-shield-halved absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+              <input type="password" id="authConfirmPasswordInput" minlength="6" placeholder="Repite tu contraseña" class="w-full pl-9 pr-3 py-2.5 rounded-xl border border-gray-200 focus:border-esme-rose focus:ring-2 focus:ring-esme-roseLight/50 outline-none text-xs font-medium">
+            </div>
+          </div>
+
+          <div id="authErrorMessage" class="hidden text-xs text-red-600 bg-red-50 p-2.5 rounded-xl border border-red-200"></div>
+
+          <button type="submit" id="btnAuthSubmit" class="w-full py-3 px-4 rounded-2xl bg-esme-rose hover:bg-esme-roseDark text-white text-xs font-bold shadow-md transition flex items-center justify-center gap-2">
+            <i class="fa-solid fa-right-to-bracket"></i>
+            <span id="btnAuthSubmitText">Iniciar Sesión</span>
+          </button>
+        </form>
+
+        <div class="pt-2 text-center border-t border-esme-sand">
+          <button onclick="continueAsGuest()" class="text-[11px] text-gray-500 hover:text-esme-roseDark font-semibold transition">
+            Continuar en modo local / invitado
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+    <!-- ========================================== -->
+    <!-- VIEW 1: HOME / INICIO                      -->
+    <!-- ========================================== -->
+    <section id="view-home" class="space-y-10">
+      
+      <!-- Hero Banner with Illustrated Logo & Quick Action Hub -->
+      <div class="relative overflow-hidden bg-gradient-to-b from-white via-esme-sand/40 to-white rounded-3xl border border-esme-roseLight shadow-sm p-6 sm:p-10 text-center">
+        <div class="absolute -top-12 -left-12 w-48 h-48 bg-esme-roseLight/30 rounded-full blur-2xl pointer-events-none"></div>
+        <div class="absolute -bottom-12 -right-12 w-48 h-48 bg-esme-greenLight/30 rounded-full blur-2xl pointer-events-none"></div>
+
+        <div class="relative inline-block mx-auto mb-4 group">
+          <div class="w-40 h-40 sm:w-48 sm:h-48 mx-auto rounded-full bg-esme-cream shadow-xl border-4 border-esme-roseLight p-2 sm:p-3 flex items-center justify-center relative">
+            <svg viewBox="0 0 300 300" class="w-full h-full drop-shadow-md">
+              <defs>
+                <radialGradient id="bgGrad" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="#FFFFFF" />
+                  <stop offset="100%" stop-color="#FCF6F0" />
+                </radialGradient>
+              </defs>
+              <circle cx="150" cy="150" r="140" fill="url(#bgGrad)" />
+              <circle cx="150" cy="150" r="128" stroke="#78927B" stroke-width="2.2" stroke-dasharray="1 8" stroke-linecap="round" fill="none"/>
+              <path d="M 50 150 C 40 120, 60 90, 80 70 C 100 50, 130 40, 160 40 C 200 40, 240 70, 255 110 C 265 140, 260 180, 240 215 C 215 250, 180 265, 140 262 C 95 260, 60 230, 48 190" stroke="#755446" stroke-width="2" opacity="0.75" fill="none"/>
+              <!-- Flowers -->
+              <circle cx="110" cy="65" r="7" fill="#F3D7DC" stroke="#755446" stroke-width="1.2"/>
+              <circle cx="210" cy="78" r="8" fill="#F3D7DC" stroke="#755446" stroke-width="1.2"/>
+              <circle cx="150" cy="255" r="9" fill="#D28B9D" stroke="#755446" stroke-width="1.2"/>
+              <!-- Bear -->
+              <circle cx="115" cy="100" r="17" fill="#C9A389" stroke="#755446" stroke-width="1.5"/>
+              <circle cx="115" cy="100" r="10" fill="#F3D7DC"/>
+              <circle cx="185" cy="100" r="17" fill="#C9A389" stroke="#755446" stroke-width="1.5"/>
+              <circle cx="185" cy="100" r="10" fill="#F3D7DC"/>
+              <ellipse cx="150" cy="125" rx="36" ry="32" fill="#D4B097" stroke="#755446" stroke-width="1.8"/>
+              <ellipse cx="132" cy="133" rx="5" ry="3" fill="#F3A4B5" opacity="0.7"/>
+              <ellipse cx="168" cy="133" rx="5" ry="3" fill="#F3A4B5" opacity="0.7"/>
+              <ellipse cx="150" cy="135" rx="16" ry="12" fill="#FFF5EA" stroke="#755446" stroke-width="1.2"/>
+              <ellipse cx="150" cy="129" rx="5" ry="3.5" fill="#4A3B36"/>
+              <path d="M 150 132.5 L 150 139 M 145 137 Q 150 142 155 137" stroke="#4A3B36" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+              <circle cx="136" cy="122" r="3.2" fill="#382C27"/>
+              <circle cx="164" cy="122" r="3.2" fill="#382C27"/>
+              <ellipse cx="150" cy="168" rx="28" ry="24" fill="#C9A389" stroke="#755446" stroke-width="1.8"/>
+              <ellipse cx="120" cy="185" rx="11" ry="8" fill="#FFF5EA" stroke="#755446" stroke-width="1.4"/>
+              <ellipse cx="180" cy="185" rx="11" ry="8" fill="#FFF5EA" stroke="#755446" stroke-width="1.4"/>
+              <circle cx="100" cy="170" r="17" fill="#A9C7C7" stroke="#755446" stroke-width="1.5"/>
+              <circle cx="198" cy="165" r="21" fill="#D28B9D" stroke="#755446" stroke-width="1.5"/>
+              <text x="150" y="212" text-anchor="middle" font-family="'Comfortaa', sans-serif" font-weight="700" font-size="14" fill="#4A3B36">diseños</text>
+              <text x="150" y="242" text-anchor="middle" font-family="'Caveat', cursive" font-weight="700" font-size="38" fill="#A85E71">Esme</text>
+            </svg>
+          </div>
+          <span class="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-esme-greenLight text-esme-greenDark font-bold text-[10px] sm:text-xs uppercase px-3 py-0.5 rounded-full border border-esme-green/40 shadow-sm whitespace-nowrap">
+            Hecho a Mano con Amor ♡
+          </span>
+        </div>
+
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-heading font-bold text-esme-dark max-w-2xl mx-auto leading-tight">
+          Crea, teje y organiza tus <span class="text-esme-roseDark underline decoration-esme-roseLight decoration-4">amigurumis en la nube</span>
+        </h2>
+        <p class="text-gray-600 max-w-xl mx-auto mt-2 sm:mt-3 text-sm sm:text-base">
+          Diseña paso a paso con fotos, tacha vueltas en el <strong>Modo Tejer</strong> y calcula el precio justo de venta para tu emprendimiento.
+        </p>
+
+        <!-- Quick Install Banner on Home -->
+        <div class="mt-5 max-w-lg mx-auto bg-white/95 border border-emerald-200 rounded-2xl p-3.5 shadow-sm flex items-center justify-between gap-3 text-left">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-lg flex-shrink-0">
+              <i class="fa-solid fa-mobile-screen-button"></i>
+            </div>
+            <div>
+              <p class="text-xs font-bold text-esme-dark">¿Quieres abrirla directo desde tu pantalla?</p>
+              <p class="text-[11px] text-gray-500">Instálala como app nativa sin extensiones.</p>
+            </div>
+          </div>
+          <button onclick="triggerAppInstallModal()" class="px-3.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition shadow-sm flex-shrink-0">
+            Descargar
+          </button>
+        </div>
+
+        <!-- Feature Hub Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto mt-8">
+          
+          <!-- Card 1: Diseñar -->
+          <div onclick="switchTab('designer')" class="cursor-pointer bg-white p-5 rounded-2xl border-2 border-esme-roseLight hover:border-esme-rose hover:shadow-lg transition-all duration-300 group text-left">
+            <div class="w-10 h-10 rounded-xl bg-esme-roseLight/50 text-esme-roseDark flex items-center justify-center text-lg mb-3 group-hover:scale-110 transition-transform">
+              <i class="fa-solid fa-feather-pointed"></i>
+            </div>
+            <h3 class="text-base font-heading font-bold text-esme-dark group-hover:text-esme-roseDark transition-colors">Diseñar Patrón</h3>
+            <p class="text-xs text-gray-500 mt-1 leading-relaxed">
+              Crea piezas (Cabeza, Brazos), adjunta fotos y usa el autocalculador de puntos.
+            </p>
+          </div>
+
+          <!-- Card 2: Modo Tejer -->
+          <div onclick="openKnitMode()" class="cursor-pointer bg-white p-5 rounded-2xl border-2 border-esme-greenLight hover:border-esme-green hover:shadow-lg transition-all duration-300 group text-left">
+            <div class="w-10 h-10 rounded-xl bg-esme-greenLight/50 text-esme-greenDark flex items-center justify-center text-lg mb-3 group-hover:scale-110 transition-transform">
+              <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <h3 class="text-base font-heading font-bold text-esme-dark group-hover:text-esme-greenDark transition-colors">Modo Tejer</h3>
+            <p class="text-xs text-gray-500 mt-1 leading-relaxed">
+              Tacha cada vuelta terminada con un toque mientras crocheteas sin perderte.
+            </p>
+          </div>
+
+          <!-- Card 3: Calculadora de Precios -->
+          <div onclick="switchTab('pricing')" class="cursor-pointer bg-white p-5 rounded-2xl border-2 border-amber-200 hover:border-amber-400 hover:shadow-lg transition-all duration-300 group text-left">
+            <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center text-lg mb-3 group-hover:scale-110 transition-transform">
+              <i class="fa-solid fa-calculator"></i>
+            </div>
+            <h3 class="text-base font-heading font-bold text-esme-dark group-hover:text-amber-700 transition-colors">Calculadora Precios</h3>
+            <p class="text-xs text-gray-500 mt-1 leading-relaxed">
+              Calcula lanas, accesorios, horas de mano de obra y tu margen de ganancia.
+            </p>
+          </div>
+
+          <!-- Card 4: Traductor -->
+          <div onclick="switchTab('translator')" class="cursor-pointer bg-white p-5 rounded-2xl border-2 border-esme-sand hover:border-esme-rose hover:shadow-lg transition-all duration-300 group text-left">
+            <div class="w-10 h-10 rounded-xl bg-esme-sand text-esme-brown flex items-center justify-center text-lg mb-3 group-hover:scale-110 transition-transform">
+              <i class="fa-solid fa-language"></i>
+            </div>
+            <h3 class="text-base font-heading font-bold text-esme-dark group-hover:text-esme-roseDark transition-colors">Traductor Crochet</h3>
+            <p class="text-xs text-gray-500 mt-1 leading-relaxed">
+              Traduce abreviaturas entre Español y términos Americanos US oficiales.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Quick Glossary Widget on Home -->
+      <div class="bg-white rounded-3xl p-6 sm:p-8 border border-esme-roseLight shadow-sm">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
+          <div>
+            <h3 class="text-lg font-heading font-bold text-esme-dark flex items-center">
+              <i class="fa-solid fa-bookmark text-esme-rose mr-2"></i>
+              Chuleta Rápida de Abreviaturas (Español ⇄ US)
+            </h3>
+            <p class="text-xs text-gray-500 mt-0.5">Términos esenciales para crear tus amigurumis</p>
+          </div>
+          <button onclick="switchTab('translator')" class="text-xs font-bold text-esme-roseDark hover:underline flex items-center">
+            Ver diccionario completo <i class="fa-solid fa-arrow-right ml-1"></i>
+          </button>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5">
+          <div class="p-2.5 rounded-xl bg-esme-sand/40 border border-esme-sand text-center">
+            <div class="font-bold text-esme-roseDark text-sm">pb</div>
+            <div class="text-[11px] text-gray-500">Punto Bajo</div>
+            <div class="text-[10px] font-semibold text-esme-greenDark mt-0.5">sc (US)</div>
+          </div>
+          <div class="p-2.5 rounded-xl bg-esme-sand/40 border border-esme-sand text-center">
+            <div class="font-bold text-esme-roseDark text-sm">aum</div>
+            <div class="text-[11px] text-gray-500">Aumento</div>
+            <div class="text-[10px] font-semibold text-esme-greenDark mt-0.5">inc</div>
+          </div>
+          <div class="p-2.5 rounded-xl bg-esme-sand/40 border border-esme-sand text-center">
+            <div class="font-bold text-esme-roseDark text-sm">dism</div>
+            <div class="text-[11px] text-gray-500">Disminución</div>
+            <div class="text-[10px] font-semibold text-esme-greenDark mt-0.5">dec / sc2tog</div>
+          </div>
+          <div class="p-2.5 rounded-xl bg-esme-sand/40 border border-esme-sand text-center">
+            <div class="font-bold text-esme-roseDark text-sm">cad</div>
+            <div class="text-[11px] text-gray-500">Cadeneta</div>
+            <div class="text-[10px] font-semibold text-esme-greenDark mt-0.5">ch</div>
+          </div>
+          <div class="p-2.5 rounded-xl bg-esme-sand/40 border border-esme-sand text-center">
+            <div class="font-bold text-esme-roseDark text-sm">pr / pe</div>
+            <div class="text-[11px] text-gray-500">Punto Raso</div>
+            <div class="text-[10px] font-semibold text-esme-greenDark mt-0.5">sl st</div>
+          </div>
+          <div class="p-2.5 rounded-xl bg-esme-sand/40 border border-esme-sand text-center">
+            <div class="font-bold text-esme-roseDark text-sm">am</div>
+            <div class="text-[11px] text-gray-500">Anillo Mágico</div>
+            <div class="text-[10px] font-semibold text-esme-greenDark mt-0.5">mr</div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ========================================== -->
+    <!-- VIEW 2: AMIGURUMI DESIGNER (DISEÑADOR)     -->
+    <!-- ========================================== -->
+    <section id="view-designer" class="hidden space-y-6">
+      
+      <!-- Top Action Bar for Editor -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-5 rounded-3xl border border-esme-roseLight shadow-sm">
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-full bg-esme-roseLight flex items-center justify-center text-esme-roseDark">
+            <i class="fa-solid fa-pen-ruler"></i>
+          </div>
+          <div>
+            <h2 class="text-xl font-heading font-bold text-esme-dark">Editor de Patrones de Amigurumis</h2>
+            <p class="text-xs text-gray-500">Auto-sincronizado en tiempo real</p>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2">
+          <button onclick="openKnitMode()" class="px-3.5 py-2 rounded-full bg-esme-greenLight text-esme-greenDark hover:bg-esme-green hover:text-white text-xs font-bold flex items-center space-x-1.5 transition">
+            <i class="fa-solid fa-circle-check"></i>
+            <span>Modo Tejer</span>
+          </button>
+          <button onclick="previewAndPrintPattern()" class="px-3.5 py-2 rounded-full bg-esme-sand text-esme-brown hover:bg-esme-roseLight text-xs font-semibold flex items-center space-x-1.5 transition">
+            <i class="fa-solid fa-print"></i>
+            <span>Ficha / Imprimir</span>
+          </button>
+          <button onclick="saveCurrentPattern()" class="px-5 py-2 rounded-full bg-esme-rose hover:bg-esme-roseDark text-white text-xs font-bold flex items-center space-x-1.5 shadow transition">
+            <i class="fa-solid fa-cloud-arrow-up"></i>
+            <span>Guardar en Nube</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Pattern Meta Information Form & Photo Upload -->
+      <div class="bg-white rounded-3xl p-6 sm:p-8 border border-esme-roseLight shadow-sm space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-esme-sand pb-4">
+          <div>
+            <h3 class="text-lg font-heading font-bold text-esme-dark flex items-center">
+              <i class="fa-solid fa-circle-info text-esme-rose mr-2"></i>
+              Ficha Técnica del Amigurumi
+            </h3>
+            <p class="text-xs text-gray-500">Datos principales e imagen de referencia</p>
+          </div>
+          <span class="text-[11px] text-esme-greenDark font-bold bg-esme-greenLight px-3 py-1 rounded-full self-start">
+            <i class="fa-solid fa-bolt mr-1"></i> Auto-guardado en vivo
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-5 items-start">
+          
+          <!-- Photo Upload & Thumbnail Preview (4 cols) -->
+          <div class="md:col-span-4 flex flex-col items-center justify-center p-4 bg-esme-sand/30 rounded-2xl border-2 border-dashed border-esme-roseLight">
+            <div id="patternPhotoContainer" class="relative w-36 h-36 rounded-2xl overflow-hidden bg-white shadow-sm flex items-center justify-center mb-3 border border-esme-roseLight">
+              <img id="patternPhotoPreview" src="" alt="Foto Amigurumi" class="w-full h-full object-cover hidden">
+              <div id="patternPhotoPlaceholder" class="text-center p-3 text-gray-400">
+                <i class="fa-solid fa-camera text-3xl text-esme-rose/60 mb-1"></i>
+                <p class="text-[10px] leading-tight font-medium">Subir foto del amigurumi</p>
+              </div>
+            </div>
+
+            <div class="flex gap-2">
+              <label class="px-3 py-1.5 rounded-full bg-esme-rose text-white hover:bg-esme-roseDark text-xs font-bold cursor-pointer transition shadow-sm flex items-center gap-1">
+                <i class="fa-solid fa-upload"></i>
+                <span>Elegir Foto</span>
+                <input type="file" id="photoInput" accept="image/*" onchange="handlePatternPhotoUpload(event)" class="hidden">
+              </label>
+              <button id="btnRemovePhoto" onclick="removePatternPhoto()" class="hidden px-2 py-1.5 rounded-full bg-gray-200 text-gray-600 hover:text-red-500 text-xs transition" title="Eliminar foto">
+                <i class="fa-solid fa-trash-can"></i>
+              </button>
+            </div>
+            <p class="text-[10px] text-gray-400 mt-2 text-center">Se comprime automáticamente para guardarse en la nube</p>
+          </div>
+
+          <!-- Metadata Inputs (8 cols) -->
+          <div class="md:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <!-- Title -->
+            <div class="sm:col-span-2">
+              <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1">Nombre del Amigurumi *</label>
+              <input type="text" id="patTitle" placeholder="Ej: Osito Tierno de Apego..." class="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:border-esme-rose focus:ring-2 focus:ring-esme-roseLight/50 outline-none text-sm font-semibold">
+            </div>
+
+            <!-- Difficulty -->
+            <div>
+              <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1">Nivel de Dificultad</label>
+              <select id="patDifficulty" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:border-esme-rose outline-none text-sm font-medium bg-white">
+                <option value="Principiante">Principiante (Fácil)</option>
+                <option value="Intermedio" selected>Intermedio</option>
+                <option value="Avanzado">Avanzado</option>
+              </select>
+            </div>
+
+            <!-- Hook Size -->
+            <div>
+              <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1">Aguja / Crochet</label>
+              <input type="text" id="patHook" placeholder="Ej: 2.5 mm / Hook C-2" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:border-esme-rose outline-none text-sm font-medium">
+            </div>
+
+            <!-- Yarn & Colors -->
+            <div>
+              <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1">Hilado / Colores</label>
+              <input type="text" id="patYarn" placeholder="Ej: Algodón 8/6 en Rosa y Miel" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:border-esme-rose outline-none text-sm font-medium">
+            </div>
+
+            <!-- Height / Size -->
+            <div>
+              <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1">Tamaño Final Aprox.</label>
+              <input type="text" id="patSize" placeholder="Ej: 20 cm de alto" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:border-esme-rose outline-none text-sm font-medium">
+            </div>
+
+            <!-- Additional Notes / Materials -->
+            <div class="sm:col-span-2">
+              <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1">Materiales y notas de armado</label>
+              <input type="text" id="patMaterials" placeholder="Ej: Ojos de seguridad 8mm, vellón siliconado, aguja lanera..." class="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:border-esme-rose outline-none text-sm font-medium">
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Sections / Body Parts Builder -->
+      <div class="bg-white rounded-3xl p-6 sm:p-8 border border-esme-roseLight shadow-sm space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-esme-sand pb-4">
+          <div>
+            <h3 class="text-lg font-heading font-bold text-esme-dark flex items-center">
+              <i class="fa-solid fa-shapes text-esme-rose mr-2"></i>
+              Piezas del Amigurumi (Cabeza, Cuerpo, Orejas...)
+            </h3>
+            <p class="text-xs text-gray-500">Diseña cada parte y sus vueltas con autocalculador de puntos</p>
+          </div>
+
+          <!-- Quick Presets -->
+          <div class="flex flex-wrap items-center gap-1.5">
+            <span class="text-xs text-gray-500 mr-1 font-semibold">Agregar:</span>
+            <button onclick="addNewPart('Cabeza')" class="px-2.5 py-1 rounded-full text-xs bg-esme-sand text-esme-dark hover:bg-esme-roseLight font-medium transition">+ Cabeza</button>
+            <button onclick="addNewPart('Cuerpo')" class="px-2.5 py-1 rounded-full text-xs bg-esme-sand text-esme-dark hover:bg-esme-roseLight font-medium transition">+ Cuerpo</button>
+            <button onclick="addNewPart('Brazos (x2)')" class="px-2.5 py-1 rounded-full text-xs bg-esme-sand text-esme-dark hover:bg-esme-roseLight font-medium transition">+ Brazos</button>
+            <button onclick="addNewPart('Piernas (x2)')" class="px-2.5 py-1 rounded-full text-xs bg-esme-sand text-esme-dark hover:bg-esme-roseLight font-medium transition">+ Piernas</button>
+            <button onclick="addNewPart('Orejas (x2)')" class="px-2.5 py-1 rounded-full text-xs bg-esme-sand text-esme-dark hover:bg-esme-roseLight font-medium transition">+ Orejas</button>
+            <button onclick="addNewPart('')" class="px-3 py-1 rounded-full text-xs bg-esme-rose text-white hover:bg-esme-roseDark font-bold transition">
+              <i class="fa-solid fa-plus mr-1"></i> Otra Pieza
+            </button>
+          </div>
+        </div>
+
+        <!-- Quick Abbreviations Insertion Bar -->
+        <div class="p-3 bg-esme-cream rounded-2xl border border-esme-roseLight/70 flex flex-wrap items-center gap-1.5">
+          <span class="text-xs font-bold text-esme-roseDark mr-1">
+            <i class="fa-solid fa-bolt mr-1"></i>Pegar abreviatura:
+          </span>
+          <button type="button" onclick="insertSymbolIntoActive('am (6)')" class="px-2 py-1 rounded-lg bg-white border border-esme-roseLight text-xs font-semibold text-esme-dark hover:bg-esme-rose hover:text-white transition shadow-sm">am (6)</button>
+          <button type="button" onclick="insertSymbolIntoActive('pb')" class="px-2 py-1 rounded-lg bg-white border border-esme-roseLight text-xs font-semibold text-esme-dark hover:bg-esme-rose hover:text-white transition shadow-sm">pb</button>
+          <button type="button" onclick="insertSymbolIntoActive('aum')" class="px-2 py-1 rounded-lg bg-white border border-esme-roseLight text-xs font-semibold text-esme-dark hover:bg-esme-rose hover:text-white transition shadow-sm">aum</button>
+          <button type="button" onclick="insertSymbolIntoActive('dism')" class="px-2 py-1 rounded-lg bg-white border border-esme-roseLight text-xs font-semibold text-esme-dark hover:bg-esme-rose hover:text-white transition shadow-sm">dism</button>
+          <button type="button" onclick="insertSymbolIntoActive('mpa')" class="px-2 py-1 rounded-lg bg-white border border-esme-roseLight text-xs font-semibold text-esme-dark hover:bg-esme-rose hover:text-white transition shadow-sm">mpa</button>
+          <button type="button" onclick="insertSymbolIntoActive('pa')" class="px-2 py-1 rounded-lg bg-white border border-esme-roseLight text-xs font-semibold text-esme-dark hover:bg-esme-rose hover:text-white transition shadow-sm">pa</button>
+          <button type="button" onclick="insertSymbolIntoActive('pr')" class="px-2 py-1 rounded-lg bg-white border border-esme-roseLight text-xs font-semibold text-esme-dark hover:bg-esme-rose hover:text-white transition shadow-sm">pr</button>
+          <button type="button" onclick="insertSymbolIntoActive('cad')" class="px-2 py-1 rounded-lg bg-white border border-esme-roseLight text-xs font-semibold text-esme-dark hover:bg-esme-rose hover:text-white transition shadow-sm">cad</button>
+          <button type="button" onclick="insertSymbolIntoActive('BLO')" class="px-2 py-1 rounded-lg bg-white border border-esme-roseLight text-xs font-semibold text-esme-dark hover:bg-esme-rose hover:text-white transition shadow-sm">BLO</button>
+          <button type="button" onclick="insertSymbolIntoActive('FLO')" class="px-2 py-1 rounded-lg bg-white border border-esme-roseLight text-xs font-semibold text-esme-dark hover:bg-esme-rose hover:text-white transition shadow-sm">FLO</button>
+          <button type="button" onclick="insertSymbolIntoActive('[... ] x 6 ()')" class="px-2 py-1 rounded-lg bg-white border border-esme-roseLight text-xs font-semibold text-esme-dark hover:bg-esme-rose hover:text-white transition shadow-sm">[... ] x 6 ()</button>
+        </div>
+
+        <!-- Dynamic Container of Parts -->
+        <div id="partsContainer" class="space-y-6"></div>
+
+        <div class="text-center pt-2">
+          <button onclick="addNewPart('')" class="inline-flex items-center space-x-2 px-6 py-2.5 rounded-full border-2 border-dashed border-esme-rose text-esme-roseDark hover:bg-esme-roseLight/20 font-bold text-sm transition">
+            <i class="fa-solid fa-plus"></i>
+            <span>Agregar otra pieza al amigurumi</span>
+          </button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ========================================== -->
+    <!-- VIEW 3: INTERACTIVE KNIT MODE (MODO TEJER) -->
+    <!-- ========================================== -->
+    <section id="view-knitmode" class="hidden space-y-6">
+      
+      <!-- Top Knit Mode Control Bar -->
+      <div class="bg-gradient-to-r from-esme-sand via-white to-esme-greenLight/40 p-5 rounded-3xl border border-esme-green/40 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <span class="text-xs uppercase font-bold text-esme-greenDark tracking-wider flex items-center gap-1.5">
+            <i class="fa-solid fa-circle-play text-esme-green"></i> MODO TEJER EN VIVO
+          </span>
+          <h2 id="knitModePatternTitle" class="text-2xl font-heading font-bold text-esme-dark leading-snug">
+            Osito Tierno Esme
+          </h2>
+          <p class="text-xs text-gray-500">Toca cada ronda para marcarla con un check (✓) y registrar tu avance.</p>
+        </div>
+
+        <!-- Stats & Actions in Knit Mode -->
+        <div class="flex items-center gap-2">
+          <div class="px-4 py-2 rounded-2xl bg-white border border-esme-green/30 text-center shadow-sm">
+            <span class="block text-[10px] uppercase text-gray-400 font-bold">Progreso</span>
+            <span id="knitModeProgressText" class="text-base font-heading font-bold text-esme-greenDark">0%</span>
+          </div>
+
+          <button onclick="resetKnitProgress()" class="px-3.5 py-2 rounded-2xl bg-white border border-gray-200 text-gray-600 hover:text-red-500 text-xs font-bold shadow-sm transition" title="Reiniciar progreso">
+            <i class="fa-solid fa-arrow-rotate-left mr-1"></i> Reiniciar
+          </button>
+
+          <button onclick="switchTab('designer')" class="px-4 py-2 rounded-2xl bg-esme-rose text-white hover:bg-esme-roseDark text-xs font-bold shadow transition flex items-center gap-1.5">
+            <i class="fa-solid fa-pen-to-square"></i>
+            <span>Volver al Editor</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Piece selector tabs in Knit Mode -->
+      <div id="knitModePartsNav" class="flex flex-wrap gap-2 pt-1">
+        <!-- Rendered by JS -->
+      </div>
+
+      <!-- Active Piece Knit Card -->
+      <div id="knitModeActivePieceContainer" class="bg-white rounded-3xl p-6 sm:p-8 border border-esme-greenLight shadow-sm space-y-4">
+        <!-- Rendered by JS -->
+      </div>
+
+    </section>
+
+    <!-- ========================================== -->
+    <!-- VIEW 4: PRICING & COST CALCULATOR         -->
+    <!-- ========================================== -->
+    <section id="view-pricing" class="hidden space-y-6">
+      
+      <div class="bg-white rounded-3xl p-6 border border-amber-200 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h2 class="text-2xl font-heading font-bold text-esme-dark flex items-center">
+            <i class="fa-solid fa-calculator text-amber-600 mr-3"></i>
+            Calculadora de Costos y Precios de Venta
+          </h2>
+          <p class="text-xs text-gray-500 mt-1">
+            Calcula con exactitud cuánto cobrar por tus amigurumis valorando tu tiempo artesanal.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <!-- Calculator Inputs (7 cols) -->
+        <div class="lg:col-span-7 bg-white rounded-3xl p-6 sm:p-8 border border-gray-200 shadow-sm space-y-5">
+          <h3 class="text-base font-heading font-bold text-esme-dark border-b border-esme-sand pb-3 flex items-center gap-2">
+            <i class="fa-solid fa-receipt text-amber-600"></i>
+            Costos de Materiales y Tiempo
+          </h3>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Gramos de Lana Usados</label>
+              <div class="relative">
+                <input type="number" id="calcYarnGrams" value="80" oninput="calculatePricing()" class="w-full pl-4 pr-10 py-2.5 rounded-xl border border-gray-200 focus:border-amber-500 outline-none text-sm font-semibold">
+                <span class="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs text-gray-400">g</span>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Precio por Ovillo (100g)</label>
+              <div class="relative">
+                <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-xs text-gray-400">$</span>
+                <input type="number" id="calcYarnPrice100g" value="2500" oninput="calculatePricing()" class="w-full pl-8 pr-4 py-2.5 rounded-xl border border-gray-200 focus:border-amber-500 outline-none text-sm font-semibold">
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Accesorios (Ojos, Vellón, etc.)</label>
+              <div class="relative">
+                <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-xs text-gray-400">$</span>
+                <input type="number" id="calcAccessoriesCost" value="800" oninput="calculatePricing()" class="w-full pl-8 pr-4 py-2.5 rounded-xl border border-gray-200 focus:border-amber-500 outline-none text-sm font-semibold">
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Packaging (Bolsa, Etiqueta)</label>
+              <div class="relative">
+                <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-xs text-gray-400">$</span>
+                <input type="number" id="calcPackagingCost" value="500" oninput="calculatePricing()" class="w-full pl-8 pr-4 py-2.5 rounded-xl border border-gray-200 focus:border-amber-500 outline-none text-sm font-semibold">
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Horas de Tejido Dedicadas</label>
+              <div class="relative">
+                <input type="number" id="calcHours" value="4" step="0.5" oninput="calculatePricing()" class="w-full pl-4 pr-12 py-2.5 rounded-xl border border-gray-200 focus:border-amber-500 outline-none text-sm font-semibold">
+                <span class="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs text-gray-400">hs</span>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Valor de tu Hora de Mano de Obra</label>
+              <div class="relative">
+                <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-xs text-gray-400">$</span>
+                <input type="number" id="calcHourlyRate" value="1500" oninput="calculatePricing()" class="w-full pl-8 pr-4 py-2.5 rounded-xl border border-gray-200 focus:border-amber-500 outline-none text-sm font-semibold">
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-gray-700 uppercase mb-1.5 flex justify-between">
+              <span>Margen de Ganancia del Emprendimiento</span>
+              <span id="calcProfitLabel" class="text-amber-700 font-bold">40%</span>
+            </label>
+            <input type="range" id="calcProfitMargin" min="10" max="150" value="40" step="5" oninput="calculatePricing()" class="w-full accent-amber-600">
+            <div class="flex justify-between text-[10px] text-gray-400 mt-1">
+              <span>10% (Mínimo)</span>
+              <span>40% (Estándar recomendado)</span>
+              <span>100%+ (Premium / Exclusivo)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Calculator Result Summary Card (5 cols) -->
+        <div class="lg:col-span-5 bg-gradient-to-br from-amber-50 to-orange-50/50 rounded-3xl p-6 sm:p-8 border border-amber-200 shadow-sm flex flex-col justify-between">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-amber-800 block mb-1">Resultado Financiero</span>
+            <h3 class="text-xl font-heading font-bold text-esme-dark">Precio Sugerido de Venta</h3>
+
+            <div class="my-6 p-5 rounded-2xl bg-white border border-amber-200 shadow-sm text-center">
+              <span class="text-xs text-gray-500 block mb-1">Precio Final al Cliente</span>
+              <div id="calcFinalPrice" class="text-4xl font-heading font-bold text-esme-roseDark">
+                $12.600
+              </div>
+              <span id="calcHourlyResult" class="text-[11px] text-esme-greenDark font-semibold mt-1 block">
+                Cubre tus materiales y paga tu trabajo
+              </span>
+            </div>
+
+            <div class="space-y-2.5 text-xs">
+              <div class="flex justify-between pb-2 border-b border-amber-200/60">
+                <span class="text-gray-600">Costo total de materiales:</span>
+                <span id="calcMatTotal" class="font-bold text-gray-800">$3.300</span>
+              </div>
+              <div class="flex justify-between pb-2 border-b border-amber-200/60">
+                <span class="text-gray-600">Pago por tu mano de obra:</span>
+                <span id="calcLaborTotal" class="font-bold text-gray-800">$6.000</span>
+              </div>
+              <div class="flex justify-between pb-2 border-b border-amber-200/60">
+                <span class="text-gray-600">Costo base de producción:</span>
+                <span id="calcBaseCost" class="font-bold text-gray-800">$9.300</span>
+              </div>
+              <div class="flex justify-between pb-2 border-b border-amber-200/60 font-semibold text-esme-greenDark">
+                <span>Ganancia neta del negocio:</span>
+                <span id="calcProfitAmount" class="font-bold">$3.300</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6 pt-4 border-t border-amber-200 text-center">
+            <p class="text-[11px] text-gray-500 italic">
+              "Nunca regales tu tiempo. El tejido a mano es un arte único e irrepetible."
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ========================================== -->
+    <!-- VIEW 5: CROCHET TRANSLATOR (TRADUCTOR)     -->
+    <!-- ========================================== -->
+    <section id="view-translator" class="hidden space-y-6">
+      
+      <div class="bg-white rounded-3xl p-6 border border-esme-roseLight shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h2 class="text-2xl font-heading font-bold text-esme-dark flex items-center">
+            <i class="fa-solid fa-language text-esme-greenDark mr-3"></i>
+            Traductor Técnico de Crochet
+          </h2>
+          <p class="text-xs text-gray-500 mt-1">
+            Español ⇄ English (US Standard Amigurumi Terms)
+          </p>
+        </div>
+
+        <div class="flex items-center bg-esme-sand p-1.5 rounded-full self-start md:self-auto border border-esme-roseLight">
+          <button id="transDir-es-en" onclick="setTranslationDirection('es-en')" class="px-4 py-1.5 rounded-full text-xs font-bold bg-esme-rose text-white shadow-sm transition">
+            Español ➔ Inglés
+          </button>
+          <button id="transDir-en-es" onclick="setTranslationDirection('en-es')" class="px-4 py-1.5 rounded-full text-xs font-bold text-gray-600 hover:text-esme-dark transition">
+            Inglés ➔ Español
+          </button>
+        </div>
+      </div>
+
+      <!-- Dual Translation Workspace -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        
+        <!-- Source Input Box -->
+        <div class="bg-white rounded-3xl p-6 border border-esme-roseLight shadow-sm flex flex-col">
+          <div class="flex items-center justify-between mb-3">
+            <label id="sourceLabel" class="text-xs font-bold text-esme-dark uppercase tracking-wider flex items-center">
+              <span class="w-2.5 h-2.5 rounded-full bg-esme-rose mr-2"></span>
+              Patrón en Español
+            </label>
+            <div class="flex items-center space-x-2">
+              <button onclick="loadSamplePatternToTranslate()" class="text-xs font-semibold text-esme-roseDark hover:underline">
+                Cargar ejemplo
+              </button>
+              <button onclick="document.getElementById('transSourceText').value=''" class="text-xs text-gray-400 hover:text-gray-600">
+                <i class="fa-solid fa-trash-can"></i>
+              </button>
+            </div>
+          </div>
+
+          <textarea id="transSourceText" rows="12" placeholder="Pega aquí tu patrón con vueltas o abreviaturas..." class="w-full flex-grow p-4 rounded-2xl border border-gray-200 focus:border-esme-rose focus:ring-2 focus:ring-esme-roseLight/40 outline-none text-sm font-mono leading-relaxed resize-none"></textarea>
+
+          <div class="mt-4 flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-esme-sand">
+            <span class="text-xs text-gray-400" id="sourceWordCount">0 caracteres</span>
+            
+            <div class="flex items-center space-x-2">
+              <button onclick="translatePattern(false)" class="px-4 py-2 rounded-full bg-esme-sand text-esme-dark hover:bg-esme-roseLight text-xs font-bold transition flex items-center space-x-1.5">
+                <i class="fa-solid fa-bolt text-esme-rose"></i>
+                <span>Traducción Inmediata</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Target Output Box -->
+        <div class="bg-white rounded-3xl p-6 border border-esme-roseLight shadow-sm flex flex-col">
+          <div class="flex items-center justify-between mb-3">
+            <label id="targetLabel" class="text-xs font-bold text-esme-dark uppercase tracking-wider flex items-center">
+              <span class="w-2.5 h-2.5 rounded-full bg-esme-green mr-2"></span>
+              Patrón Traducido (US Terms)
+            </label>
+            <span id="transStatus" class="hidden text-xs text-esme-green font-semibold">
+              <i class="fa-solid fa-check"></i> Listo
+            </span>
+          </div>
+
+          <textarea id="transTargetText" rows="12" readonly placeholder="La traducción aparecerá aquí..." class="w-full flex-grow p-4 rounded-2xl bg-esme-cream/60 border border-gray-200 outline-none text-sm font-mono leading-relaxed resize-none text-gray-800"></textarea>
+
+          <div class="mt-4 flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-esme-sand">
+            <div class="flex items-center space-x-2">
+              <button onclick="copyTranslatedText()" class="px-3 py-1.5 rounded-xl border border-gray-200 hover:bg-gray-100 text-xs font-semibold text-gray-700 transition flex items-center space-x-1">
+                <i class="fa-solid fa-copy text-esme-rose"></i>
+                <span>Copiar</span>
+              </button>
+              <button onclick="importTranslatedToDesigner()" class="px-3 py-1.5 rounded-xl bg-esme-roseLight/50 hover:bg-esme-roseLight text-xs font-bold text-esme-roseDark transition flex items-center space-x-1">
+                <i class="fa-solid fa-file-import"></i>
+                <span>Pasar al Diseñador</span>
+              </button>
+            </div>
+
+            <button onclick="downloadTranslatedText()" class="px-3.5 py-1.5 rounded-xl bg-esme-sand hover:bg-esme-roseLight text-xs font-semibold text-esme-brown transition flex items-center space-x-1">
+              <i class="fa-solid fa-download"></i>
+              <span>Descargar .TXT</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Dictionary table -->
+      <div class="bg-white rounded-3xl p-6 sm:p-8 border border-esme-roseLight shadow-sm">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
+          <div>
+            <h3 class="text-lg font-heading font-bold text-esme-dark flex items-center">
+              <i class="fa-solid fa-book-atlas text-esme-greenDark mr-2"></i>
+              Diccionario Amigurumi Completo
+            </h3>
+            <p class="text-xs text-gray-500">Busca puntos o abreviaturas</p>
+          </div>
+
+          <div class="relative w-full sm:w-64">
+            <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+            <input type="text" id="dictSearch" oninput="filterDictionary()" placeholder="Buscar punto o término..." class="w-full pl-9 pr-4 py-2 rounded-full border border-gray-200 text-xs focus:border-esme-green focus:outline-none">
+          </div>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs border-collapse">
+            <thead>
+              <tr class="bg-esme-sand text-esme-dark uppercase font-bold text-[11px] tracking-wider">
+                <th class="p-3 rounded-l-xl">Término en Español</th>
+                <th class="p-3">Abrev. (ES)</th>
+                <th class="p-3">English (US Terms)</th>
+                <th class="p-3">Abrev. (US)</th>
+                <th class="p-3 rounded-r-xl">Descripción</th>
+              </tr>
+            </thead>
+            <tbody id="dictTableBody" class="divide-y divide-gray-100"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ========================================== -->
+    <!-- VIEW 6: MY CREATIONS / SAVED (MIS DISEÑOS) -->
+    <!-- ========================================== -->
+    <section id="view-library" class="hidden space-y-6">
+      
+      <div class="bg-white rounded-3xl p-6 border border-esme-roseLight shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h2 class="text-2xl font-heading font-bold text-esme-dark flex items-center">
+            <i class="fa-solid fa-folder-heart text-esme-rose mr-3"></i>
+            Colección de Amigurumis Guardados
+          </h2>
+          <p class="text-xs text-gray-500 mt-1">
+            Respaldados en la base de datos de Diseños Esme
+          </p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2">
+          <div class="relative w-full sm:w-56">
+            <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+            <input type="text" id="librarySearch" oninput="renderSavedPatternsList()" placeholder="Buscar por nombre..." class="w-full pl-9 pr-4 py-2 rounded-full border border-gray-200 text-xs focus:border-esme-rose focus:outline-none">
+          </div>
+
+          <button onclick="exportAllPatternsBackup()" title="Descargar archivo JSON" class="px-3.5 py-2 rounded-full border border-gray-200 hover:bg-gray-100 text-xs font-semibold text-gray-700 transition flex items-center space-x-1.5">
+            <i class="fa-solid fa-file-arrow-down text-esme-green"></i>
+            <span>Backup</span>
+          </button>
+
+          <label class="px-3.5 py-2 rounded-full border border-gray-200 hover:bg-gray-100 text-xs font-semibold text-gray-700 transition flex items-center space-x-1.5 cursor-pointer">
+            <i class="fa-solid fa-file-arrow-up text-esme-rose"></i>
+            <span>Importar</span>
+            <input type="file" id="importJsonInput" accept=".json" onchange="importPatternsBackup(event)" class="hidden">
+          </label>
+
+          <button onclick="createNewPatternPrompt()" class="px-4 py-2 rounded-full bg-esme-rose hover:bg-esme-roseDark text-white text-xs font-bold transition shadow flex items-center space-x-1.5">
+            <i class="fa-solid fa-plus"></i>
+            <span>Nuevo Patrón</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Patterns Cards Grid -->
+      <div id="patternsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+
+      <!-- Empty State -->
+      <div id="emptyLibraryState" class="hidden bg-white rounded-3xl p-12 text-center border-2 border-dashed border-esme-roseLight max-w-lg mx-auto">
+        <div class="w-20 h-20 mx-auto rounded-full bg-esme-sand text-esme-rose flex items-center justify-center text-3xl mb-4">
+          <i class="fa-solid fa-folder-open"></i>
+        </div>
+        <h3 class="text-xl font-heading font-bold text-esme-dark">Aún no tienes amigurumis guardados</h3>
+        <p class="text-xs text-gray-500 mt-2 mb-6">
+          Comienza a diseñar tu primer muñeco tejido en el Diseñador.
+        </p>
+        <button onclick="switchTab('designer')" class="px-6 py-2.5 rounded-full bg-esme-rose hover:bg-esme-roseDark text-white font-bold text-xs shadow transition">
+          <i class="fa-solid fa-wand-magic-sparkles mr-1.5"></i> Diseñar mi primer Amigurumi
+        </button>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Printable & Export Preview Modal -->
+  <div id="previewModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-3xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden border border-esme-roseLight">
+      
+      <div class="p-5 border-b border-esme-sand flex items-center justify-between bg-esme-sand/40">
+        <div class="flex items-center space-x-2">
+          <i class="fa-solid fa-file-lines text-esme-rose text-lg"></i>
+          <h3 class="font-heading font-bold text-esme-dark text-lg">Ficha del Patrón</h3>
+        </div>
+        <div class="flex items-center space-x-2">
+          <button onclick="window.print()" class="px-4 py-1.5 rounded-full bg-esme-rose text-white hover:bg-esme-roseDark text-xs font-bold transition flex items-center space-x-1.5 shadow-sm">
+            <i class="fa-solid fa-print"></i>
+            <span>Imprimir / PDF</span>
+          </button>
+          <button onclick="closePreviewModal()" class="w-8 h-8 rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 flex items-center justify-center text-sm">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Printable Document Body -->
+      <div id="printArea" class="p-6 sm:p-10 overflow-y-auto flex-grow space-y-6 text-sm"></div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="mt-auto bg-white border-t border-esme-roseLight py-5">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-500 gap-2">
+      <div class="flex items-center space-x-2">
+        <span class="font-hand text-lg text-esme-roseDark font-bold">diseños Esme</span>
+        <span>• Pasión por el crochet y amigurumis hechos a mano</span>
+      </div>
+      <div class="flex items-center space-x-2">
+        <i class="fa-solid fa-cloud text-esme-green"></i>
+        <span>Sincronizado con base de datos en la nube</span>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { 
+      getAuth, 
+      signInAnonymously, 
+      signInWithCustomToken, 
+      signInWithEmailAndPassword,
+      createUserWithEmailAndPassword,
+      signOut,
+      onAuthStateChanged 
+    } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { 
+      getFirestore, 
+      collection, 
+      doc, 
+      setDoc, 
+      deleteDoc, 
+      onSnapshot 
+    } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    // Application ID and Firebase Configuration
+    const appId = typeof __app_id !== 'undefined' ? __app_id : 'disenos-esme-amigurumis';
+    
+    // Config provided by Canvas environment or fallback safe mock
+    let firebaseConfig = {
+      apiKey: "AIzaSyDummyCanvasApiKeyForAuthOnly123456",
+      authDomain: "disenos-esme.firebaseapp.com",
+      projectId: "disenos-esme",
+      storageBucket: "disenos-esme.appspot.com"
+    };
+
+    if (typeof __firebase_config !== 'undefined') {
+      try {
+        firebaseConfig = JSON.parse(__firebase_config);
+      } catch (e) {
+        console.warn("Could not parse __firebase_config, using default config.", e);
+      }
+    }
+
+    let app = null;
+    let auth = null;
+    let db = null;
+    let currentUserId = null;
+    let currentUserEmail = null;
+    let unsubscribePatternsSnapshot = null;
+
+    try {
+      app = initializeApp(firebaseConfig);
+      auth = getAuth(app);
+      db = getFirestore(app);
+    } catch (err) {
+      console.warn("Firebase initialization notice:", err);
+    }
+
+    // Monitor Firebase Auth state changes
+    if (auth) {
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          currentUserId = user.uid;
+          currentUserEmail = user.email || null;
+          window.cloudUserId = currentUserId;
+          window.cloudUserEmail = currentUserEmail;
+
+          updateAuthUI(user);
+          listenToCloudPatterns();
+        } else {
+          currentUserId = null;
+          currentUserEmail = null;
+          window.cloudUserId = null;
+          window.cloudUserEmail = null;
+
+          if (unsubscribePatternsSnapshot) {
+            unsubscribePatternsSnapshot();
+            unsubscribePatternsSnapshot = null;
+          }
+          updateAuthUI(null);
+        }
+      });
+    }
+
+    async function initCloudAuth() {
+      if (!auth) {
+        updateAuthUI(null);
+        return;
+      }
+
+      // If already signed in, onAuthStateChanged will handle it.
+      if (auth.currentUser) return;
+
+      try {
+        if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+          await signInWithCustomToken(auth, __initial_auth_token);
+        } else {
+          // Fall back to anonymous session until user logs in with email/password
+          await signInAnonymously(auth);
+        }
+      } catch (err) {
+        console.warn("Cloud auth notice (working in local fallback):", err);
+      }
+    }
+
+    function updateAuthUI(user) {
+      const statusIcon = document.getElementById('cloudStatusIcon');
+      const statusText = document.getElementById('cloudStatusText');
+      const userDisplay = document.getElementById('cloudUserIdDisplay');
+      const emailBadge = document.getElementById('userEmailBadge');
+      const authLoggedInView = document.getElementById('authLoggedInView');
+      const authFormView = document.getElementById('authFormView');
+      const mobileMenuAuthText = document.getElementById('mobileMenuAuthText');
+
+      if (user && user.email) {
+        // Logged in with email & password
+        if (statusText) statusText.textContent = user.email.split('@')[0];
+        if (statusIcon) {
+          statusIcon.className = 'fa-solid fa-circle-user text-esme-greenDark text-sm';
+        }
+        if (userDisplay) userDisplay.value = user.uid;
+        if (emailBadge) emailBadge.textContent = user.email;
+        if (authLoggedInView) authLoggedInView.classList.remove('hidden');
+        if (authFormView) authFormView.classList.add('hidden');
+        if (mobileMenuAuthText) mobileMenuAuthText.textContent = `Cuenta: ${user.email}`;
+      } else if (user) {
+        // Anonymous / guest session
+        if (statusText) statusText.textContent = 'Iniciar Sesión';
+        if (statusIcon) {
+          statusIcon.className = 'fa-solid fa-user text-esme-rose text-sm';
+        }
+        if (userDisplay) userDisplay.value = user.uid;
+        if (authLoggedInView) authLoggedInView.classList.add('hidden');
+        if (authFormView) authFormView.classList.remove('hidden');
+        if (mobileMenuAuthText) mobileMenuAuthText.textContent = 'Mi Cuenta (Iniciar Sesión)';
+      } else {
+        // Disconnected / offline
+        if (statusText) statusText.textContent = 'Modo Local';
+        if (statusIcon) {
+          statusIcon.className = 'fa-solid fa-cloud text-gray-400 text-sm';
+        }
+        if (authLoggedInView) authLoggedInView.classList.add('hidden');
+        if (authFormView) authFormView.classList.remove('hidden');
+        if (mobileMenuAuthText) mobileMenuAuthText.textContent = 'Iniciar Sesión';
+      }
+    }
+
+    // Strict Rule 1 Path: /artifacts/{appId}/users/{userId}/patterns
+    function listenToCloudPatterns() {
+      if (!db || !currentUserId) return;
+
+      if (unsubscribePatternsSnapshot) {
+        unsubscribePatternsSnapshot();
+        unsubscribePatternsSnapshot = null;
+      }
+
+      try {
+        const userPatternsCol = collection(db, 'artifacts', appId, 'users', currentUserId, 'patterns');
+        unsubscribePatternsSnapshot = onSnapshot(userPatternsCol, (snapshot) => {
+          const cloudPatterns = [];
+          snapshot.forEach((docSnap) => {
+            cloudPatterns.push({ id: docSnap.id, ...docSnap.data() });
+          });
+
+          if (cloudPatterns.length > 0) {
+            window.allPatterns = cloudPatterns;
+            window.renderSavedPatternsList();
+            window.updateSavedCountBadge();
+          }
+        }, (err) => {
+          console.warn("Firestore snapshot listener notice:", err);
+        });
+      } catch (e) {
+        console.warn("Error setting up Firestore listener:", e);
+      }
+    }
+
+    // Email & Password Methods
+    window.loginWithEmail = async function(email, password) {
+      if (!auth) throw new Error("Firebase Auth no disponible");
+      return await signInWithEmailAndPassword(auth, email, password);
+    };
+
+    window.registerWithEmail = async function(email, password) {
+      if (!auth) throw new Error("Firebase Auth no disponible");
+      return await createUserWithEmailAndPassword(auth, email, password);
+    };
+
+    window.logoutFromApp = async function() {
+      if (!auth) return;
+      await signOut(auth);
+      // Re-sign in anonymously so the user still has cloud capability if desired
+      try {
+        await signInAnonymously(auth);
+      } catch (e) {
+        console.warn("Anonymous re-auth notice:", e);
+      }
+    };
+
+    // Save a pattern to Firestore
+    window.savePatternToCloud = async function(pattern) {
+      if (!db || !currentUserId) return false;
+      try {
+        const patternDocRef = doc(db, 'artifacts', appId, 'users', currentUserId, 'patterns', pattern.id);
+        await setDoc(patternDocRef, pattern);
+        return true;
+      } catch (err) {
+        console.warn("Cloud save notice:", err);
+        return false;
+      }
+    };
+
+    // Delete a pattern from Firestore
+    window.deletePatternFromCloud = async function(patternId) {
+      if (!db || !currentUserId) return false;
+      try {
+        const patternDocRef = doc(db, 'artifacts', appId, 'users', currentUserId, 'patterns', patternId);
+        await deleteDoc(patternDocRef);
+        return true;
+      } catch (err) {
+        console.warn("Cloud delete notice:", err);
+        return false;
+      }
+    };
+
+    initCloudAuth();
+  </script>
+
+  <script>
+    let activeKnitPartIndex = 0;
+    let lastActiveInputRef = null;
+    let translationDirection = 'es-en';
+    let deferredPwaInstallPrompt = null;
+    let currentAuthMode = 'login'; // 'login' or 'register'
+
+    // Switch between Login and Register tabs in Auth Modal
+    function switchAuthMode(mode) {
+      currentAuthMode = mode;
+      const tabLogin = document.getElementById('tabAuthLogin');
+      const tabRegister = document.getElementById('tabAuthRegister');
+      const confirmContainer = document.getElementById('authConfirmPasswordContainer');
+      const confirmInput = document.getElementById('authConfirmPasswordInput');
+      const btnText = document.getElementById('btnAuthSubmitText');
+      const errorMsg = document.getElementById('authErrorMessage');
+
+      if (errorMsg) errorMsg.classList.add('hidden');
+
+      if (mode === 'login') {
+        tabLogin.className = 'flex-1 py-1.5 text-xs font-bold rounded-xl bg-white text-esme-roseDark shadow-sm transition';
+        tabRegister.className = 'flex-1 py-1.5 text-xs font-bold rounded-xl text-gray-500 hover:text-esme-dark transition';
+        confirmContainer.classList.add('hidden');
+        confirmInput.removeAttribute('required');
+        btnText.textContent = 'Iniciar Sesión';
+      } else {
+        tabRegister.className = 'flex-1 py-1.5 text-xs font-bold rounded-xl bg-white text-esme-roseDark shadow-sm transition';
+        tabLogin.className = 'flex-1 py-1.5 text-xs font-bold rounded-xl text-gray-500 hover:text-esme-dark transition';
+        confirmContainer.classList.remove('hidden');
+        confirmInput.setAttribute('required', 'true');
+        btnText.textContent = 'Crear Cuenta y Entrar';
+      }
+    }
+
+    function togglePasswordVisibility(inputId) {
+      const input = document.getElementById(inputId);
+      if (!input) return;
+      input.type = input.type === 'password' ? 'text' : 'password';
+    }
+
+    async function handleAuthSubmit(e) {
+      e.preventDefault();
+      const email = document.getElementById('authEmailInput').value.trim();
+      const password = document.getElementById('authPasswordInput').value;
+      const confirmPass = document.getElementById('authConfirmPasswordInput').value;
+      const errorMsg = document.getElementById('authErrorMessage');
+      const btnSubmit = document.getElementById('btnAuthSubmit');
+
+      errorMsg.classList.add('hidden');
+
+      if (currentAuthMode === 'register' && password !== confirmPass) {
+        errorMsg.textContent = 'Las contraseñas no coinciden. Por favor verifícalas.';
+        errorMsg.classList.remove('hidden');
+        return;
+      }
+
+      btnSubmit.disabled = true;
+      btnSubmit.classList.add('opacity-70');
+
+      try {
+        if (currentAuthMode === 'login') {
+          await window.loginWithEmail(email, password);
+          showToast(`¡Bienvenida de nuevo, ${email.split('@')[0]}!`, 'success');
+        } else {
+          await window.registerWithEmail(email, password);
+          showToast(`¡Cuenta creada con éxito! Bienvenida, ${email.split('@')[0]}`, 'success');
+        }
+        closeCloudAccountModal();
+      } catch (err) {
+        console.error("Auth error:", err);
+        let message = 'Error de autenticación. Verifica tus datos.';
+        if (err.code === 'auth/invalid-email') message = 'El correo electrónico no es válido.';
+        else if (err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') message = 'Correo o contraseña incorrectos.';
+        else if (err.code === 'auth/email-already-in-use') message = 'Ya existe una cuenta con este correo. Inicia sesión.';
+        else if (err.code === 'auth/weak-password') message = 'La contraseña debe tener al menos 6 caracteres.';
+        else if (err.message) message = err.message;
+
+        errorMsg.textContent = message;
+        errorMsg.classList.remove('hidden');
+      } finally {
+        btnSubmit.disabled = false;
+        btnSubmit.classList.remove('opacity-70');
+      }
+    }
+
+    async function handleUserSignOut() {
+      openCustomModal('¿Cerrar sesión?', 'Tus patrones permanecerán seguros en tu cuenta en la nube.', 'Cerrar Sesión', 'fa-right-from-bracket').then(async (yes) => {
+        if (!yes) return;
+        await window.logoutFromApp();
+        showToast('Sesión cerrada correctamente');
+        closeCloudAccountModal();
+      });
+    }
+
+    function continueAsGuest() {
+      closeCloudAccountModal();
+      showToast('Continuando en modo invitado. Puedes iniciar sesión cuando gustes.', 'info');
+    }
+    }
+
+    let app = null;
+    let auth = null;
+    let db = null;
+    let currentUserId = null;
+    let cloudSynced = false;
+
+    try {
+      app = initializeApp(firebaseConfig);
+      auth = getAuth(app);
+      db = getFirestore(app);
+    } catch (err) {
+      console.warn("Firebase initialization notice:", err);
+    }
+
+    async function initCloudAuth() {
+      const statusIcon = document.getElementById('cloudStatusIcon');
+      const statusText = document.getElementById('cloudStatusText');
+      const userDisplay = document.getElementById('cloudUserIdDisplay');
+
+      if (!auth) {
+        if (statusText) statusText.textContent = 'Modo Local';
+        return;
+      }
+
+      try {
+        if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+          await signInWithCustomToken(auth, __initial_auth_token);
+        } else {
+          await signInAnonymously(auth);
+        }
+
+        const user = auth.currentUser;
+        if (user) {
+          currentUserId = user.uid;
+          window.cloudUserId = currentUserId;
+          if (userDisplay) userDisplay.value = currentUserId;
+          if (statusText) statusText.textContent = 'En la nube';
+          if (statusIcon) {
+            statusIcon.classList.remove('animate-pulse', 'text-esme-rose');
+            statusIcon.classList.add('text-esme-greenDark');
+          }
+          listenToCloudPatterns();
+        }
+      } catch (err) {
+        console.warn("Cloud auth notice (working in local fallback):", err);
+        if (statusText) statusText.textContent = 'Local';
+      }
+    }
+
+    // Strict Rule 1 Path: /artifacts/{appId}/users/{userId}/{collectionName}
+    function listenToCloudPatterns() {
+      if (!db || !currentUserId) return;
+      try {
+        const userPatternsCol = collection(db, 'artifacts', appId, 'users', currentUserId, 'patterns');
+        onSnapshot(userPatternsCol, (snapshot) => {
+          const cloudPatterns = [];
+          snapshot.forEach((docSnap) => {
+            cloudPatterns.push({ id: docSnap.id, ...docSnap.data() });
+          });
+
+          if (cloudPatterns.length > 0) {
+            window.allPatterns = cloudPatterns;
+            window.renderSavedPatternsList();
+            window.updateSavedCountBadge();
+            cloudSynced = true;
+          }
+        }, (err) => {
+          console.warn("Firestore snapshot listener notice:", err);
+        });
+      } catch (e) {
+        console.warn("Error setting up Firestore listener:", e);
+      }
+    }
+
+    // Save a pattern to Firestore
+    window.savePatternToCloud = async function(pattern) {
+      if (!db || !currentUserId) return false;
+      try {
+        const patternDocRef = doc(db, 'artifacts', appId, 'users', currentUserId, 'patterns', pattern.id);
+        await setDoc(patternDocRef, pattern);
+        return true;
+      } catch (err) {
+        console.warn("Cloud save notice:", err);
+        return false;
+      }
+    };
+
+    // Delete a pattern from Firestore
+    window.deletePatternFromCloud = async function(patternId) {
+      if (!db || !currentUserId) return false;
+      try {
+        const patternDocRef = doc(db, 'artifacts', appId, 'users', currentUserId, 'patterns', patternId);
+        await deleteDoc(patternDocRef);
+        return true;
+      } catch (err) {
+        console.warn("Cloud delete notice:", err);
+        return false;
+      }
+    };
+
+    window.fallbackRegisterOrLogin = async function(email, password, mode) {
+      const storedUsers = JSON.parse(localStorage.getItem('esme_accounts') || '{}');
+      if (mode === 'register') {
+        if (storedUsers[email]) {
+          throw new Error('Ya existe una cuenta con este correo.');
+        }
+        storedUsers[email] = { password, createdAt: new Date().toISOString() };
+        localStorage.setItem('esme_accounts', JSON.stringify(storedUsers));
+      } else {
+        if (!storedUsers[email] || storedUsers[email].password !== password) {
+          throw new Error('Correo o contraseña incorrectos.');
+        }
+      }
+      currentUserEmail = email;
+      window.cloudUserEmail = email;
+      localStorage.setItem('esme_logged_email', email);
+      updateAuthUI({ uid: currentUserId || ('user_' + email.replace(/[^a-zA-Z0-9]/g, '_')), email });
+    };
+
+    // Auto-login stored session if available
+    const savedLocalEmail = localStorage.getItem('esme_logged_email');
+    if (savedLocalEmail) {
+      currentUserEmail = savedLocalEmail;
+      window.cloudUserEmail = savedLocalEmail;
+    }
+
+    initCloudAuth();
+  </script>
+
+  <script>
+    let activeKnitPartIndex = 0;
+    let lastActiveInputRef = null;
+    let translationDirection = 'es-en';
+    let deferredPwaInstallPrompt = null;
+    let currentAuthMode = 'login'; // 'login' or 'register'
+
+    // Switch between Login and Register tabs in Auth Modal
+    function switchAuthMode(mode) {
+      currentAuthMode = mode;
+      const tabLogin = document.getElementById('tabAuthLogin');
+      const tabRegister = document.getElementById('tabAuthRegister');
+      const confirmContainer = document.getElementById('authConfirmPasswordContainer');
+      const confirmInput = document.getElementById('authConfirmPasswordInput');
+      const btnText = document.getElementById('btnAuthSubmitText');
+      const errorMsg = document.getElementById('authErrorMessage');
+
+      if (errorMsg) errorMsg.classList.add('hidden');
+
+      if (mode === 'login') {
+        if (tabLogin) tabLogin.className = 'flex-1 py-1.5 text-xs font-bold rounded-xl bg-white text-esme-roseDark shadow-sm transition';
+        if (tabRegister) tabRegister.className = 'flex-1 py-1.5 text-xs font-bold rounded-xl text-gray-500 hover:text-esme-dark transition';
+        if (confirmContainer) confirmContainer.classList.add('hidden');
+        if (confirmInput) {
+          confirmInput.removeAttribute('required');
+          confirmInput.value = '';
+        }
+        if (btnText) btnText.textContent = 'Iniciar Sesión';
+      } else {
+        if (tabRegister) tabRegister.className = 'flex-1 py-1.5 text-xs font-bold rounded-xl bg-white text-esme-roseDark shadow-sm transition';
+        if (tabLogin) tabLogin.className = 'flex-1 py-1.5 text-xs font-bold rounded-xl text-gray-500 hover:text-esme-dark transition';
+        if (confirmContainer) confirmContainer.classList.remove('hidden');
+        if (confirmInput) confirmInput.setAttribute('required', 'true');
+        if (btnText) btnText.textContent = 'Crear Cuenta y Entrar';
+      }
+    }
+
+    function togglePasswordVisibility(inputId) {
+      const input = document.getElementById(inputId);
+      if (!input) return;
+      input.type = input.type === 'password' ? 'text' : 'password';
+    }
+
+    async function handleAuthSubmit(e) {
+      e.preventDefault();
+      const email = document.getElementById('authEmailInput').value.trim();
+      const password = document.getElementById('authPasswordInput').value;
+      const confirmPass = document.getElementById('authConfirmPasswordInput')?.value;
+      const errorMsg = document.getElementById('authErrorMessage');
+      const btnSubmit = document.getElementById('btnAuthSubmit');
+
+      if (errorMsg) errorMsg.classList.add('hidden');
+
+      if (currentAuthMode === 'register' && password !== confirmPass) {
+        if (errorMsg) {
+          errorMsg.textContent = 'Las contraseñas no coinciden. Por favor verifícalas.';
+          errorMsg.classList.remove('hidden');
+        }
+        return;
+      }
+
+      if (btnSubmit) {
+        btnSubmit.disabled = true;
+        btnSubmit.classList.add('opacity-70');
+      }
+
+      try {
+        if (currentAuthMode === 'login') {
+          if (window.loginWithEmail) {
+            try {
+              await window.loginWithEmail(email, password);
+            } catch (authErr) {
+              // If Firebase rejects due to provider restrictions, use graceful account fallback
+              if (authErr.code === 'auth/operation-not-allowed' || authErr.code === 'auth/configuration-not-found') {
+                await window.fallbackRegisterOrLogin(email, password, 'login');
+              } else {
+                throw authErr;
+              }
+            }
+          } else {
+            await window.fallbackRegisterOrLogin(email, password, 'login');
+          }
+          showToast(`¡Bienvenida de nuevo, ${email.split('@')[0]}!`, 'success');
+        } else {
+          if (window.registerWithEmail) {
+            try {
+              await window.registerWithEmail(email, password);
+            } catch (regErr) {
+              // If Firebase rejects due to provider restrictions, use graceful account fallback
+              if (regErr.code === 'auth/operation-not-allowed' || regErr.code === 'auth/configuration-not-found') {
+                await window.fallbackRegisterOrLogin(email, password, 'register');
+              } else {
+                throw regErr;
+              }
+            }
+          } else {
+            await window.fallbackRegisterOrLogin(email, password, 'register');
+          }
+          showToast(`¡Cuenta creada con éxito! Bienvenida, ${email.split('@')[0]}`, 'success');
+        }
+        closeCloudAccountModal();
+      } catch (err) {
+        console.error("Auth error:", err);
+        let message = 'Error de autenticación. Verifica tus datos.';
+        if (err.code === 'auth/invalid-email') message = 'El correo electrónico no es válido.';
+        else if (err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') message = 'Correo o contraseña incorrectos.';
+        else if (err.code === 'auth/email-already-in-use') message = 'Ya existe una cuenta con este correo. Inicia sesión.';
+        else if (err.code === 'auth/weak-password') message = 'La contraseña debe tener al menos 6 caracteres.';
+        else if (err.message) message = err.message;
+
+        if (errorMsg) {
+          errorMsg.textContent = message;
+          errorMsg.classList.remove('hidden');
+        }
+      } finally {
+        if (btnSubmit) {
+          btnSubmit.disabled = false;
+          btnSubmit.classList.remove('opacity-70');
+        }
+      }
+    }
+
+    async function handleUserSignOut() {
+      openCustomModal('¿Cerrar sesión?', 'Tus patrones permanecerán seguros en tu cuenta en la nube.', 'Cerrar Sesión', 'fa-right-from-bracket').then(async (yes) => {
+        if (!yes) return;
+        localStorage.removeItem('esme_logged_email');
+        if (window.logoutFromApp) {
+          await window.logoutFromApp();
+        }
+        showToast('Sesión cerrada correctamente');
+        closeCloudAccountModal();
+      });
+    }
+
+    function continueAsGuest() {
+      closeCloudAccountModal();
+      showToast('Continuando en modo invitado. Puedes iniciar sesión cuando gustes.', 'info');
+    }
+
+    // Progressive Web App Setup & Manifest builder
+    function initPwaManifestAndIcon() {
+      try {
+        const canvas = document.createElement('canvas');
+        canvas.width = 192;
+        canvas.height = 192;
+        const ctx = canvas.getContext('2d');
+
+        // Draw cute app icon
+        ctx.fillStyle = '#FCF9F5';
+        ctx.beginPath();
+        ctx.arc(96, 96, 94, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.strokeStyle = '#D28B9D';
+        ctx.lineWidth = 6;
+        ctx.stroke();
+
+        ctx.fillStyle = '#C49A82';
+        ctx.beginPath();
+        ctx.arc(96, 96, 42, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(68, 62, 16, 0, Math.PI * 2);
+        ctx.arc(124, 62, 16, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = '#FFF5EA';
+        ctx.beginPath();
+        ctx.ellipse(96, 104, 18, 14, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = '#4A3B36';
+        ctx.beginPath();
+        ctx.arc(96, 98, 5, 0, Math.PI * 2);
+        ctx.fill();
+
+        const iconUrl = canvas.toDataURL('image/png');
+
+        const appleLink = document.getElementById('appleTouchIconLink');
+        if (appleLink) appleLink.href = iconUrl;
+
+        // Build valid JSON PWA Manifest
+        const manifestData = {
+          name: "Diseños Esme - Estudio de Amigurumis",
+          short_name: "Diseños Esme",
+          description: "Crea, teje y organiza tus patrones de amigurumis en la nube.",
+          start_url: window.location.href,
+          display: "standalone",
+          background_color: "#FCF9F5",
+          theme_color: "#D28B9D",
+          orientation: "portrait",
+          icons: [
+            {
+              src: iconUrl,
+              sizes: "192x192",
+              type: "image/png",
+              purpose: "any maskable"
+            }
+          ]
+        };
+
+        const blob = new Blob([JSON.stringify(manifestData)], { type: 'application/manifest+json' });
+        const manifestLink = document.getElementById('pwaManifestLink');
+        if (manifestLink) manifestLink.href = URL.createObjectURL(blob);
+      } catch (err) {
+        console.warn("PWA manifest initialization notice:", err);
+      }
+    }
+
+    // Capture standard browser PWA install prompt
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPwaInstallPrompt = e;
+      const btn = document.getElementById('btnInstallAppMain');
+      if (btn) {
+        btn.classList.add('ring-2', 'ring-emerald-400');
+      }
+      const pwaText = document.getElementById('btnPwaPromptText');
+      if (pwaText) pwaText.textContent = "Instalar Diseños Esme Ahora";
+    });
+
+    window.addEventListener('appinstalled', () => {
+      showToast('¡Diseños Esme se instaló con éxito como aplicación nativa!');
+      deferredPwaInstallPrompt = null;
+      closeAppInstallModal();
+    });
+
+    function triggerAppInstallModal() {
+      const modal = document.getElementById('installAppModal');
+      if (modal) modal.classList.remove('hidden');
+    }
+
+    function closeAppInstallModal() {
+      const modal = document.getElementById('installAppModal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    async function executeNativeInstall() {
+      if (deferredPwaInstallPrompt) {
+        deferredPwaInstallPrompt.prompt();
+        const choice = await deferredPwaInstallPrompt.userChoice;
+        if (choice.outcome === 'accepted') {
+          showToast('Instalando aplicación...');
+          closeAppInstallModal();
+        }
+        deferredPwaInstallPrompt = null;
+      } else {
+        // If inside an embedded preview, suggest opening in a new clean window so the browser enables the install button
+        try {
+          const newWin = window.open(window.location.href, '_blank');
+          if (!newWin) {
+            showToast('Sigue las instrucciones abajo según tu dispositivo', 'info');
+          } else {
+            showToast('Abriendo en pestaña limpia para instalar con un clic', 'info');
+          }
+        } catch (e) {
+          showToast('Sigue los pasos indicados abajo según tu dispositivo', 'info');
+        }
+      }
+    }
+
+    // In-memory patterns collection
+    window.allPatterns = [
+      {
+        id: 'pat_osito_default',
+        title: 'Osito Tierno Esme',
+        difficulty: 'Intermedio',
+        hook: '2.5 mm',
+        yarn: 'Algodón 8/6 en Miel y Crema',
+        size: '18 cm de alto',
+        materials: 'Ojos 8mm, vellón siliconado, aguja lanera.',
+        photoUrl: '',
+        updatedAt: new Date().toISOString(),
+        parts: [
+          {
+            name: 'Cabeza',
+            color: 'Color Miel',
+            notes: 'Tejer en espiral. Ojos entre R12 y R13 con 8 puntos de separación.',
+            rounds: [
+              { roundNum: 'R1', stitches: 'am (6 pb)', count: '6', done: false },
+              { roundNum: 'R2', stitches: '6 aum', count: '12', done: false },
+              { roundNum: 'R3', stitches: '[1 pb, 1 aum] x 6', count: '18', done: false },
+              { roundNum: 'R4', stitches: '[2 pb, 1 aum] x 6', count: '24', done: false },
+              { roundNum: 'R5-R10', stitches: '24 pb (6 rondas continuas)', count: '24', done: false },
+              { roundNum: 'R11', stitches: '[2 pb, 1 dism] x 6', count: '18', done: false },
+              { roundNum: 'R12', stitches: '[1 pb, 1 dism] x 6. Rellenar.', count: '12', done: false },
+              { roundNum: 'R13', stitches: '6 dism. Cerrar con aguja.', count: '6', done: false },
+            ]
+          },
+          {
+            name: 'Hocico',
+            color: 'Color Crema',
+            notes: 'Bordar nariz en T con hilo marrón.',
+            rounds: [
+              { roundNum: 'R1', stitches: 'am (6 pb)', count: '6', done: false },
+              { roundNum: 'R2', stitches: '6 aum', count: '12', done: false },
+              { roundNum: 'R3', stitches: '12 pb. Dejar hebra larga.', count: '12', done: false }
+            ]
+          },
+          {
+            name: 'Orejas (Hacer 2)',
+            color: 'Color Miel',
+            notes: 'No rellenar. Coser a los costados.',
+            rounds: [
+              { roundNum: 'R1', stitches: 'am (6 pb)', count: '6', done: false },
+              { roundNum: 'R2', stitches: '[1 pb, 1 aum] x 3', count: '9', done: false },
+              { roundNum: 'R3', stitches: '9 pb. Rematar.', count: '9', done: false }
+            ]
+          }
+        ]
+      }
+    ];
+
+    // Current pattern working in designer
+    let currentPattern = JSON.parse(JSON.stringify(window.allPatterns[0]));
+
+    // Dictionary data
+    const CROCHET_DICTIONARY = [
+      { es: 'Punto Bajo (Medio Punto)', abbrevEs: 'pb', en: 'Single Crochet', abbrevEn: 'sc', desc: 'Punto base de amigurumi.' },
+      { es: 'Aumento', abbrevEs: 'aum', en: 'Increase', abbrevEn: 'inc', desc: 'Dos puntos en el mismo punto de base.' },
+      { es: 'Disminución', abbrevEs: 'dism / dis', en: 'Decrease', abbrevEn: 'dec', desc: 'Tejer dos puntos juntos.' },
+      { es: 'Anillo Mágico', abbrevEs: 'am', en: 'Magic Ring', abbrevEn: 'mr', desc: 'Círculo ajustable para iniciar la pieza.' },
+      { es: 'Cadeneta', abbrevEs: 'cad', en: 'Chain', abbrevEn: 'ch', desc: 'Puntos cadena para tiras o elevación.' },
+      { es: 'Punto Raso / Enano', abbrevEs: 'pr / pe', en: 'Slip Stitch', abbrevEn: 'sl st', desc: 'Para remates o uniones.' },
+      { es: 'Medio Punto Alto / Vareta', abbrevEs: 'mpa / mv', en: 'Half Double Crochet', abbrevEn: 'hdc', desc: 'Punto de altura intermedia.' },
+      { es: 'Punto Alto / Vareta', abbrevEs: 'pa / var', en: 'Double Crochet', abbrevEn: 'dc', desc: 'Punto alto clásico.' },
+      { es: 'Solo hebra trasera', abbrevEs: 'BLO', en: 'Back Loop Only', abbrevEn: 'BLO', desc: 'Tejer tomando hebra posterior.' },
+      { es: 'Solo hebra delantera', abbrevEs: 'FLO', en: 'Front Loop Only', abbrevEn: 'FLO', desc: 'Tejer tomando hebra frontal.' },
+      { es: 'Ronda / Vuelta', abbrevEs: 'R / Vta', en: 'Round', abbrevEn: 'Rnd', desc: 'Número de fila en espiral.' },
+      { es: 'Rellenar firmemente', abbrevEs: 'rellenar', en: 'Stuff firmly', abbrevEn: 'stuff', desc: 'Colocar vellón siliconado.' },
+    ];
+
+    function switchTab(tabId) {
+      syncPatternMetaFromInputs();
+      const views = ['home', 'designer', 'knitmode', 'pricing', 'translator', 'library'];
+      views.forEach(v => {
+        const el = document.getElementById(`view-${v}`);
+        const navBtn = document.getElementById(`nav-${v}`);
+        if (el) {
+          if (v === tabId) el.classList.remove('hidden');
+          else el.classList.add('hidden');
+        }
+        if (navBtn) {
+          if (v === tabId) {
+            navBtn.classList.remove('text-esme-dark', 'hover:bg-esme-roseLight/50', 'hover:bg-amber-100', 'hover:bg-esme-greenLight/60');
+            navBtn.classList.add('bg-esme-rose', 'text-white', 'shadow-sm');
+          } else {
+            navBtn.classList.remove('bg-esme-rose', 'text-white', 'shadow-sm');
+            navBtn.classList.add('text-esme-dark');
+          }
+        }
+      });
+
+      if (tabId === 'library') renderSavedPatternsList();
+      else if (tabId === 'designer') populateDesignerForm();
+      else if (tabId === 'knitmode') renderKnitModeView();
+      else if (tabId === 'pricing') calculatePricing();
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobileMenu');
+      if (menu) menu.classList.toggle('hidden');
+    }
+
+    function showToast(message, type = 'success') {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      const bg = type === 'success' ? 'bg-esme-roseDark text-white' : (type === 'info' ? 'bg-esme-greenDark text-white' : 'bg-red-600 text-white');
+      const icon = type === 'success' ? 'fa-heart' : (type === 'info' ? 'fa-circle-info' : 'fa-triangle-exclamation');
+
+      toast.className = `${bg} px-4 py-3 rounded-2xl shadow-xl flex items-center space-x-3 pointer-events-auto transform transition-all duration-300 translate-y-3 opacity-0 text-sm max-w-sm`;
+      toast.innerHTML = `<i class="fa-solid ${icon}"></i><span class="font-medium">${message}</span>`;
+      container.appendChild(toast);
+
+      setTimeout(() => toast.classList.remove('translate-y-3', 'opacity-0'), 20);
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'translate-y-3');
+        setTimeout(() => toast.remove(), 300);
+      }, 3500);
+    }
+
+    let modalResolve = null;
+    function openCustomModal(title, message, confirmText = 'Aceptar', icon = 'fa-circle-question') {
+      return new Promise(resolve => {
+        modalResolve = resolve;
+        document.getElementById('modalTitle').textContent = title;
+        document.getElementById('modalMessage').textContent = message;
+        document.getElementById('modalBtnConfirm').textContent = confirmText;
+        document.getElementById('modalIcon').innerHTML = `<i class="fa-solid ${icon}"></i>`;
+        document.getElementById('customModal').classList.remove('hidden');
+      });
+    }
+
+    function closeCustomModal(confirmed) {
+      document.getElementById('customModal').classList.add('hidden');
+      if (modalResolve) {
+        modalResolve(confirmed);
+        modalResolve = null;
+      }
+    }
+
+    function generateId() {
+      return 'pat_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5);
+    }
+
+    function syncPatternMetaFromInputs() {
+      const t = document.getElementById('patTitle');
+      if (!t) return;
+      currentPattern.title = t.value.trim() || 'Amigurumi sin título';
+      currentPattern.difficulty = document.getElementById('patDifficulty').value;
+      currentPattern.hook = document.getElementById('patHook').value.trim();
+      currentPattern.yarn = document.getElementById('patYarn').value.trim();
+      currentPattern.size = document.getElementById('patSize').value.trim();
+      currentPattern.materials = document.getElementById('patMaterials').value.trim();
+      currentPattern.updatedAt = new Date().toISOString();
+    }
+
+    function populateDesignerForm() {
+      document.getElementById('patTitle').value = currentPattern.title || '';
+      document.getElementById('patDifficulty').value = currentPattern.difficulty || 'Intermedio';
+      document.getElementById('patHook').value = currentPattern.hook || '';
+      document.getElementById('patYarn').value = currentPattern.yarn || '';
+      document.getElementById('patSize').value = currentPattern.size || '';
+      document.getElementById('patMaterials').value = currentPattern.materials || '';
+
+      updatePhotoThumbnailUI();
+      renderPartsList();
+    }
+
+    // Photo compress & thumbnail handling (under 300kb for fast cloud sync)
+    function handlePatternPhotoUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const img = new Image();
+        img.onload = function() {
+          const canvas = document.createElement('canvas');
+          const maxDim = 450;
+          let width = img.width;
+          let height = img.height;
+
+          if (width > height && width > maxDim) {
+            height = Math.round((height * maxDim) / width);
+            width = maxDim;
+          } else if (height > maxDim) {
+            width = Math.round((width * maxDim) / height);
+            height = maxDim;
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+
+          // Save compressed base64
+          currentPattern.photoUrl = canvas.toDataURL('image/jpeg', 0.82);
+          updatePhotoThumbnailUI();
+          showToast('Foto cargada y comprimida para el patrón');
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function removePatternPhoto() {
+      currentPattern.photoUrl = '';
+      updatePhotoThumbnailUI();
+      showToast('Foto removida');
+    }
+
+    function updatePhotoThumbnailUI() {
+      const preview = document.getElementById('patternPhotoPreview');
+      const placeholder = document.getElementById('patternPhotoPlaceholder');
+      const btnRemove = document.getElementById('btnRemovePhoto');
+
+      if (currentPattern.photoUrl) {
+        preview.src = currentPattern.photoUrl;
+        preview.classList.remove('hidden');
+        placeholder.classList.add('hidden');
+        btnRemove.classList.remove('hidden');
+      } else {
+        preview.src = '';
+        preview.classList.add('hidden');
+        placeholder.classList.remove('hidden');
+        btnRemove.classList.add('hidden');
+      }
+    }
+
+    function renderPartsList() {
+      const container = document.getElementById('partsContainer');
+      container.innerHTML = '';
+
+      if (!currentPattern.parts || currentPattern.parts.length === 0) {
+        container.innerHTML = `
+          <div class="p-8 text-center text-gray-400 bg-esme-sand/40 rounded-2xl border border-dashed border-esme-sand">
+            <p class="text-sm">Aún no has agregado piezas a este amigurumi.</p>
+          </div>
+        `;
+        return;
+      }
+
+      currentPattern.parts.forEach((part, pIndex) => {
+        const partEl = document.createElement('div');
+        partEl.className = 'bg-esme-sand/30 rounded-2xl p-4 sm:p-5 border border-esme-roseLight transition-all';
+        partEl.innerHTML = `
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-esme-sand pb-3 mb-4">
+            <div class="flex items-center space-x-2">
+              <span class="w-6 h-6 rounded-full bg-esme-rose text-white text-xs font-bold flex items-center justify-center">${pIndex + 1}</span>
+              <input type="text" value="${escapeHtml(part.name)}" oninput="updatePartName(${pIndex}, this.value)" placeholder="Nombre (ej: Cabeza)" class="font-heading font-bold text-esme-dark bg-transparent border-b border-transparent hover:border-esme-rose focus:border-esme-rose focus:bg-white px-2 py-1 rounded text-base outline-none">
+            </div>
+
+            <div class="flex items-center space-x-2">
+              <input type="text" value="${escapeHtml(part.color || '')}" oninput="updatePartColor(${pIndex}, this.value)" placeholder="Color de lana..." class="text-xs px-3 py-1.5 rounded-xl border border-gray-200 bg-white focus:border-esme-rose outline-none">
+              <button onclick="removePart(${pIndex})" title="Eliminar pieza" class="text-gray-400 hover:text-red-500 p-1.5 transition">
+                <i class="fa-solid fa-trash-can"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Notes -->
+          <div class="mb-4">
+            <input type="text" value="${escapeHtml(part.notes || '')}" oninput="updatePartNotes(${pIndex}, this.value)" placeholder="Notas de la pieza (ej: rellenar a medida que se teje...)" class="w-full text-xs px-3 py-2 rounded-xl border border-gray-200 bg-white/80 focus:border-esme-rose outline-none text-gray-600">
+          </div>
+
+          <!-- Rounds Table for Part -->
+          <div class="space-y-2 mb-3">
+            <div class="grid grid-cols-12 gap-1 sm:gap-2 text-[11px] font-bold text-gray-500 uppercase px-1">
+              <div class="col-span-3 sm:col-span-2">Ronda</div>
+              <div class="col-span-6 sm:col-span-7">Instrucciones</div>
+              <div class="col-span-2 sm:col-span-2 text-center">Puntos</div>
+              <div class="col-span-1 text-right"></div>
+            </div>
+
+            <div id="roundsContainer-${pIndex}" class="space-y-2">
+              ${part.rounds.map((round, rIndex) => `
+                <div class="grid grid-cols-12 gap-1 sm:gap-2 items-center bg-white p-2 rounded-xl border border-gray-100 shadow-sm hover:border-esme-roseLight transition">
+                  <div class="col-span-3 sm:col-span-2">
+                    <input type="text" value="${escapeHtml(round.roundNum)}" onfocus="setActiveInput(this)" oninput="updateRoundData(${pIndex}, ${rIndex}, 'roundNum', this.value)" class="w-full text-xs font-bold text-esme-roseDark px-2 py-1.5 rounded-lg border border-gray-200 focus:border-esme-rose outline-none">
+                  </div>
+                  <div class="col-span-6 sm:col-span-7">
+                    <input type="text" value="${escapeHtml(round.stitches)}" onfocus="setActiveInput(this)" onblur="autoEstimateStitchCount(${pIndex}, ${rIndex})" oninput="updateRoundData(${pIndex}, ${rIndex}, 'stitches', this.value)" placeholder="ej: [2 pb, 1 aum] x 6" class="w-full text-xs px-2.5 py-1.5 rounded-lg border border-gray-200 focus:border-esme-rose outline-none font-mono">
+                  </div>
+                  <div class="col-span-2 sm:col-span-2">
+                    <input type="text" id="roundCount-${pIndex}-${rIndex}" value="${escapeHtml(round.count || '')}" onfocus="setActiveInput(this)" oninput="updateRoundData(${pIndex}, ${rIndex}, 'count', this.value)" placeholder="(18)" class="w-full text-xs text-center font-bold text-gray-700 px-1 py-1.5 rounded-lg border border-gray-200 focus:border-esme-rose outline-none">
+                  </div>
+                  <div class="col-span-1 text-right">
+                    <button onclick="removeRound(${pIndex}, ${rIndex})" class="text-gray-300 hover:text-red-500 text-xs p-1">
+                      <i class="fa-solid fa-xmark"></i>
+                    </button>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between pt-2">
+            <button onclick="addNewRound(${pIndex})" class="text-xs font-bold text-esme-roseDark hover:text-esme-rose flex items-center space-x-1.5 px-3 py-1.5 rounded-lg hover:bg-esme-roseLight/40 transition">
+              <i class="fa-solid fa-plus text-xs"></i>
+              <span>Agregar Ronda</span>
+            </button>
+            <span class="text-[11px] text-gray-400 font-medium">${part.rounds.length} rondas</span>
+          </div>
+        `;
+        container.appendChild(partEl);
+      });
+    }
+
+    // Automatic stitch estimation like `[2 pb, 1 aum] x 6` -> 24
+    function autoEstimateStitchCount(partIndex, roundIndex) {
+      const round = currentPattern.parts[partIndex].rounds[roundIndex];
+      if (round.count && round.count.trim() !== '') return; // Don't override if user wrote it
+
+      const text = round.stitches.toLowerCase().trim();
+      let calc = null;
+
+      // Match am of X pb: `am (6 pb)` or `am de 6`
+      const matchAm = text.match(/am.*?(\d+)/);
+      if (matchAm) {
+        calc = parseInt(matchAm[1]);
+      }
+
+      // Match `[X pb, 1 aum] x Y` -> (X + 2) * Y
+      const matchRepeatAum = text.match(/\[\s*(\d+)\s*pb\s*,\s*1\s*aum\s*\]\s*x\s*(\d+)/);
+      if (matchRepeatAum) {
+        const singleStitches = parseInt(matchRepeatAum[1]);
+        const times = parseInt(matchRepeatAum[2]);
+        calc = (singleStitches + 2) * times;
+      }
+
+      // Match `[X pb, 1 dism] x Y` -> (X + 1) * Y
+      const matchRepeatDism = text.match(/\[\s*(\d+)\s*pb\s*,\s*1\s*dism\s*\]\s*x\s*(\d+)/);
+      if (matchRepeatDism) {
+        const singleStitches = parseInt(matchRepeatDism[1]);
+        const times = parseInt(matchRepeatDism[2]);
+        calc = (singleStitches + 1) * times;
+      }
+
+      // Match `6 aum` -> 12
+      const matchOnlyAum = text.match(/^(\d+)\s*aum$/);
+      if (matchOnlyAum) {
+        calc = parseInt(matchOnlyAum[1]) * 2;
+      }
+
+      // Match `6 dism` -> 6
+      const matchOnlyDism = text.match(/^(\d+)\s*dism$/);
+      if (matchOnlyDism) {
+        calc = parseInt(matchOnlyDism[1]);
+      }
+
+      if (calc !== null && !isNaN(calc)) {
+        round.count = String(calc);
+        const countInput = document.getElementById(`roundCount-${partIndex}-${roundIndex}`);
+        if (countInput) countInput.value = round.count;
+      }
+    }
+
+    function setActiveInput(input) {
+      lastActiveInputRef = input;
+    }
+
+    function insertSymbolIntoActive(symbol) {
+      if (!lastActiveInputRef) {
+        showToast('Haz clic primero en el campo de texto de una vuelta', 'info');
+        return;
+      }
+      const start = lastActiveInputRef.selectionStart || lastActiveInputRef.value.length;
+      const end = lastActiveInputRef.selectionEnd || lastActiveInputRef.value.length;
+      const text = lastActiveInputRef.value;
+      const needsSpace = start > 0 && text[start - 1] !== ' ' && text[start - 1] !== '[' && text[start - 1] !== '(';
+      const prefix = needsSpace ? ' ' : '';
+      lastActiveInputRef.value = text.substring(0, start) + prefix + symbol + text.substring(end);
+      lastActiveInputRef.focus();
+      lastActiveInputRef.dispatchEvent(new Event('input', { bubbles: true }));
+    }
+
+    function addNewPart(defaultName = '') {
+      syncPatternMetaFromInputs();
+      const count = currentPattern.parts.length + 1;
+      const name = defaultName || `Nueva Pieza ${count}`;
+      currentPattern.parts.push({
+        name: name,
+        color: '',
+        notes: '',
+        rounds: [
+          { roundNum: 'R1', stitches: 'am (6 pb)', count: '6', done: false },
+          { roundNum: 'R2', stitches: '6 aum', count: '12', done: false },
+          { roundNum: 'R3', stitches: '[1 pb, 1 aum] x 6', count: '18', done: false }
+        ]
+      });
+      renderPartsList();
+      showToast(`Pieza "${name}" agregada`);
+    }
+
+    function removePart(index) {
+      currentPattern.parts.splice(index, 1);
+      renderPartsList();
+    }
+
+    function updatePartName(index, val) {
+      currentPattern.parts[index].name = val;
+    }
+    function updatePartColor(index, val) {
+      currentPattern.parts[index].color = val;
+    }
+    function updatePartNotes(index, val) {
+      currentPattern.parts[index].notes = val;
+    }
+
+    function addNewRound(partIndex) {
+      const rounds = currentPattern.parts[partIndex].rounds;
+      const lastRound = rounds[rounds.length - 1];
+      let nextNum = 'R1';
+      if (lastRound && lastRound.roundNum) {
+        const match = lastRound.roundNum.match(/R(\d+)/i);
+        if (match) nextNum = 'R' + (parseInt(match[1]) + 1);
+        else nextNum = 'R' + (rounds.length + 1);
+      }
+      rounds.push({ roundNum: nextNum, stitches: '', count: '', done: false });
+      renderPartsList();
+    }
+
+    function removeRound(partIndex, roundIndex) {
+      currentPattern.parts[partIndex].rounds.splice(roundIndex, 1);
+      renderPartsList();
+    }
+
+    function updateRoundData(partIndex, roundIndex, field, value) {
+      currentPattern.parts[partIndex].rounds[roundIndex][field] = value;
+    }
+
+    async function saveCurrentPattern() {
+      syncPatternMetaFromInputs();
+      if (!currentPattern.title) {
+        showToast('Por favor escribe un nombre para tu amigurumi', 'error');
+        return;
+      }
+
+      const existingIndex = window.allPatterns.findIndex(p => p.id === currentPattern.id);
+      if (existingIndex >= 0) {
+        window.allPatterns[existingIndex] = JSON.parse(JSON.stringify(currentPattern));
+      } else {
+        window.allPatterns.unshift(JSON.parse(JSON.stringify(currentPattern)));
+      }
+
+      // Save to Cloud Firestore
+      const cloudSuccess = await window.savePatternToCloud(currentPattern);
+      if (cloudSuccess) {
+        showToast(`¡"${currentPattern.title}" guardado en la base de datos!`);
+      } else {
+        showToast(`"${currentPattern.title}" guardado correctamente.`);
+      }
+
+      updateSavedCountBadge();
+    }
+
+    function createNewPatternPrompt() {
+      openCustomModal('¿Crear nuevo patrón?', 'Se preparará un lienzo limpio para tu nuevo amigurumi.', 'Crear', 'fa-plus').then(yes => {
+        if (!yes) return;
+        currentPattern = {
+          id: generateId(),
+          title: 'Nuevo Amigurumi',
+          difficulty: 'Intermedio',
+          hook: '2.5 mm',
+          yarn: '',
+          size: '',
+          materials: '',
+          photoUrl: '',
+          updatedAt: new Date().toISOString(),
+          parts: [
+            {
+              name: 'Cabeza',
+              color: '',
+              notes: '',
+              rounds: [
+                { roundNum: 'R1', stitches: 'am (6 pb)', count: '6', done: false },
+                { roundNum: 'R2', stitches: '6 aum', count: '12', done: false }
+              ]
+            }
+          ]
+        };
+        populateDesignerForm();
+        switchTab('designer');
+      });
+    }
+
+    function updateSavedCountBadge() {
+      const badge = document.getElementById('savedCountBadge');
+      if (badge) badge.textContent = window.allPatterns.length;
+    }
+
+    function renderSavedPatternsList() {
+      const grid = document.getElementById('patternsGrid');
+      const empty = document.getElementById('emptyLibraryState');
+      const search = (document.getElementById('librarySearch')?.value || '').toLowerCase().trim();
+
+      const filtered = window.allPatterns.filter(p => 
+        (p.title || '').toLowerCase().includes(search) || 
+        (p.yarn || '').toLowerCase().includes(search)
+      );
+
+      grid.innerHTML = '';
+      if (filtered.length === 0) {
+        empty.classList.remove('hidden');
+        grid.classList.add('hidden');
+        return;
+      }
+
+      empty.classList.add('hidden');
+      grid.classList.remove('hidden');
+
+      filtered.forEach(pat => {
+        const card = document.createElement('div');
+        card.className = 'bg-white rounded-3xl p-5 border border-esme-roseLight shadow-sm hover:shadow-md transition-all flex flex-col justify-between group overflow-hidden';
+        
+        const dateStr = pat.updatedAt ? new Date(pat.updatedAt).toLocaleDateString('es-ES', { day: 'numeric', month: 'short' }) : 'Reciente';
+        const partsCount = (pat.parts || []).length;
+        
+        card.innerHTML = `
+          <div>
+            ${pat.photoUrl ? `
+              <div class="w-full h-36 rounded-2xl overflow-hidden mb-3 bg-esme-sand">
+                <img src="${pat.photoUrl}" alt="${escapeHtml(pat.title)}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+              </div>
+            ` : ''}
+
+            <div class="flex items-center justify-between gap-2 mb-2">
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-esme-sand text-esme-dark">
+                ${escapeHtml(pat.difficulty || 'Intermedio')}
+              </span>
+              <span class="text-[11px] text-gray-400">${dateStr}</span>
+            </div>
+
+            <h3 class="text-base font-heading font-bold text-esme-dark group-hover:text-esme-roseDark transition-colors leading-snug">
+              ${escapeHtml(pat.title)}
+            </h3>
+
+            <div class="mt-2.5 space-y-1 text-xs text-gray-600">
+              ${pat.hook ? `<p><i class="fa-solid fa-crosshairs text-esme-rose mr-1"></i> Aguja: ${escapeHtml(pat.hook)}</p>` : ''}
+              <p><i class="fa-solid fa-shapes text-esme-greenDark mr-1"></i> ${partsCount} partes (${(pat.parts || []).map(p => p.name).slice(0, 3).join(', ')}${partsCount > 3 ? '...' : ''})</p>
+            </div>
+          </div>
+
+          <div class="mt-5 pt-3 border-t border-esme-sand flex items-center justify-between gap-2">
+            <div class="flex items-center space-x-1">
+              <button onclick="editPattern('${pat.id}')" class="px-3 py-1.5 rounded-xl bg-esme-rose text-white text-xs font-bold hover:bg-esme-roseDark transition flex items-center space-x-1">
+                <i class="fa-solid fa-pen-to-square"></i>
+                <span>Editar</span>
+              </button>
+              <button onclick="startKnitSpecificPattern('${pat.id}')" title="Abrir en Modo Tejer" class="p-2 rounded-xl text-esme-greenDark hover:bg-esme-greenLight transition text-xs">
+                <i class="fa-solid fa-circle-check"></i>
+              </button>
+              <button onclick="previewSpecificPattern('${pat.id}')" title="Imprimir Ficha" class="p-2 rounded-xl text-gray-500 hover:bg-esme-sand transition text-xs">
+                <i class="fa-solid fa-print"></i>
+              </button>
+            </div>
+
+            <button onclick="deletePattern('${pat.id}')" title="Eliminar patrón" class="text-gray-300 hover:text-red-500 p-2 transition text-xs">
+              <i class="fa-solid fa-trash-can"></i>
+            </button>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function editPattern(id) {
+      const target = window.allPatterns.find(p => p.id === id);
+      if (target) {
+        currentPattern = JSON.parse(JSON.stringify(target));
+        switchTab('designer');
+        showToast(`Cargado "${currentPattern.title}"`);
+      }
+    }
+
+    async function deletePattern(id) {
+      openCustomModal('¿Eliminar amigurumi?', 'Esta acción borrará el patrón de tu biblioteca.', 'Eliminar', 'fa-trash-can').then(async yes => {
+        if (!yes) return;
+        window.allPatterns = window.allPatterns.filter(p => p.id !== id);
+        await window.deletePatternFromCloud(id);
+        renderSavedPatternsList();
+        updateSavedCountBadge();
+        showToast('Patrón eliminado');
+      });
+    }
+
+    function openKnitMode() {
+      syncPatternMetaFromInputs();
+      switchTab('knitmode');
+    }
+
+    function startKnitSpecificPattern(id) {
+      const target = window.allPatterns.find(p => p.id === id);
+      if (target) {
+        currentPattern = JSON.parse(JSON.stringify(target));
+        activeKnitPartIndex = 0;
+        switchTab('knitmode');
+      }
+    }
+
+    function renderKnitModeView() {
+      document.getElementById('knitModePatternTitle').textContent = currentPattern.title || 'Amigurumi en curso';
+      
+      const nav = document.getElementById('knitModePartsNav');
+      nav.innerHTML = '';
+
+      (currentPattern.parts || []).forEach((part, index) => {
+        const btn = document.createElement('button');
+        const isActive = index === activeKnitPartIndex;
+        btn.className = `px-4 py-2 rounded-full text-xs font-bold transition flex items-center gap-1.5 ${
+          isActive ? 'bg-esme-greenDark text-white shadow-sm' : 'bg-white border border-gray-200 text-gray-700 hover:bg-esme-sand'
+        }`;
+        
+        const completedRounds = part.rounds.filter(r => r.done).length;
+        btn.innerHTML = `
+          <span>${escapeHtml(part.name)}</span>
+          <span class="text-[10px] px-1.5 py-0.2 rounded-full ${isActive ? 'bg-white/30 text-white' : 'bg-esme-sand text-gray-600'}">
+            ${completedRounds}/${part.rounds.length}
+          </span>
+        `;
+        btn.onclick = () => {
+          activeKnitPartIndex = index;
+          renderKnitModeView();
+        };
+        nav.appendChild(btn);
+      });
+
+      // Calculate total overall progress
+      let totalR = 0;
+      let totalDone = 0;
+      (currentPattern.parts || []).forEach(p => {
+        p.rounds.forEach(r => {
+          totalR++;
+          if (r.done) totalDone++;
+        });
+      });
+      const percent = totalR > 0 ? Math.round((totalDone / totalR) * 100) : 0;
+      document.getElementById('knitModeProgressText').textContent = `${percent}% (${totalDone}/${totalR})`;
+
+      // Render Active Part Rows
+      const activePart = currentPattern.parts[activeKnitPartIndex];
+      const container = document.getElementById('knitModeActivePieceContainer');
+      
+      if (!activePart) {
+        container.innerHTML = `<p class="text-sm text-gray-500">No hay piezas seleccionadas.</p>`;
+        return;
+      }
+
+      container.innerHTML = `
+        <div class="flex items-center justify-between pb-3 border-b border-esme-sand">
+          <div>
+            <h3 class="text-lg font-heading font-bold text-esme-dark">${escapeHtml(activePart.name)}</h3>
+            ${activePart.color ? `<span class="text-xs text-esme-roseDark font-semibold">${escapeHtml(activePart.color)}</span>` : ''}
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="toggleAllRoundsInPart(${activeKnitPartIndex}, true)" class="text-xs px-2.5 py-1 rounded-lg bg-esme-greenLight text-esme-greenDark font-bold hover:bg-esme-green hover:text-white transition">
+              Marcar todo ✓
+            </button>
+            <button onclick="toggleAllRoundsInPart(${activeKnitPartIndex}, false)" class="text-xs px-2.5 py-1 rounded-lg bg-gray-100 text-gray-600 font-bold hover:bg-gray-200 transition">
+              Desmarcar
+            </button>
+          </div>
+        </div>
+
+        ${activePart.notes ? `
+          <div class="p-3 bg-esme-sand/40 rounded-xl text-xs text-gray-600 italic">
+            <i class="fa-solid fa-lightbulb text-amber-500 mr-1.5"></i> ${escapeHtml(activePart.notes)}
+          </div>
+        ` : ''}
+
+        <div class="space-y-2 pt-1">
+          ${activePart.rounds.map((round, rIndex) => `
+            <div onclick="toggleRoundKnitDone(${activeKnitPartIndex}, ${rIndex})" class="cursor-pointer p-3.5 rounded-2xl border transition-all flex items-center justify-between gap-3 ${
+              round.done 
+                ? 'bg-esme-greenLight/40 border-esme-green/40 opacity-75' 
+                : 'bg-white border-gray-200 hover:border-esme-rose shadow-sm'
+            }">
+              <div class="flex items-center gap-3">
+                <div class="w-7 h-7 rounded-full flex items-center justify-center font-bold text-xs transition ${
+                  round.done ? 'bg-esme-green text-white' : 'border-2 border-gray-300 text-gray-400'
+                }">
+                  ${round.done ? '<i class="fa-solid fa-check"></i>' : (rIndex + 1)}
+                </div>
+                <div>
+                  <span class="text-xs font-bold ${round.done ? 'line-through text-gray-500' : 'text-esme-roseDark'}">
+                    ${escapeHtml(round.roundNum)}
+                  </span>
+                  <p class="text-sm font-mono ${round.done ? 'line-through text-gray-400' : 'text-esme-dark font-medium'}">
+                    ${escapeHtml(round.stitches)}
+                  </p>
+                </div>
+              </div>
+
+              ${round.count ? `
+                <span class="text-xs font-bold px-2.5 py-1 rounded-full ${
+                  round.done ? 'bg-gray-200 text-gray-500' : 'bg-esme-sand text-esme-dark'
+                }">
+                  (${escapeHtml(round.count)})
+                </span>
+              ` : ''}
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    function toggleRoundKnitDone(partIndex, roundIndex) {
+      const r = currentPattern.parts[partIndex].rounds[roundIndex];
+      r.done = !r.done;
+      renderKnitModeView();
+    }
+
+    function toggleAllRoundsInPart(partIndex, state) {
+      currentPattern.parts[partIndex].rounds.forEach(r => r.done = state);
+      renderKnitModeView();
+    }
+
+    function resetKnitProgress() {
+      (currentPattern.parts || []).forEach(p => {
+        p.rounds.forEach(r => r.done = false);
+      });
+      renderKnitModeView();
+      showToast('Progreso del tejido reiniciado');
+    }
+
+    function calculatePricing() {
+      const grams = parseFloat(document.getElementById('calcYarnGrams').value) || 0;
+      const pricePer100g = parseFloat(document.getElementById('calcYarnPrice100g').value) || 0;
+      const accessories = parseFloat(document.getElementById('calcAccessoriesCost').value) || 0;
+      const packaging = parseFloat(document.getElementById('calcPackagingCost').value) || 0;
+      const hours = parseFloat(document.getElementById('calcHours').value) || 0;
+      const hourlyRate = parseFloat(document.getElementById('calcHourlyRate').value) || 0;
+      const marginPercent = parseFloat(document.getElementById('calcProfitMargin').value) || 40;
+
+      document.getElementById('calcProfitLabel').textContent = `${marginPercent}%`;
+
+      // Calculations
+      const yarnCost = (grams / 100) * pricePer100g;
+      const totalMaterialsCost = yarnCost + accessories + packaging;
+      const laborCost = hours * hourlyRate;
+      const baseCost = totalMaterialsCost + laborCost;
+      const profitAmount = baseCost * (marginPercent / 100);
+      const finalPrice = Math.round(baseCost + profitAmount);
+
+      // Display
+      const formatCurrency = (val) => '$' + Math.round(val).toLocaleString('es-ES');
+      document.getElementById('calcFinalPrice').textContent = formatCurrency(finalPrice);
+      document.getElementById('calcMatTotal').textContent = formatCurrency(totalMaterialsCost);
+      document.getElementById('calcLaborTotal').textContent = formatCurrency(laborCost);
+      document.getElementById('calcBaseCost').textContent = formatCurrency(baseCost);
+      document.getElementById('calcProfitAmount').textContent = formatCurrency(profitAmount);
+    }
+
+    function setTranslationDirection(dir) {
+      translationDirection = dir;
+      const btnEsEn = document.getElementById('transDir-es-en');
+      const btnEnEs = document.getElementById('transDir-en-es');
+      const srcLabel = document.getElementById('sourceLabel');
+      const trgLabel = document.getElementById('targetLabel');
+
+      if (dir === 'es-en') {
+        btnEsEn.className = 'px-4 py-1.5 rounded-full text-xs font-bold bg-esme-rose text-white shadow-sm transition';
+        btnEnEs.className = 'px-4 py-1.5 rounded-full text-xs font-bold text-gray-600 hover:text-esme-dark transition';
+        srcLabel.innerHTML = '<span class="w-2.5 h-2.5 rounded-full bg-esme-rose mr-2"></span>Patrón en Español';
+        trgLabel.innerHTML = '<span class="w-2.5 h-2.5 rounded-full bg-esme-green mr-2"></span>Patrón Traducido (US Terms)';
+      } else {
+        btnEnEs.className = 'px-4 py-1.5 rounded-full text-xs font-bold bg-esme-rose text-white shadow-sm transition';
+        btnEsEn.className = 'px-4 py-1.5 rounded-full text-xs font-bold text-gray-600 hover:text-esme-dark transition';
+        srcLabel.innerHTML = '<span class="w-2.5 h-2.5 rounded-full bg-esme-green mr-2"></span>Pattern in English (US)';
+        trgLabel.innerHTML = '<span class="w-2.5 h-2.5 rounded-full bg-esme-rose mr-2"></span>Patrón Traducido al Español';
+      }
+    }
+
+    function ruleBasedTranslate(text, dir = 'es-en') {
+      let output = text;
+      if (dir === 'es-en') {
+        const rules = [
+          [/\banillo mágico\b/gi, 'magic ring'],
+          [/\bam\b/gi, 'MR'],
+          [/\bvueltas?\b/gi, 'Rnd'],
+          [/\bronda\b/gi, 'Rnd'],
+          [/\bpuntos? bajos?\b/gi, 'single crochet'],
+          [/\bpb\b/gi, 'sc'],
+          [/\baumentos?\b/gi, 'increase'],
+          [/\baum\b/gi, 'inc'],
+          [/\bdisminuciones?\b/gi, 'decrease'],
+          [/\bdism\b/gi, 'dec'],
+          [/\bcadenetas?\b/gi, 'chain'],
+          [/\bcad\b/gi, 'ch'],
+          [/\bpunto raso\b/gi, 'slip stitch'],
+          [/\bpr\b/gi, 'sl st'],
+          [/\bmedio punto alto\b/gi, 'half double crochet'],
+          [/\bmpa\b/gi, 'hdc'],
+          [/\bpunto alto\b/gi, 'double crochet'],
+          [/\bpa\b/gi, 'dc'],
+          [/\brellenar firmemente\b/gi, 'stuff firmly'],
+          [/\brematar\b/gi, 'fasten off'],
+          [/\bcabeza\b/gi, 'HEAD'],
+          [/\bcuerpo\b/gi, 'BODY'],
+          [/\bbrazos?\b/gi, 'ARMS'],
+          [/\bpiernas?\b/gi, 'LEGS'],
+          [/\borejas?\b/gi, 'EARS'],
+        ];
+        for (const [r, rep] of rules) output = output.replace(r, rep);
+      } else {
+        const rules = [
+          [/\bmagic ring\b/gi, 'anillo mágico'],
+          [/\bmr\b/gi, 'am'],
+          [/\brnds?\b/gi, 'Ronda'],
+          [/\bsingle crochet\b/gi, 'punto bajo'],
+          [/\bsc\b/gi, 'pb'],
+          [/\bincreases?\b/gi, 'aumento'],
+          [/\binc\b/gi, 'aum'],
+          [/\bdecreases?\b/gi, 'disminución'],
+          [/\bdec\b/gi, 'dism'],
+          [/\bchains?\b/gi, 'cadeneta'],
+          [/\bch\b/gi, 'cad'],
+          [/\bslip stitch\b/gi, 'punto raso'],
+          [/\bsl st\b/gi, 'pr'],
+          [/\bhalf double crochet\b/gi, 'medio punto alto (mpa)'],
+          [/\bhdc\b/gi, 'mpa'],
+          [/\bdouble crochet\b/gi, 'punto alto (pa)'],
+          [/\bdc\b/gi, 'pa'],
+          [/\bfasten off\b/gi, 'rematar'],
+          [/\bhead\b/gi, 'CABEZA'],
+          [/\bbody\b/gi, 'CUERPO'],
+        ];
+        for (const [r, rep] of rules) output = output.replace(r, rep);
+      }
+      return output;
+    }
+
+    function translatePattern() {
+      const source = document.getElementById('transSourceText').value.trim();
+      if (!source) {
+        showToast('Escribe o pega un patrón para traducir', 'error');
+        return;
+      }
+      const translated = ruleBasedTranslate(source, translationDirection);
+      document.getElementById('transTargetText').value = translated;
+      document.getElementById('transStatus').classList.remove('hidden');
+      showToast('Patrón traducido con el glosario oficial');
+    }
+
+    function copyTranslatedText() {
+      const text = document.getElementById('transTargetText').value;
+      if (!text) return;
+      const temp = document.createElement('textarea');
+      temp.value = text;
+      document.body.appendChild(temp);
+      temp.select();
+      document.execCommand('copy');
+      temp.remove();
+      showToast('¡Copiado al portapapeles!');
+    }
+
+    function downloadTranslatedText() {
+      const text = document.getElementById('transTargetText').value;
+      if (!text) return;
+      const dataStr = "data:text/plain;charset=utf-8," + encodeURIComponent(text);
+      const a = document.createElement('a');
+      a.href = dataStr;
+      a.download = `Patron_Traducido_${new Date().toISOString().slice(0, 10)}.txt`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      showToast('Archivo .txt descargado');
+    }
+
+    function importTranslatedToDesigner() {
+      const transText = document.getElementById('transTargetText').value.trim();
+      if (!transText) return;
+      currentPattern.parts = [
+        {
+          name: 'Pieza Traducida',
+          color: '',
+          notes: '',
+          rounds: [
+            { roundNum: 'R1', stitches: transText.slice(0, 80), count: '', done: false }
+          ]
+        }
+      ];
+      populateDesignerForm();
+      switchTab('designer');
+      showToast('Traducción cargada en el diseñador');
+    }
+
+    function loadSamplePatternToTranslate() {
+      document.getElementById('transSourceText').value = `CABEZA:
+R1: am de 6 pb (6)
+R2: 6 aum (12)
+R3: [1 pb, 1 aum] x 6 (18)
+R4: [2 pb, 1 aum] x 6 (24)
+R5-R8: 24 pb (24)
+R9: [2 pb, 1 dism] x 6 (18)
+R10: [1 pb, 1 dism] x 6 (12)
+Rellenar firmemente.
+R11: 6 dism (6)
+Rematar dejando hebra larga.`;
+    }
+
+    function filterDictionary() {
+      const search = (document.getElementById('dictSearch').value || '').toLowerCase().trim();
+      const tbody = document.getElementById('dictTableBody');
+      tbody.innerHTML = '';
+
+      const matched = CROCHET_DICTIONARY.filter(item => 
+        item.es.toLowerCase().includes(search) ||
+        item.abbrevEs.toLowerCase().includes(search) ||
+        item.en.toLowerCase().includes(search) ||
+        item.abbrevEn.toLowerCase().includes(search)
+      );
+
+      matched.forEach(item => {
+        const row = document.createElement('tr');
+        row.className = 'hover:bg-esme-sand/40 transition';
+        row.innerHTML = `
+          <td class="p-3 font-semibold text-esme-dark">${escapeHtml(item.es)}</td>
+          <td class="p-3 font-mono font-bold text-esme-roseDark">${escapeHtml(item.abbrevEs)}</td>
+          <td class="p-3 font-semibold text-esme-greenDark">${escapeHtml(item.en)}</td>
+          <td class="p-3 font-mono font-bold text-esme-greenDark">${escapeHtml(item.abbrevEn)}</td>
+          <td class="p-3 text-gray-500">${escapeHtml(item.desc)}</td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    function previewAndPrintPattern() {
+      syncPatternMetaFromInputs();
+      showPrintPreview(currentPattern);
+    }
+
+    function previewSpecificPattern(id) {
+      const target = window.allPatterns.find(p => p.id === id);
+      if (target) showPrintPreview(target);
+    }
+
+    function showPrintPreview(pat) {
+      const container = document.getElementById('printArea');
+      container.innerHTML = `
+        <div class="text-center pb-6 border-b-2 border-esme-rose">
+          <span class="text-xs uppercase tracking-widest text-esme-rose font-bold">DISEÑOS ESME • FICHA DE PATRÓN</span>
+          <h1 class="text-3xl font-heading font-bold text-esme-dark mt-1">${escapeHtml(pat.title)}</h1>
+          <p class="text-xs text-gray-500 mt-1">Hecho a mano con dedicación</p>
+        </div>
+
+        ${pat.photoUrl ? `
+          <div class="text-center my-4">
+            <img src="${pat.photoUrl}" alt="Amigurumi" class="max-h-52 mx-auto rounded-2xl border border-esme-roseLight shadow-sm object-cover">
+          </div>
+        ` : ''}
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-esme-sand/30 p-4 rounded-2xl border border-esme-sand text-xs">
+          <div><strong class="text-esme-roseDark">Dificultad:</strong> ${escapeHtml(pat.difficulty || 'Intermedio')}</div>
+          <div><strong class="text-esme-roseDark">Aguja:</strong> ${escapeHtml(pat.hook || '2.5 mm')}</div>
+          <div><strong class="text-esme-roseDark">Tamaño:</strong> ${escapeHtml(pat.size || 'Estándar')}</div>
+          <div><strong class="text-esme-roseDark">Lana:</strong> ${escapeHtml(pat.yarn || 'Algodón')}</div>
+        </div>
+
+        ${pat.materials ? `
+          <div class="text-xs text-gray-700 bg-white p-3 rounded-xl border border-gray-200">
+            <strong>Materiales y notas:</strong> ${escapeHtml(pat.materials)}
+          </div>
+        ` : ''}
+
+        <div class="space-y-6 pt-2">
+          ${(pat.parts || []).map((part, idx) => `
+            <div class="border border-gray-200 rounded-2xl p-5 break-inside-avoid">
+              <div class="flex items-center justify-between border-b border-gray-100 pb-2 mb-3">
+                <h3 class="font-heading font-bold text-esme-dark text-base">
+                  ${idx + 1}. ${escapeHtml(part.name)}
+                </h3>
+                ${part.color ? `<span class="text-xs px-2.5 py-0.5 rounded-full bg-esme-sand text-esme-brown font-semibold">${escapeHtml(part.color)}</span>` : ''}
+              </div>
+
+              ${part.notes ? `<p class="text-xs text-gray-500 italic mb-3">${escapeHtml(part.notes)}</p>` : ''}
+
+              <table class="w-full text-left text-xs border-collapse">
+                <thead>
+                  <tr class="text-gray-400 border-b border-gray-100 font-bold uppercase text-[10px]">
+                    <th class="py-1 w-20">Vuelta</th>
+                    <th class="py-1">Puntos</th>
+                    <th class="py-1 text-right w-16">Total</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-50 font-mono">
+                  ${part.rounds.map(r => `
+                    <tr>
+                      <td class="py-1.5 font-bold text-esme-roseDark">${escapeHtml(r.roundNum)}</td>
+                      <td class="py-1.5 text-gray-800">${escapeHtml(r.stitches)}</td>
+                      <td class="py-1.5 text-right font-bold text-gray-500">${escapeHtml(r.count ? `(${r.count})` : '')}</td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+          `).join('')}
+        </div>
+
+        <div class="pt-8 text-center text-xs text-gray-400 border-t border-gray-100 mt-6">
+          <p class="font-hand text-base text-esme-roseDark font-bold">diseños Esme</p>
+          <p>© Todos los derechos reservados.</p>
+        </div>
+      `;
+
+      document.getElementById('previewModal').classList.remove('hidden');
+    }
+
+    function closePreviewModal() {
+      document.getElementById('previewModal').classList.add('hidden');
+    }
+
+    // Auto populate print area if user presses Ctrl+P directly
+    window.onbeforeprint = function() {
+      syncPatternMetaFromInputs();
+      showPrintPreview(currentPattern);
+    };
+
+    function openCloudAccountModal() {
+      document.getElementById('cloudModal').classList.remove('hidden');
+    }
+    function closeCloudAccountModal() {
+      document.getElementById('cloudModal').classList.add('hidden');
+    }
+
+    function copyUserIdToClipboard() {
+      const input = document.getElementById('cloudUserIdDisplay');
+      if (!input) return;
+      input.select();
+      document.execCommand('copy');
+      showToast('ID de usuario copiado');
+    }
+
+    async function syncAllLocalToCloud() {
+      showToast('Sincronizando patrones con la base de datos...', 'info');
+      for (const pat of window.allPatterns) {
+        await window.savePatternToCloud(pat);
+      }
+      showToast('¡Todos los patrones sincronizados con la nube!');
+    }
+
+    function exportAllPatternsBackup() {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(window.allPatterns, null, 2));
+      const a = document.createElement('a');
+      a.href = dataStr;
+      a.download = `Disenos_Esme_Backup_${new Date().toISOString().slice(0, 10)}.json`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      showToast('Copia de seguridad descargada');
+    }
+
+    function importPatternsBackup(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = async function(e) {
+        try {
+          const imported = JSON.parse(e.target.result);
+          if (Array.isArray(imported)) {
+            window.allPatterns = imported;
+            renderSavedPatternsList();
+            updateSavedCountBadge();
+            syncAllLocalToCloud();
+            showToast(`Se importaron ${imported.length} patrones exitosamente`);
+          }
+        } catch (err) {
+          showToast('Error al leer el archivo JSON', 'error');
+        }
+      };
+      reader.readAsText(file);
+      event.target.value = '';
+    }
+
+    function escapeHtml(text) {
+      if (!text) return '';
+      return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    // Initialize DOM
+    window.addEventListener('DOMContentLoaded', () => {
+      // Input listeners for auto-save
+      ['patTitle', 'patDifficulty', 'patHook', 'patYarn', 'patSize', 'patMaterials'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('input', syncPatternMetaFromInputs);
+      });
+
+      initPwaManifestAndIcon();
+      updateSavedCountBadge();
+      filterDictionary();
+      populateDesignerForm();
+      calculatePricing();
+    });
+  </script>
+</body>
+</html>
