@@ -656,6 +656,26 @@
         </div>
       </div>
 
+      <!-- Mis Patrones Guardados en el Inicio -->
+      <div class="bg-white rounded-3xl p-6 sm:p-8 border border-esme-roseLight shadow-sm space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-esme-sand pb-4">
+          <div>
+            <h3 class="text-lg font-heading font-bold text-esme-dark flex items-center">
+              <i class="fa-solid fa-folder-heart text-esme-rose mr-2"></i>
+              Mis Patrones Guardados
+            </h3>
+            <p class="text-xs text-gray-500">Tus creaciones recientes listas para tejer o editar</p>
+          </div>
+          <button onclick="switchTab('library')" class="text-xs font-bold text-esme-roseDark hover:underline flex items-center">
+            Ver todos los patrones <i class="fa-solid fa-arrow-right ml-1"></i>
+          </button>
+        </div>
+        <div id="homeRecentPatternsContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+        <div id="homeEmptyPatternsState" class="hidden text-center py-6 text-gray-400 text-xs">
+          No tienes patrones guardados todavía.
+        </div>
+      </div>
+
     </section>
 
     <!-- ========================================== -->
@@ -2063,6 +2083,52 @@
           </div>
 
           <div class="mb-4">
+            <input type="text" value="${escapeHtml(part.notes || '')}" oninput="updatePartNotes(${pIndex}, this.value)" placeholder="Anotaciones de la pieza (ej: rellenar a medida que se teje, no rellenar las orejas...)" class="w-full text-xs px-3 py-2 rounded-xl border border-gray-200 bg-white/80 focus:border-esme-rose outline-none text-gray-600">
+          </div>
+
+          <!-- Tabla de Rondas de la Pieza -->
+          <div class="space-y-2 mb-3">
+            <div class="grid grid-cols-12 gap-2 text-[11px] font-bold text-gray-500 uppercase px-1">
+              <div class="col-span-3 sm:col-span-2">Ronda/Vta</div>
+              <div class="col-span-6 sm:col-span-8">Instrucciones de puntos</div>
+              <div class="col-span-2 sm:col-span-1 text-center">Puntos</div>
+              <div class="col-span-1 text-right"></div>
+            </div>
+
+            <div id="roundsContainer-${pIndex}" class="space-y-2">
+              ${part.rounds.map((round, rIndex) => `
+                <div class="grid grid-cols-12 gap-2 items-center bg-white p-2 rounded-xl border border-gray-100 shadow-sm hover:border-esme-roseLight transition">
+                  <div class="col-span-3 sm:col-span-2">
+                    <input type="text" value="${escapeHtml(round.roundNum)}" onfocus="setActiveInput(this)" oninput="updateRoundData(${pIndex}, ${rIndex}, 'roundNum', this.value)" class="w-full text-xs font-bold text-esme-roseDark px-2 py-1.5 rounded-lg border border-gray-200 focus:border-esme-rose outline-none">
+                  </div>
+                  <div class="col-span-6 sm:col-span-8">
+                    <input type="text" value="${escapeHtml(round.stitches)}" onfocus="setActiveInput(this)" oninput="updateRoundData(${pIndex}, ${rIndex}, 'stitches', this.value); autoEstimateStitchCount(${pIndex}, ${rIndex});" placeholder="ej: [2 pb, 1 aum] x 6" class="w-full text-xs px-2.5 py-1.5 rounded-lg border border-gray-200 focus:border-esme-rose outline-none font-mono">
+                  </div>
+                  <div class="col-span-2 sm:col-span-1">
+                    <input type="text" id="roundCount-${pIndex}-${rIndex}" value="${escapeHtml(round.count || '')}" onfocus="setActiveInput(this)" oninput="updateRoundData(${pIndex}, ${rIndex}, 'count', this.value)" placeholder="(18)" class="w-full text-xs text-center font-bold text-gray-600 px-1 py-1.5 rounded-lg border border-gray-200 focus:border-esme-rose outline-none">
+                  </div>
+                  <div class="col-span-1 text-right">
+                    <button onclick="removeRound(${pIndex}, ${rIndex})" class="text-gray-300 hover:text-red-500 text-xs p-1">
+                      <i class="fa-solid fa-xmark"></i>
+                    </button>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between pt-2">
+            <button onclick="addNewRound(${pIndex})" class="text-xs font-bold text-esme-roseDark hover:text-esme-rose flex items-center space-x-1.5 px-3 py-1.5 rounded-lg hover:bg-esme-roseLight/40 transition">
+              <i class="fa-solid fa-plus text-xs"></i>
+              <span>Agregar Ronda a ${escapeHtml(part.name || 'Pieza')}</span>
+            </button>
+            <span class="text-[11px] text-gray-400 font-medium">${part.rounds.length} rondas</span>
+          </div>
+        `;
+        container.appendChild(partEl);
+      });
+    }
+
     function estimateStitchCountFromText(text, prevCount = null) {
       if (!text) return null;
       const clean = text.toLowerCase().trim();
