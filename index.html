@@ -1400,7 +1400,9 @@
 
           if (cloudPatterns.length > 0) {
             window.allPatterns = cloudPatterns;
+            window.persistLocalPatterns();
             window.renderSavedPatternsList();
+            window.renderHomeRecentPatterns();
             window.updateSavedCountBadge();
           }
         }, (err) => {
@@ -1758,7 +1760,7 @@
       }
     }
 
-    window.allPatterns = [
+    const DEFAULT_SEED_PATTERNS = [
       {
         id: 'pat_osito_default',
         title: 'Osito Tierno Esme',
@@ -1809,6 +1811,43 @@
       }
     ];
 
+    function getActiveUserStorageKey() {
+      const email = window.cloudUserEmail || localStorage.getItem('esme_logged_email');
+      if (email) return 'esme_patterns_' + email.replace(/[^a-zA-Z0-9]/g, '_');
+      return 'esme_patterns_guest';
+    }
+
+    function loadLocalPatterns() {
+      try {
+        const key = getActiveUserStorageKey();
+        let saved = localStorage.getItem(key);
+        if (!saved) {
+          saved = localStorage.getItem('esme_patterns_all') || localStorage.getItem('disenos_esme_patterns_v1');
+        }
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            return parsed;
+          }
+        }
+      } catch (err) {
+        console.warn("Notice: Local patterns restore", err);
+      }
+      return JSON.parse(JSON.stringify(DEFAULT_SEED_PATTERNS));
+    }
+
+    function persistLocalPatterns() {
+      try {
+        const key = getActiveUserStorageKey();
+        localStorage.setItem(key, JSON.stringify(window.allPatterns));
+        localStorage.setItem('esme_patterns_all', JSON.stringify(window.allPatterns));
+      } catch (err) {
+        console.warn("Notice: Local persistence save", err);
+      }
+    }
+    window.persistLocalPatterns = persistLocalPatterns;
+
+    window.allPatterns = loadLocalPatterns();
     let currentPattern = JSON.parse(JSON.stringify(window.allPatterns[0]));
 
     const CROCHET_DICTIONARY = [
@@ -2174,10 +2213,15 @@
 
     async function saveCurrentPattern() {
       syncPatternMetaFromInputs();
-      if (!currentPattern.title) {
+      if (!currentPattern.title || !currentPattern.title.trim()) {
         showToast('Por favor escribe un nombre para tu amigurumi', 'error');
         return;
       }
+
+      if (!currentPattern.id) {
+        currentPattern.id = generateId();
+      }
+      currentPattern.updatedAt = new Date().toISOString();
 
       const existingIndex = window.allPatterns.findIndex(p => p.id === currentPattern.id);
       if (existingIndex >= 0) {
@@ -2186,12 +2230,22 @@
         window.allPatterns.unshift(JSON.parse(JSON.stringify(currentPattern)));
       }
 
+      // Always guarantee persistence locally first so it is NEVER lost
+      persistLocalPatterns();
+
+      // Sync to cloud database if available
       if (window.savePatternToCloud) {
-        await window.savePatternToCloud(currentPattern);
+        try {
+          await window.savePatternToCloud(currentPattern);
+        } catch (err) {
+          console.warn("Notice: Cloud write handled", err);
+        }
       }
 
-      showToast(`¡"${currentPattern.title}" guardado en tu cuenta!`);
+      showToast(`¡"${currentPattern.title}" guardado con éxito!`);
       updateSavedCountBadge();
+      renderSavedPatternsList();
+      renderHomeRecentPatterns();
     }
 
     function createNewPatternPrompt() {
@@ -2214,7 +2268,8 @@
               notes: '',
               rounds: [
                 { roundNum: 'R1', stitches: 'am (6 pb)', count: '6', done: false },
-                { roundNum: 'R2', stitches: '6 aum', count: '12', done: false }
+                { roundNum: 'R2', stitches: '6 aum', count: '12', done: false },
+                { roundNum: 'R3', stitches: '[1 pb, 1 aum] x 6', count: '18', done: false }
               ]
             }
           ]
@@ -2228,6 +2283,73 @@
       const badge = document.getElementById('savedCountBadge');
       if (badge) badge.textContent = window.allPatterns.length;
     }
+
+    function renderHomeRecentPatterns() {
+      const container = document.getElementById('homeRecentPatternsContainer');
+      const emptyState = document.getElementById('homeEmptyPatternsState');
+      if (!container || !emptyState) return;
+
+      container.innerHTML = '';
+      if (!window.allPatterns || window.allPatterns.length === 0) {
+        emptyState.classList.remove('hidden');
+        container.classList.add('hidden');
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+      container.classList.remove('hidden');
+
+      const recentPatterns = window.allPatterns.slice(0, 6);
+
+      recentPatterns.forEach(pat => {
+        const card = document.createElement('div');
+        card.className = 'bg-white rounded-2xl p-4 sm:p-5 border border-esme-roseLight/80 shadow-sm hover:shadow-md transition-all flex flex-col justify-between group';
+        const partsCount = (pat.parts || []).length;
+        const dateStr = pat.updatedAt ? new Date(pat.updatedAt).toLocaleDateString('es-ES', { day: 'numeric', month: 'short' }) : 'Reciente';
+
+        card.innerHTML = `
+          <div>
+            ${pat.photoUrl ? `
+              <div class="w-full h-32 rounded-xl overflow-hidden mb-3 bg-esme-sand">
+                <img src="${pat.photoUrl}" alt="${escapeHtml(pat.title)}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+              </div>
+            ` : `
+              <div class="w-full h-24 rounded-xl bg-esme-sand/40 border border-esme-sand flex items-center justify-center text-esme-rose/70 mb-3">
+                <i class="fa-solid fa-shapes text-3xl"></i>
+              </div>
+            `}
+
+            <div class="flex items-center justify-between text-[10px] font-bold text-gray-500 mb-1.5">
+              <span class="px-2 py-0.5 rounded-full bg-esme-sand text-esme-dark">${escapeHtml(pat.difficulty || 'Intermedio')}</span>
+              <span>${dateStr}</span>
+            </div>
+
+            <h4 class="font-heading font-bold text-esme-dark text-sm sm:text-base group-hover:text-esme-roseDark transition leading-snug line-clamp-1">
+              ${escapeHtml(pat.title)}
+            </h4>
+
+            <p class="text-xs text-gray-500 mt-1 line-clamp-1">
+              ${pat.yarn ? escapeHtml(pat.yarn) : `${partsCount} partes del amigurumi`}
+            </p>
+          </div>
+
+          <div class="mt-4 pt-3 border-t border-esme-sand flex items-center justify-between gap-1.5">
+            <button onclick="startKnitSpecificPattern('${pat.id}')" class="flex-1 py-1.5 px-2 rounded-xl bg-esme-greenLight text-esme-greenDark hover:bg-esme-green hover:text-white text-xs font-bold transition flex items-center justify-center gap-1">
+              <i class="fa-solid fa-circle-check"></i>
+              <span>Tejer</span>
+            </button>
+            <button onclick="editPattern('${pat.id}')" class="py-1.5 px-2.5 rounded-xl bg-esme-sand hover:bg-esme-roseLight text-esme-dark text-xs font-semibold transition" title="Editar en diseñador">
+              <i class="fa-solid fa-pen-to-square"></i>
+            </button>
+            <button onclick="previewSpecificPattern('${pat.id}')" class="py-1.5 px-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs transition" title="Imprimir ficha">
+              <i class="fa-solid fa-print"></i>
+            </button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+    window.renderHomeRecentPatterns = renderHomeRecentPatterns;
 
     function renderSavedPatternsList() {
       const grid = document.getElementById('patternsGrid');
@@ -2317,10 +2439,12 @@
       openCustomModal('¿Eliminar amigurumi?', 'Esta acción borrará el patrón de tu biblioteca.', 'Eliminar', 'fa-trash-can').then(async yes => {
         if (!yes) return;
         window.allPatterns = window.allPatterns.filter(p => p.id !== id);
+        persistLocalPatterns();
         if (window.deletePatternFromCloud) {
           await window.deletePatternFromCloud(id);
         }
         renderSavedPatternsList();
+        renderHomeRecentPatterns();
         updateSavedCountBadge();
         showToast('Patrón eliminado');
       });
@@ -2798,7 +2922,9 @@ Rematar dejando hebra larga.`;
           const imported = JSON.parse(e.target.result);
           if (Array.isArray(imported)) {
             window.allPatterns = imported;
+            persistLocalPatterns();
             renderSavedPatternsList();
+            renderHomeRecentPatterns();
             updateSavedCountBadge();
             syncAllLocalToCloud();
             showToast(`Se importaron ${imported.length} patrones exitosamente`);
@@ -2832,6 +2958,8 @@ Rematar dejando hebra larga.`;
       filterDictionary();
       populateDesignerForm();
       calculatePricing();
+      renderSavedPatternsList();
+      renderHomeRecentPatterns();
 
       if (window.updateAuthUI) {
         window.updateAuthUI(null);
