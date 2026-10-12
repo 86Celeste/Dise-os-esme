@@ -2046,7 +2046,15 @@
               <input type="text" value="${escapeHtml(part.name)}" oninput="updatePartName(${pIndex}, this.value)" placeholder="Nombre (ej: Cabeza)" class="font-heading font-bold text-esme-dark bg-transparent border-b border-transparent hover:border-esme-rose focus:border-esme-rose focus:bg-white px-2 py-1 rounded text-base outline-none">
             </div>
 
-            <div class="flex items-center space-x-2">
+            <div class="flex flex-wrap items-center gap-1.5">
+              <button type="button" onclick="promptAddRoundRange(${pIndex})" class="px-2.5 py-1 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 text-xs font-bold transition flex items-center gap-1" title="Agregar un rango de vueltas repetidas (ej: R11 a R20 con los mismos puntos)">
+                <i class="fa-solid fa-repeat text-[10px]"></i>
+                <span>+ Rango (ej: R11-R20)</span>
+              </button>
+              <button type="button" onclick="autoRecalculateAllCountsInPart(${pIndex})" class="px-2.5 py-1 rounded-xl bg-esme-roseLight/50 hover:bg-esme-roseLight text-esme-roseDark border border-esme-roseLight text-xs font-bold transition flex items-center gap-1" title="Calcular automáticamente los puntos de todas las vueltas (suma aumentos y resta disminuciones)">
+                <i class="fa-solid fa-wand-magic-sparkles text-[10px]"></i>
+                <span>🪄 Auto-calcular puntos</span>
+              </button>
               <input type="text" value="${escapeHtml(part.color || '')}" oninput="updatePartColor(${pIndex}, this.value)" placeholder="Color de lana..." class="text-xs px-3 py-1.5 rounded-xl border border-gray-200 bg-white focus:border-esme-rose outline-none">
               <button onclick="removePart(${pIndex})" title="Eliminar pieza" class="text-gray-400 hover:text-red-500 p-1.5 transition">
                 <i class="fa-solid fa-trash-can"></i>
@@ -2055,86 +2063,145 @@
           </div>
 
           <div class="mb-4">
-            <input type="text" value="${escapeHtml(part.notes || '')}" oninput="updatePartNotes(${pIndex}, this.value)" placeholder="Notas de la pieza (ej: rellenar a medida que se teje...)" class="w-full text-xs px-3 py-2 rounded-xl border border-gray-200 bg-white/80 focus:border-esme-rose outline-none text-gray-600">
-          </div>
+    function estimateStitchCountFromText(text, prevCount = null) {
+      if (!text) return null;
+      const clean = text.toLowerCase().trim();
 
-          <div class="space-y-2 mb-3">
-            <div class="grid grid-cols-12 gap-1 sm:gap-2 text-[11px] font-bold text-gray-500 uppercase px-1">
-              <div class="col-span-3 sm:col-span-2">Ronda</div>
-              <div class="col-span-6 sm:col-span-7">Instrucciones</div>
-              <div class="col-span-2 sm:col-span-2 text-center">Puntos</div>
-              <div class="col-span-1 text-right"></div>
-            </div>
+      // 1. Anillo mágico: am (6), am de 6 pb, am (6 pb)
+      const matchAm = clean.match(/am.*?(\d+)/);
+      if (matchAm) return parseInt(matchAm[1], 10);
 
-            <div id="roundsContainer-${pIndex}" class="space-y-2">
-              ${part.rounds.map((round, rIndex) => `
-                <div class="grid grid-cols-12 gap-1 sm:gap-2 items-center bg-white p-2 rounded-xl border border-gray-100 shadow-sm hover:border-esme-roseLight transition">
-                  <div class="col-span-3 sm:col-span-2">
-                    <input type="text" value="${escapeHtml(round.roundNum)}" onfocus="setActiveInput(this)" oninput="updateRoundData(${pIndex}, ${rIndex}, 'roundNum', this.value)" class="w-full text-xs font-bold text-esme-roseDark px-2 py-1.5 rounded-lg border border-gray-200 focus:border-esme-rose outline-none">
-                  </div>
-                  <div class="col-span-6 sm:col-span-7">
-                    <input type="text" value="${escapeHtml(round.stitches)}" onfocus="setActiveInput(this)" onblur="autoEstimateStitchCount(${pIndex}, ${rIndex})" oninput="updateRoundData(${pIndex}, ${rIndex}, 'stitches', this.value)" placeholder="ej: [2 pb, 1 aum] x 6" class="w-full text-xs px-2.5 py-1.5 rounded-lg border border-gray-200 focus:border-esme-rose outline-none font-mono">
-                  </div>
-                  <div class="col-span-2 sm:col-span-2">
-                    <input type="text" id="roundCount-${pIndex}-${rIndex}" value="${escapeHtml(round.count || '')}" onfocus="setActiveInput(this)" oninput="updateRoundData(${pIndex}, ${rIndex}, 'count', this.value)" placeholder="(18)" class="w-full text-xs text-center font-bold text-gray-700 px-1 py-1.5 rounded-lg border border-gray-200 focus:border-esme-rose outline-none">
-                  </div>
-                  <div class="col-span-1 text-right">
-                    <button onclick="removeRound(${pIndex}, ${rIndex})" class="text-gray-300 hover:text-red-500 text-xs p-1">
-                      <i class="fa-solid fa-xmark"></i>
-                    </button>
-                  </div>
-                </div>
-              `).join('')}
-            </div>
-          </div>
+      // 2. Rondas lisas o rangos (ej: "60 pb", "24 pb (6 rondas)", "18 pb")
+      const matchPb = clean.match(/^(\d+)\s*pb(?:\s*\(|$|\s*,|\s*en)/);
+      if (matchPb) return parseInt(matchPb[1], 10);
 
-          <div class="flex items-center justify-between pt-2">
-            <button onclick="addNewRound(${pIndex})" class="text-xs font-bold text-esme-roseDark hover:text-esme-rose flex items-center space-x-1.5 px-3 py-1.5 rounded-lg hover:bg-esme-roseLight/40 transition">
-              <i class="fa-solid fa-plus text-xs"></i>
-              <span>Agregar Ronda</span>
-            </button>
-            <span class="text-[11px] text-gray-400 font-medium">${part.rounds.length} rondas</span>
-          </div>
-        `;
-        container.appendChild(partEl);
-      });
+      // 3. Repeticiones con disminuciones: [8 pb, 1 dism] x 6 -> deja (8 + 1) * 6 = 54 puntos
+      const matchRepeatDism = clean.match(/\[?\s*(\d+)\s*pb\s*,\s*(?:1\s*)?dism\s*\]?\s*(?:x|\*)\s*(\d+)/);
+      if (matchRepeatDism) {
+        const singleStitches = parseInt(matchRepeatDism[1], 10);
+        const times = parseInt(matchRepeatDism[2], 10);
+        return (singleStitches + 1) * times;
+      }
+
+      // 4. Repeticiones con aumentos: [8 pb, 1 aum] x 6 -> produce (8 + 2) * 6 = 60 puntos
+      const matchRepeatAum = clean.match(/\[?\s*(\d+)\s*pb\s*,\s*(?:1\s*)?aum\s*\]?\s*(?:x|\*)\s*(\d+)/);
+      if (matchRepeatAum) {
+        const singleStitches = parseInt(matchRepeatAum[1], 10);
+        const times = parseInt(matchRepeatAum[2], 10);
+        return (singleStitches + 2) * times;
+      }
+
+      // 5. Solo aumentos: "6 aum"
+      const matchOnlyAum = clean.match(/^(\d+)\s*aum/);
+      if (matchOnlyAum) {
+        const countAum = parseInt(matchOnlyAum[1], 10);
+        if (prevCount !== null) return prevCount + countAum;
+        return countAum * 2;
+      }
+
+      // 6. Solo disminuciones: "6 dism" -> resta las disminuciones de la vuelta anterior
+      const matchOnlyDism = clean.match(/^(\d+)\s*dism/);
+      if (matchOnlyDism) {
+        const countDism = parseInt(matchOnlyDism[1], 10);
+        if (prevCount !== null && prevCount >= countDism) {
+          return prevCount - countDism;
+        }
+        return countDism; // Cierre estándar (12 pb -> 6 dism = 6 pb)
+      }
+
+      // 7. Deducción contextual si tenemos los puntos de la vuelta previa:
+      if (prevCount !== null) {
+        let netChange = 0;
+        
+        // Contar disminuciones
+        const repDism = clean.match(/dism.*?x\s*(\d+)/);
+        if (repDism) {
+          netChange -= parseInt(repDism[1], 10);
+        } else {
+          const allDism = clean.match(/dism/g);
+          if (allDism) netChange -= allDism.length;
+        }
+
+        // Contar aumentos
+        const repAum = clean.match(/aum.*?x\s*(\d+)/);
+        if (repAum) {
+          netChange += parseInt(repAum[1], 10);
+        } else {
+          const allAum = clean.match(/aum/g);
+          if (allAum) netChange += allAum.length;
+        }
+
+        if (netChange !== 0) {
+          return Math.max(0, prevCount + netChange);
+        }
+        
+        // Si no tiene aumentos ni disminuciones y menciona pb, mantiene los puntos anteriores
+        if (clean.includes('pb')) {
+          return prevCount;
+        }
+      }
+
+      return null;
     }
 
     function autoEstimateStitchCount(partIndex, roundIndex) {
-      const round = currentPattern.parts[partIndex].rounds[roundIndex];
-      if (round.count && round.count.trim() !== '') return;
+      const rounds = currentPattern.parts[partIndex].rounds;
+      const round = rounds[roundIndex];
 
-      const text = round.stitches.toLowerCase().trim();
-      let calc = null;
-
-      const matchAm = text.match(/am.*?(\d+)/);
-      if (matchAm) calc = parseInt(matchAm[1]);
-
-      const matchRepeatAum = text.match(/\[\s*(\d+)\s*pb\s*,\s*1\s*aum\s*\]\s*x\s*(\d+)/);
-      if (matchRepeatAum) {
-        const singleStitches = parseInt(matchRepeatAum[1]);
-        const times = parseInt(matchRepeatAum[2]);
-        calc = (singleStitches + 2) * times;
+      let prevCount = null;
+      if (roundIndex > 0 && rounds[roundIndex - 1].count) {
+        const p = parseInt(rounds[roundIndex - 1].count, 10);
+        if (!isNaN(p)) prevCount = p;
       }
 
-      const matchRepeatDism = text.match(/\[\s*(\d+)\s*pb\s*,\s*1\s*dism\s*\]\s*x\s*(\d+)/);
-      if (matchRepeatDism) {
-        const singleStitches = parseInt(matchRepeatDism[1]);
-        const times = parseInt(matchRepeatDism[2]);
-        calc = (singleStitches + 1) * times;
-      }
-
-      const matchOnlyAum = text.match(/^(\d+)\s*aum$/);
-      if (matchOnlyAum) calc = parseInt(matchOnlyAum[1]) * 2;
-
-      const matchOnlyDism = text.match(/^(\d+)\s*dism$/);
-      if (matchOnlyDism) calc = parseInt(matchOnlyDism[1]);
-
-      if (calc !== null && !isNaN(calc)) {
-        round.count = String(calc);
+      const est = estimateStitchCountFromText(round.stitches, prevCount);
+      if (est !== null && !isNaN(est)) {
+        round.count = String(est);
         const countInput = document.getElementById(`roundCount-${partIndex}-${roundIndex}`);
         if (countInput) countInput.value = round.count;
       }
+    }
+
+    function autoRecalculateAllCountsInPart(partIndex) {
+      const part = currentPattern.parts[partIndex];
+      if (!part || !part.rounds) return;
+
+      let runningCount = null;
+      part.rounds.forEach((round, rIndex) => {
+        const est = estimateStitchCountFromText(round.stitches, runningCount);
+        if (est !== null) {
+          round.count = String(est);
+          runningCount = est;
+        } else if (round.count && !isNaN(parseInt(round.count, 10))) {
+          runningCount = parseInt(round.count, 10);
+        }
+      });
+
+      persistLocalPatterns();
+      renderPartsList();
+      showToast(`Puntos de "${part.name}" calculados automáticamente ✓`, 'success');
+    }
+
+    function promptAddRoundRange(partIndex) {
+      const startNum = prompt('¿Desde qué ronda comienza el rango repetido? (Ej: 11)', '11');
+      if (!startNum) return;
+      const endNum = prompt('¿Hasta qué ronda? (Ej: 20)', '20');
+      if (!endNum) return;
+      const points = prompt('¿Cuántos puntos tiene cada vuelta? (Ej: 60)', '60');
+      if (!points) return;
+
+      const roundsCount = (parseInt(endNum, 10) - parseInt(startNum, 10)) + 1;
+      const newRound = {
+        roundNum: `R${startNum}-R${endNum}`,
+        stitches: `${points} pb (${roundsCount} vueltas continuas)`,
+        count: String(points),
+        done: false
+      };
+
+      currentPattern.parts[partIndex].rounds.push(newRound);
+      persistLocalPatterns();
+      renderPartsList();
+      showToast(`Rango R${startNum}-R${endNum} agregado con ${points} puntos ✓`, 'success');
     }
 
     function setActiveInput(input) {
