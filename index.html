@@ -1,4 +1,4 @@
-```html
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -2464,6 +2464,43 @@
       }
     }
 
+    function parseRoundRange(roundNum, stitches) {
+      const cleanNum = (roundNum || '').trim();
+      // Match ranges like R11-R22, R11 a R22, Vta 11-22, 11-22, R5-R10
+      let match = cleanNum.match(/(?:R|V|Vta)?\s*(\d+)\s*(?:-|–|—|\s+a\s+|\s+al\s+)\s*(?:R|V|Vta)?\s*(\d+)/i);
+      if (match) {
+        const start = parseInt(match[1], 10);
+        const end = parseInt(match[2], 10);
+        if (end > start && (end - start) < 100) {
+          return {
+            type: 'range',
+            start: start,
+            end: end,
+            total: (end - start) + 1,
+            labelPrefix: cleanNum.match(/^(?:R|Vta|V)/i) ? cleanNum.match(/^(?:R|Vta|V)/i)[0].toUpperCase() : 'R'
+          };
+        }
+      }
+
+      // Check inside stitch notes like "(6 rondas continuas)" or "(10 vueltas)"
+      const cleanStitches = (stitches || '').trim();
+      let matchStitches = cleanStitches.match(/(\d+)\s*(?:rondas?|vueltas?|rounds?)/i);
+      if (matchStitches) {
+        const count = parseInt(matchStitches[1], 10);
+        if (count > 1 && count <= 60) {
+          return {
+            type: 'count',
+            start: 1,
+            end: count,
+            total: count,
+            labelPrefix: 'Vta'
+          };
+        }
+      }
+
+      return null;
+    }
+
     function renderKnitModeView() {
       document.getElementById('knitModePatternTitle').textContent = currentPattern.title || 'Amigurumi en curso';
       
@@ -2495,8 +2532,15 @@
       let totalDone = 0;
       (currentPattern.parts || []).forEach(p => {
         p.rounds.forEach(r => {
-          totalR++;
-          if (r.done) totalDone++;
+          const range = parseRoundRange(r.roundNum, r.stitches);
+          if (range) {
+            totalR += range.total;
+            const curSub = r.subRoundCurrent !== undefined ? r.subRoundCurrent : (r.done ? range.total : 0);
+            totalDone += curSub;
+          } else {
+            totalR++;
+            if (r.done) totalDone++;
+          }
         });
       });
       const percent = totalR > 0 ? Math.round((totalDone / totalR) * 100) : 0;
@@ -2532,57 +2576,278 @@
           </div>
         ` : ''}
 
-        <div class="space-y-2 pt-1">
-          ${activePart.rounds.map((round, rIndex) => `
-            <div onclick="toggleRoundKnitDone(${activeKnitPartIndex}, ${rIndex})" class="cursor-pointer p-3.5 rounded-2xl border transition-all flex items-center justify-between gap-3 ${
-              round.done 
-                ? 'bg-esme-greenLight/40 border-esme-green/40 opacity-75' 
-                : 'bg-white border-gray-200 hover:border-esme-rose shadow-sm'
-            }">
-              <div class="flex items-center gap-3">
-                <div class="w-7 h-7 rounded-full flex items-center justify-center font-bold text-xs transition ${
-                  round.done ? 'bg-esme-green text-white' : 'border-2 border-gray-300 text-gray-400'
+        <div class="space-y-3 pt-1">
+          ${activePart.rounds.map((round, rIndex) => {
+            const range = parseRoundRange(round.roundNum, round.stitches);
+            const isRange = range !== null;
+            const currentSub = round.subRoundCurrent !== undefined ? round.subRoundCurrent : (round.done && isRange ? range.total : 0);
+            const isCompleted = round.done || (isRange && currentSub >= range.total);
+
+            if (!isRange) {
+              /* Standard single round card */
+              return `
+                <div onclick="toggleRoundKnitDone(${activeKnitPartIndex}, ${rIndex})" class="cursor-pointer p-3.5 rounded-2xl border transition-all flex items-center justify-between gap-3 ${
+                  isCompleted 
+                    ? 'bg-esme-greenLight/40 border-esme-green/40 opacity-75' 
+                    : 'bg-white border-gray-200 hover:border-esme-rose shadow-sm'
                 }">
-                  ${round.done ? '<i class="fa-solid fa-check"></i>' : (rIndex + 1)}
+                  <div class="flex items-center gap-3">
+                    <div class="w-7 h-7 rounded-full flex items-center justify-center font-bold text-xs transition ${
+                      isCompleted ? 'bg-esme-green text-white' : 'border-2 border-gray-300 text-gray-400'
+                    }">
+                      ${isCompleted ? '<i class="fa-solid fa-check"></i>' : (rIndex + 1)}
+                    </div>
+                    <div>
+                      <span class="text-xs font-bold ${isCompleted ? 'line-through text-gray-500' : 'text-esme-roseDark'}">
+                        ${escapeHtml(round.roundNum)}
+                      </span>
+                      <p class="text-sm font-mono ${isCompleted ? 'line-through text-gray-400' : 'text-esme-dark font-medium'}">
+                        ${escapeHtml(round.stitches)}
+                      </p>
+                    </div>
+                  </div>
+
+                  ${round.count ? `
+                    <span class="text-xs font-bold px-2.5 py-1 rounded-full ${
+                      isCompleted ? 'bg-gray-200 text-gray-500' : 'bg-esme-sand text-esme-dark'
+                    }">
+                      (${escapeHtml(round.count)})
+                    </span>
+                  ` : ''}
                 </div>
-                <div>
-                  <span class="text-xs font-bold ${round.done ? 'line-through text-gray-500' : 'text-esme-roseDark'}">
-                    ${escapeHtml(round.roundNum)}
-                  </span>
-                  <p class="text-sm font-mono ${round.done ? 'line-through text-gray-400' : 'text-esme-dark font-medium'}">
-                    ${escapeHtml(round.stitches)}
-                  </p>
+              `;
+            }
+
+            /* Repetitive range round card with integrated step counter */
+            const currentRoundLabel = range.type === 'range' 
+              ? `${range.labelPrefix}${Math.min(range.start + currentSub, range.end)}`
+              : `Vuelta ${Math.min(currentSub + 1, range.total)}`;
+            const rangePercent = Math.round((currentSub / range.total) * 100);
+
+            return `
+              <div class="rounded-2xl border transition-all overflow-hidden ${
+                isCompleted 
+                  ? 'bg-esme-greenLight/30 border-esme-green/50 shadow-sm' 
+                  : 'bg-white border-esme-sand shadow-sm hover:border-esme-roseLight'
+              }">
+                <!-- Range Header Bar -->
+                <div class="p-3.5 sm:p-4 flex items-center justify-between gap-3 bg-gradient-to-r from-amber-50/70 via-white to-esme-sand/40 border-b border-esme-sand">
+                  <div class="flex items-center gap-3">
+                    <button onclick="toggleRoundKnitDone(${activeKnitPartIndex}, ${rIndex})" class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs transition shadow-sm ${
+                      isCompleted ? 'bg-esme-green text-white' : 'bg-white border-2 border-amber-300 text-amber-700 hover:border-esme-green'
+                    }" title="Marcar rango completo como hecho">
+                      ${isCompleted ? '<i class="fa-solid fa-check text-sm"></i>' : '<i class="fa-solid fa-layer-group text-xs"></i>'}
+                    </button>
+                    <div>
+                      <div class="flex items-center gap-2">
+                        <span class="text-sm font-bold text-esme-roseDark">${escapeHtml(round.roundNum)}</span>
+                        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800 border border-amber-200 flex items-center gap-1">
+                          <i class="fa-solid fa-repeat text-[9px]"></i> ${range.total} vueltas repetidas
+                        </span>
+                      </div>
+                      <p class="text-xs font-mono text-gray-700 mt-0.5">${escapeHtml(round.stitches)}</p>
+                    </div>
+                  </div>
+
+                  <div class="text-right flex-shrink-0">
+                    <span class="text-xs font-bold px-2.5 py-1 rounded-full ${isCompleted ? 'bg-esme-greenLight text-esme-greenDark' : 'bg-esme-sand text-esme-dark'}">
+                      ${currentSub}/${range.total} hechas
+                    </span>
+                    ${round.count ? `<div class="text-[10px] text-gray-400 font-bold mt-1">(${escapeHtml(round.count)} pts)</div>` : ''}
+                  </div>
+                </div>
+
+                <!-- Range Interactive Stepper Body -->
+                <div class="p-3.5 sm:p-4 space-y-3 bg-white">
+                  
+                  <!-- Current status banner & progress bar -->
+                  <div>
+                    <div class="flex items-center justify-between text-xs mb-1.5">
+                      <span class="font-semibold text-gray-600">
+                        ${isCompleted 
+                          ? '<span class="text-esme-greenDark font-bold flex items-center gap-1"><i class="fa-solid fa-circle-check text-esme-green"></i> ¡Todas las vueltas de este rango completadas!</span>'
+                          : `Tejiendo ahora: <strong class="text-esme-roseDark text-sm font-bold bg-esme-roseLight/40 px-2 py-0.5 rounded-lg">${currentRoundLabel}</strong>`
+                        }
+                      </span>
+                      <span class="text-[11px] font-bold text-gray-500">${rangePercent}%</span>
+                    </div>
+
+                    <div class="w-full h-2.5 bg-gray-100 rounded-full overflow-hidden border border-gray-200">
+                      <div class="h-full bg-gradient-to-r from-amber-400 to-esme-green transition-all duration-300" style="width: ${rangePercent}%;"></div>
+                    </div>
+                  </div>
+
+                  <!-- Quick Action Buttons: +1 round & -1 round -->
+                  <div class="flex items-center gap-2 pt-1">
+                    <button onclick="incrementSubRound(${activeKnitPartIndex}, ${rIndex}, event)" class="flex-grow py-2.5 px-4 rounded-xl ${
+                      isCompleted 
+                        ? 'bg-esme-sand hover:bg-esme-roseLight/60 text-esme-dark' 
+                        : 'bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white shadow-md'
+                    } text-xs font-bold transition flex items-center justify-center gap-2 active:scale-95">
+                      <i class="fa-solid fa-plus text-sm"></i>
+                      <span>${isCompleted ? 'Volver a marcar vuelta' : `Terminé vuelta ${currentRoundLabel} (+1)`}</span>
+                    </button>
+
+                    <button onclick="decrementSubRound(${activeKnitPartIndex}, ${rIndex}, event)" class="py-2.5 px-3.5 rounded-xl border border-gray-200 hover:bg-gray-100 text-gray-600 text-xs font-bold transition active:scale-95" title="Restar una vuelta si te equivocaste">
+                      <i class="fa-solid fa-minus"></i>
+                    </button>
+
+                    <button onclick="resetSubRoundRange(${activeKnitPartIndex}, ${rIndex}, event)" class="py-2.5 px-3 rounded-xl border border-gray-200 hover:bg-red-50 hover:text-red-600 text-gray-400 text-xs transition" title="Reiniciar contador de este rango a cero">
+                      <i class="fa-solid fa-arrow-rotate-left"></i>
+                    </button>
+                  </div>
+
+                  <!-- Individual Round Pills (tap any pill to jump directly to it) -->
+                  <div class="pt-1 border-t border-gray-100">
+                    <div class="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1.5 flex items-center justify-between">
+                      <span>Toca cualquier vuelta para ir directo a ella:</span>
+                      <span class="font-normal italic text-gray-400">Píldoras rápidas</span>
+                    </div>
+
+                    <div class="flex flex-wrap gap-1.5 max-h-36 overflow-y-auto p-1">
+                      ${Array.from({ length: range.total }).map((_, stepIdx) => {
+                        const stepNum = range.type === 'range' ? (range.start + stepIdx) : (stepIdx + 1);
+                        const isPast = stepIdx < currentSub;
+                        const isCurrent = stepIdx === currentSub && !isCompleted;
+
+                        let pillClasses = 'bg-gray-100 text-gray-600 hover:bg-esme-sand border border-transparent';
+                        if (isPast) {
+                          pillClasses = 'bg-esme-green text-white border-esme-green font-bold shadow-xs';
+                        } else if (isCurrent) {
+                          pillClasses = 'bg-amber-400 text-amber-950 font-bold border-amber-500 ring-2 ring-amber-300 ring-offset-1 scale-105';
+                        }
+
+                        return `
+                          <button type="button" onclick="setSpecificSubRound(${activeKnitPartIndex}, ${rIndex}, ${stepIdx + 1}, event)" class="px-2 py-1 rounded-lg text-[11px] font-mono transition-transform duration-150 flex items-center gap-1 ${pillClasses}" title="Marcar hasta vuelta ${stepNum}">
+                            ${isPast ? '<i class="fa-solid fa-check text-[9px]"></i>' : ''}
+                            <span>${range.labelPrefix}${stepNum}</span>
+                          </button>
+                        `;
+                      }).join('')}
+                    </div>
+                  </div>
+
                 </div>
               </div>
-
-              ${round.count ? `
-                <span class="text-xs font-bold px-2.5 py-1 rounded-full ${
-                  round.done ? 'bg-gray-200 text-gray-500' : 'bg-esme-sand text-esme-dark'
-                }">
-                  (${escapeHtml(round.count)})
-                </span>
-              ` : ''}
-            </div>
-          `).join('')}
+            `;
+          }).join('')}
         </div>
       `;
     }
 
+    function incrementSubRound(partIndex, roundIndex, event) {
+      if (event) event.stopPropagation();
+      const r = currentPattern.parts[partIndex].rounds[roundIndex];
+      const range = parseRoundRange(r.roundNum, r.stitches);
+      if (!range) return;
+
+      if (r.subRoundCurrent === undefined) {
+        r.subRoundCurrent = r.done ? range.total : 0;
+      }
+
+      if (r.subRoundCurrent < range.total) {
+        r.subRoundCurrent++;
+        // Gentle haptic feedback on mobile devices if supported
+        if (navigator.vibrate) {
+          try { navigator.vibrate(35); } catch(e) {}
+        }
+      }
+
+      if (r.subRoundCurrent >= range.total) {
+        r.subRoundCurrent = range.total;
+        r.done = true;
+        showToast(`¡Completaste las ${range.total} vueltas de ${r.roundNum}! 🎉`, 'success');
+      } else {
+        r.done = false;
+        const nextRoundLabel = range.type === 'range' ? `${range.labelPrefix}${range.start + r.subRoundCurrent}` : `Vuelta ${r.subRoundCurrent + 1}`;
+        showToast(`Vuelta registrada. Ahora tejiendo: ${nextRoundLabel}`, 'info');
+      }
+
+      persistLocalPatterns();
+      renderKnitModeView();
+    }
+
+    function decrementSubRound(partIndex, roundIndex, event) {
+      if (event) event.stopPropagation();
+      const r = currentPattern.parts[partIndex].rounds[roundIndex];
+      const range = parseRoundRange(r.roundNum, r.stitches);
+      if (!range) return;
+
+      if (r.subRoundCurrent === undefined) {
+        r.subRoundCurrent = r.done ? range.total : 0;
+      }
+
+      if (r.subRoundCurrent > 0) {
+        r.subRoundCurrent--;
+        r.done = false;
+      }
+
+      persistLocalPatterns();
+      renderKnitModeView();
+    }
+
+    function setSpecificSubRound(partIndex, roundIndex, targetStep, event) {
+      if (event) event.stopPropagation();
+      const r = currentPattern.parts[partIndex].rounds[roundIndex];
+      const range = parseRoundRange(r.roundNum, r.stitches);
+      if (!range) return;
+
+      r.subRoundCurrent = targetStep;
+      if (r.subRoundCurrent >= range.total) {
+        r.subRoundCurrent = range.total;
+        r.done = true;
+        showToast(`Rango ${r.roundNum} completado al 100% ✓`, 'success');
+      } else {
+        r.done = false;
+      }
+
+      persistLocalPatterns();
+      renderKnitModeView();
+    }
+
+    function resetSubRoundRange(partIndex, roundIndex, event) {
+      if (event) event.stopPropagation();
+      const r = currentPattern.parts[partIndex].rounds[roundIndex];
+      r.subRoundCurrent = 0;
+      r.done = false;
+      persistLocalPatterns();
+      renderKnitModeView();
+      showToast('Contador del rango reiniciado a 0');
+    }
+
     function toggleRoundKnitDone(partIndex, roundIndex) {
       const r = currentPattern.parts[partIndex].rounds[roundIndex];
+      const range = parseRoundRange(r.roundNum, r.stitches);
+
       r.done = !r.done;
+      if (range) {
+        r.subRoundCurrent = r.done ? range.total : 0;
+      }
+
+      persistLocalPatterns();
       renderKnitModeView();
     }
 
     function toggleAllRoundsInPart(partIndex, state) {
-      currentPattern.parts[partIndex].rounds.forEach(r => r.done = state);
+      currentPattern.parts[partIndex].rounds.forEach(r => {
+        r.done = state;
+        const range = parseRoundRange(r.roundNum, r.stitches);
+        if (range) {
+          r.subRoundCurrent = state ? range.total : 0;
+        }
+      });
+      persistLocalPatterns();
       renderKnitModeView();
     }
 
     function resetKnitProgress() {
       (currentPattern.parts || []).forEach(p => {
-        p.rounds.forEach(r => r.done = false);
+        p.rounds.forEach(r => {
+          r.done = false;
+          r.subRoundCurrent = 0;
+        });
       });
+      persistLocalPatterns();
       renderKnitModeView();
       showToast('Progreso del tejido reiniciado');
     }
