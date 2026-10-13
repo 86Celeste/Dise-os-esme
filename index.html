@@ -1,4 +1,4 @@
-
+```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -1336,7 +1336,7 @@ R4-R8: 18 pb (18)" class="w-full flex-grow p-3.5 rounded-2xl border border-gray-
                       </button>
                     </div>
                     <div class="col-span-2 sm:col-span-1">
-                      <input type="text" value="${escapeHtml(round.count || '')}" onfocus="setActiveInput(this)" oninput="updateRoundData(${pIndex}, ${rIndex}, 'count', this.value)" placeholder="(18)" class="w-full text-xs text-center font-bold text-gray-600 px-1 py-1.5 rounded-lg border border-gray-200 focus:border-esme-rose outline-none">
+                      <input type="text" id="roundCountInput-${pIndex}-${rIndex}" value="${escapeHtml(round.count || '')}" onfocus="setActiveInput(this)" oninput="updateRoundData(${pIndex}, ${rIndex}, 'count', this.value)" placeholder="(18)" class="w-full text-xs text-center font-bold text-gray-600 px-1 py-1.5 rounded-lg border border-gray-200 focus:border-esme-rose outline-none">
                     </div>
                     <div class="col-span-1 text-right">
                       <button onclick="removeRound(${pIndex}, ${rIndex})" class="text-gray-300 hover:text-red-500 text-xs p-1">
@@ -1437,10 +1437,15 @@ R4-R8: 18 pb (18)" class="w-full flex-grow p-3.5 rounded-2xl border border-gray-
     function insertSymbolIntoRound(pIndex, rIndex, symbol) {
       const round = currentPattern.parts[pIndex]?.rounds[rIndex];
       if (!round) return;
-      round.stitches = round.stitches ? (round.stitches + ' ' + symbol) : symbol;
+      if (!round.stitches || (symbol.startsWith('[') && round.stitches.startsWith('['))) {
+        round.stitches = symbol;
+      } else {
+        round.stitches = round.stitches ? (round.stitches + ' ' + symbol) : symbol;
+      }
       
-      // Auto estimate count
-      const estimated = estimateStitchCountFromText(round.stitches, getPreviousRoundCount(pIndex, rIndex));
+      // Auto estimate count deducting decreases from previous round
+      const prevCount = getPreviousRoundCount(pIndex, rIndex);
+      const estimated = estimateStitchCountFromText(round.stitches, prevCount);
       if (estimated) round.count = estimated;
 
       renderPartsList();
@@ -1451,66 +1456,144 @@ R4-R8: 18 pb (18)" class="w-full flex-grow p-3.5 rounded-2xl border border-gray-
       const round = currentPattern.parts[pIndex]?.rounds[rIndex];
       if (!round) return;
       round.stitches = val;
-      const estimated = estimateStitchCountFromText(val, getPreviousRoundCount(pIndex, rIndex));
-      if (estimated && !round.count) {
+      const prevCount = getPreviousRoundCount(pIndex, rIndex);
+      const estimated = estimateStitchCountFromText(val, prevCount);
+      if (estimated) {
         round.count = estimated;
+        // Update DOM input on the fly so the crocheter sees it immediately
+        const countInput = document.getElementById(`roundCountInput-${pIndex}-${rIndex}`);
+        if (countInput) countInput.value = estimated;
       }
       persistLocalPatterns();
     }
 
-    // Automatic Stitch Estimation (including decreases deductions)
+    // Automatic Stitch Estimation with robust decrease deductions
     function estimateStitchCountFromText(text, prevCount = 0) {
       if (!text) return '';
       const t = text.toLowerCase().trim();
 
-      // Magic Ring
-      const amMatch = t.match(/am\s*\(\s*(\d+)/i) || t.match(/anillo\s*m[aá]gico\s*de\s*(\d+)/i);
+      // 1. Magic Ring (Anillo Mágico): "am (6 pb)", "am de 6", "am 6", "anillo mágico de 6"
+      const amMatch = t.match(/am\s*\(?\s*(\d+)/i) || t.match(/anillo\s*m[aá]gico\s*(?:de)?\s*(\d+)/i);
       if (amMatch) return amMatch[1];
 
-      // Pure increases: "6 aum" -> 12
-      const pureInc = t.match(/^(\d+)\s*aum/i);
-      if (pureInc) return String(parseInt(pureInc[1]) * 2);
+      // 2. Pure increases: "6 aum", "6 inc"
+      const pureInc = t.match(/^(\d+)\s*(?:aum|inc)\b/i);
+      if (pureInc) return String(parseInt(pureInc[1], 10) * 2);
 
-      // Repeated sequence: "[2 pb, 1 aum] x 6" or "(2 pb, 1 aum) * 6"
-      const repeatMatch = t.match(/[\[\(]([^\]\)]+)[\]\)]\s*[x\*]\s*(\d+)/i);
-      if (repeatMatch) {
-        const inner = repeatMatch[1];
-        const times = parseInt(repeatMatch[2]);
-        let stitchesPerRep = 0;
-
-        // pb count
-        const pbM = inner.match(/(\d+)\s*pb/i);
-        if (pbM) stitchesPerRep += parseInt(pbM[1]);
-
-        // aum count (each aum = 2 stitches)
-        const aumM = inner.match(/(\d*)\s*aum/i);
-        if (aumM) {
-          const count = aumM[1] ? parseInt(aumM[1]) : 1;
-          stitchesPerRep += count * 2;
-        }
-
-        // dism count (each dism = 1 stitch result)
-        const dismM = inner.match(/(\d*)\s*dism/i) || inner.match(/(\d*)\s*dec/i);
-        if (dismM) {
-          const count = dismM[1] ? parseInt(dismM[1]) : 1;
-          stitchesPerRep += count * 1;
-        }
-
-        if (stitchesPerRep > 0) return String(stitchesPerRep * times);
-      }
-
-      // Decreases deduction from previous: "6 dism" -> prevCount - 6
-      const pureDec = t.match(/^(\d+)\s*dism/i);
+      // 3. Pure decreases: "6 dism", "6 dec", "6 disminuciones", "dism x 6"
+      const pureDec = t.match(/^(\d+)\s*(?:dism|dec|disminuci[oó]n(?:es)?)\b/i) || t.match(/^(?:dism|dec)\s*[x\*]\s*(\d+)/i);
       if (pureDec) {
-        const numDec = parseInt(pureDec[1]);
-        if (prevCount > 0 && prevCount >= numDec) {
+        const numDec = parseInt(pureDec[1], 10);
+        // Si conocemos la vuelta anterior y supera las disminuciones, restamos del total:
+        if (prevCount > 0 && prevCount > numDec) {
           return String(prevCount - numDec);
         }
         return String(numDec);
       }
 
-      // Simple same-count round: "24 pb"
-      const samePb = t.match(/^(\d+)\s*pb$/i);
+      // 4. Repeated sequence with or without brackets:
+      // "[2 pb, 1 dism] x 6", "(2 pb, 1 dism) * 6", "2 pb, 1 dism x 6", "[1 dism, 2 pb] x 6", etc.
+      let repeatMatch = t.match(/[\[\(]([^\]\)]+)[\]\)]\s*[x\*]\s*(\d+)/i);
+      if (!repeatMatch) {
+        repeatMatch = t.match(/((?:\d+\s*[a-z]+[,\s+]*)+)\s*[x\*]\s*(\d+)/i);
+      }
+
+      if (repeatMatch) {
+        const inner = repeatMatch[1];
+        const times = parseInt(repeatMatch[2], 10);
+
+        const hasDism = /(?:dism|dec|disminuci)/i.test(inner);
+        const hasAum = /(?:aum|inc|aumento)/i.test(inner);
+
+        // Disminuciones en la repetición
+        let dismCount = 0;
+        const dismMatch = inner.match(/(\d*)\s*(?:dism|dec|disminuci)/i);
+        if (dismMatch) {
+          dismCount = dismMatch[1] ? parseInt(dismMatch[1], 10) : 1;
+        }
+
+        // Aumentos en la repetición
+        let aumCount = 0;
+        const aumMatch = inner.match(/(\d*)\s*(?:aum|inc|aumento)/i);
+        if (aumMatch) {
+          aumCount = aumMatch[1] ? parseInt(aumMatch[1], 10) : 1;
+        }
+
+        // Puntos base (pb / sc)
+        let pbCount = 0;
+        const pbMatch = inner.match(/(\d+)\s*(?:pb|sc|mp|punto)/i);
+        if (pbMatch) {
+          pbCount = parseInt(pbMatch[1], 10);
+        }
+
+        // LÓGICA DE DISMINUCIÓN:
+        if (hasDism) {
+          // Si conocemos los puntos de la vuelta previa, cada repetición resta dismCount puntos al total:
+          const totalDism = dismCount * times;
+          if (prevCount > 0 && prevCount > totalDism) {
+            return String(prevCount - totalDism);
+          }
+          // Si no conocemos la vuelta previa, calculamos los puntos producidos:
+          // Cada pb produce 1 punto y cada disminución consume 2 pero produce 1 punto final:
+          const producedPerRep = pbCount + (dismCount * 1);
+          if (producedPerRep > 0) {
+            return String(producedPerRep * times);
+          }
+        }
+
+        // LÓGICA DE AUMENTO:
+        if (hasAum) {
+          const totalAum = aumCount * times;
+          if (prevCount > 0) {
+            return String(prevCount + totalAum);
+          }
+          const producedPerRep = pbCount + (aumCount * 2);
+          if (producedPerRep > 0) {
+            return String(producedPerRep * times);
+          }
+        }
+      }
+
+      // 5. Resta explícita: "24 pb - 6 dism", "24 pb - 6" o "24 - 6"
+      const minusMatch = t.match(/(\d+)\s*(?:pb)?\s*[-–]\s*(\d+)\s*(?:dism|dec)?/i);
+      if (minusMatch) {
+        const base = parseInt(minusMatch[1], 10);
+        const sub = parseInt(minusMatch[2], 10);
+        if (base > sub) return String(base - sub);
+      }
+
+      // 6. Rondas mixtas con disminuciones: "10 pb, 1 dism, 10 pb"
+      if (/(?:dism|dec|aum)/i.test(t)) {
+        let totalProduced = 0;
+        let foundAny = false;
+
+        const allPb = t.matchAll(/(\d+)\s*(?:pb|sc)/gi);
+        for (const m of allPb) {
+          totalProduced += parseInt(m[1], 10);
+          foundAny = true;
+        }
+
+        const allDism = t.matchAll(/(\d*)\s*(?:dism|dec)\b/gi);
+        for (const m of allDism) {
+          const count = m[1] ? parseInt(m[1], 10) : 1;
+          totalProduced += count * 1;
+          foundAny = true;
+        }
+
+        const allAum = t.matchAll(/(\d*)\s*(?:aum|inc)\b/gi);
+        for (const m of allAum) {
+          const count = m[1] ? parseInt(m[1], 10) : 1;
+          totalProduced += count * 2;
+          foundAny = true;
+        }
+
+        if (foundAny && totalProduced > 0) {
+          return String(totalProduced);
+        }
+      }
+
+      // 7. Vuelta recta simple: "24 pb", "24 sc"
+      const samePb = t.match(/^(\d+)\s*(?:pb|sc|puntos)?$/i);
       if (samePb) return samePb[1];
 
       return '';
@@ -1518,10 +1601,16 @@ R4-R8: 18 pb (18)" class="w-full flex-grow p-3.5 rounded-2xl border border-gray-
 
     function getPreviousRoundCount(pIndex, rIndex) {
       if (rIndex <= 0) return 0;
-      const prev = currentPattern.parts[pIndex]?.rounds[rIndex - 1];
-      if (prev && prev.count) {
-        const num = parseInt(prev.count);
-        return isNaN(num) ? 0 : num;
+      // Busca hacia atrás la última vuelta con conteo numérico válido (ignorando paréntesis o texto)
+      for (let i = rIndex - 1; i >= 0; i--) {
+        const prev = currentPattern.parts[pIndex]?.rounds[i];
+        if (prev && prev.count) {
+          const match = String(prev.count).match(/\d+/);
+          if (match) {
+            const num = parseInt(match[0], 10);
+            if (!isNaN(num) && num > 0) return num;
+          }
+        }
       }
       return 0;
     }
@@ -1535,9 +1624,10 @@ R4-R8: 18 pb (18)" class="w-full flex-grow p-3.5 rounded-2xl border border-gray-
         const est = estimateStitchCountFromText(r.stitches, runningCount);
         if (est) {
           r.count = est;
-          runningCount = parseInt(est) || runningCount;
+          runningCount = parseInt(est, 10) || runningCount;
         } else if (r.count) {
-          runningCount = parseInt(r.count) || runningCount;
+          const match = String(r.count).match(/\d+/);
+          if (match) runningCount = parseInt(match[0], 10) || runningCount;
         }
       });
 
