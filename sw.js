@@ -3,7 +3,9 @@ const APP_SHELL = [
   '/',
   '/index.html',
   '/manifest.webmanifest',
-  '/icon.svg'
+  '/icon.svg',
+  '/icons/icon-192.svg',
+  '/icons/icon-512.svg'
 ];
 
 self.addEventListener('install', (event) => {
@@ -32,9 +34,7 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
   const sameOrigin = url.origin === self.location.origin;
 
-  if (!sameOrigin) {
-    return;
-  }
+  if (!sameOrigin) return;
 
   event.respondWith(
     caches.match(event.request).then((cached) => {
